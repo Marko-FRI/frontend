@@ -1,17 +1,34 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    >
-  </q-page>
+  <restaurant-list :restaurants="restaurants" />
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import RestaurantList from '../components/RestaurantList.vue'
 
-export default defineComponent({
-  name: 'IndexPage'
-})
+export default {
+  name: 'IndexPage',
+
+  components: {
+    RestaurantList
+  },
+
+  data () {
+    return {
+      restaurants: [
+        {
+          id: 0,
+          name: 'Lipca Index'
+        },
+        {
+          id: 1,
+          name: 'Spar Restavracija'
+        },
+        {
+          id: 2,
+          name: 'Etna'
+        }
+      ]
+    }
+  }
+}
 </script>
