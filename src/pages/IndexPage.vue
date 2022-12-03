@@ -1,5 +1,21 @@
 <template>
-  <restaurant-list :restaurants="restaurants" />
+  <div>
+    <div>
+      <router-link to="/login">
+        <q-btn>
+          Login
+        </q-btn>
+      </router-link>
+      <router-link to="/register">
+        <q-btn>
+          Register
+        </q-btn>
+
+        <br><br>
+      </router-link>
+    </div>
+    <restaurant-list :restaurants="restaurants" />
+  </div>
 </template>
 
 <script>
