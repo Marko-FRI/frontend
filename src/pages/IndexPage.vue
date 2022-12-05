@@ -47,16 +47,31 @@ export default {
     return {
       restaurants: [
         {
-          id: 0,
-          name: 'Lipca Index'
+          id_restaurant: 0,
+          name: 'Lipca Index',
+          location: 'Gabrje 60A, Dobrova 1356',
+          restaurant_image: 'src/pages/restaurant.jpg',
+          rating: 6.5,
+          is_open: true,
+          is_favorited: true
         },
         {
           id: 1,
-          name: 'Spar Restavracija'
+          name: 'Spar Restavracija',
+          location: 'Beblerjev trg 9, Ljubljana 1000',
+          restaurant_image: 'src/pages/restaurant.jpg',
+          rating: 8.5,
+          is_open: false,
+          is_favorited: false
         },
         {
           id: 2,
-          name: 'Etna'
+          name: 'Etna',
+          location: 'Setnica 3, Polhov Gradec 1355',
+          restaurant_image: 'src/pages/restaurant.jpg',
+          rating: 9.3,
+          is_open: true,
+          is_favorited: false
         }
       ],
       isLoggedIn: false

@@ -2,7 +2,7 @@
   <div>
     <restaurant-element
       v-for="restaurant in restaurants"
-      :key="restaurant.id"
+      :key="restaurant.id_restaurant"
       :restaurant="restaurant"
     />
   </div>
