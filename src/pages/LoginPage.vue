@@ -43,18 +43,31 @@
         Register
       </router-link>
     </p>
+    <p v-if="errorMessage.length > 0">
+      {{ errorMessage }}
+    </p>
   </q-page>
 </template>
 
 <script>
+import { api } from 'src/boot/axios'
+import { useUserStore } from 'src/stores/UserStore'
+
 export default {
   name: 'LoginPage',
+
+  setup () {
+    const userStore = useUserStore()
+
+    return { userStore }
+  },
 
   data () {
     return {
       email: '',
       password: '',
-      isPwd: true
+      isPwd: true,
+      errorMessage: ''
     }
   },
 
@@ -67,10 +80,27 @@ export default {
     }
   },
 
+  mounted () {
+    if (this.userStore.token !== null) { this.$router.push('/') }
+  },
+
   methods: {
-    validateLogin () {
-      alert('pritisnil')
-      this.password = ''
+    async validateLogin () {
+      try {
+        await api.get('/sanctum/csrf-cookie')
+        const reply = await api.post('/login', {
+          email: this.email,
+          password: this.password
+        })
+
+        this.userStore.token = reply.data.token
+        this.userStore.data = reply.data.userData
+        this.errorMessage = ''
+        this.$router.push('/')
+      } catch (error) {
+        this.errorMessage = error.response.data.message
+        this.password = ''
+      }
     }
   }
 }

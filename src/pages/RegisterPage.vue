@@ -3,7 +3,9 @@
     padding
     class="column flex-center"
   >
-    <h3>Register</h3>
+    <h3>
+      Register
+    </h3>
 
     <q-input
       v-model="name"
@@ -76,12 +78,24 @@
     >
       Register
     </q-btn>
+    <p v-if="errorMessage.length > 0">
+      {{ errorMessage }}
+    </p>
   </q-page>
 </template>
 
 <script>
+import { api } from 'src/boot/axios'
+import { useUserStore } from 'src/stores/UserStore'
+
 export default {
   name: 'RegisterPage',
+
+  setup () {
+    const userStore = useUserStore()
+
+    return { userStore }
+  },
 
   data () {
     return {
@@ -91,7 +105,8 @@ export default {
       password: '',
       confirmPassword: '',
       isPwd1: true,
-      isPwd2: true
+      isPwd2: true,
+      errorMessage: 'neki'
     }
   },
 
@@ -106,12 +121,32 @@ export default {
     }
   },
 
+  mounted () {
+    if (this.userStore.token !== null) { this.$router.push('/') }
+  },
+
   methods: {
-    validateRegister () {
-      alert('pritisnjeno')
+    async validateRegister () {
+      try {
+        await api.get('/sanctum/csrf-cookie')
+        const reply = await api.post('/register', {
+          name: this.name,
+          surname: this.surname,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.confirmPassword
+        })
+
+        this.userStore.token = reply.data.token
+        this.userStore.data = reply.data.userData
+        this.errorMessage = ''
+      } catch (error) {
+        this.errorMessage = error.response.data.message
+      }
     }
   }
 }
+// v mounted pogledam ce obstaja token ga redirectam na home page (this.$router.push("/"))
 </script>
 
 <style scoped>
