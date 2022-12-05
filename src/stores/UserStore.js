@@ -4,5 +4,6 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     token: null,
     data: null
-  })
+  }),
+  persist: true
 })
