@@ -106,7 +106,7 @@ export default {
       confirmPassword: '',
       isPwd1: true,
       isPwd2: true,
-      errorMessage: 'neki'
+      errorMessage: ''
     }
   },
 
@@ -140,6 +140,7 @@ export default {
         this.userStore.token = reply.data.token
         this.userStore.data = reply.data.userData
         this.errorMessage = ''
+        this.$router.push('/')
       } catch (error) {
         this.errorMessage = error.response.data.message
       }
