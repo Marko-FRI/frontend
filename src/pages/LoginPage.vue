@@ -96,10 +96,12 @@ export default {
         this.userStore.token = reply.data.token
         this.userStore.data = reply.data.userData
         this.errorMessage = ''
+        // console.log(reply)
         this.$router.push('/')
       } catch (error) {
         this.errorMessage = error.response.data.message
         this.password = ''
+        // console.log(error)
       }
     }
   }
