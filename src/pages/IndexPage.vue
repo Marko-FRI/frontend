@@ -1,41 +1,99 @@
 <template>
   <div>
-    <div v-if="isLoggedIn === false">
-      <router-link
-        to="/login"
-        style="text-decoration: none; color: black;"
-      >
-        <q-btn>
-          Login
-        </q-btn>
-      </router-link>
-      <router-link
-        to="/register"
-        style="text-decoration: none; color: black;"
-      >
-        <q-btn>
-          Register
-        </q-btn>
+    <p class="page-title q-mb-xl">
+      Domov / Vse Restavracije
+    </p>
 
-        <br><br>
-      </router-link>
-    </div>
-    <div v-if="isLoggedIn === true">
-      <router-link
-        to="/logout"
-        style="text-decoration: none; color: black;"
-      >
-        <q-btn>
-          Logout
-        </q-btn>
-      </router-link>
-      <br><br>
-    </div>
-    <div class="fit row wrap justify-center items-start content-start">
-      <category-list :categories="categories" />
-    </div>
-    <div class="fit row wrap justify-center items-start content-start">
-      <restaurant-list :restaurants="restaurants" />
+    <div class="fit row no-wrap justify-start items-start content-start">
+      <div class="col-3">
+        <div class="fit row no-wrap">
+          <category-list
+            :categories="categories"
+            :loading="loading"
+            @onChangeCategory="onChangeCategory"
+          />
+        </div>
+      </div>
+      <div class="col-9">
+        <div class="q-mb-xl row no-wrap justify-start items-start content-start">
+          <q-input
+            v-model="search"
+            class="col-6"
+            label="Iskanje Restavracij"
+            :input-style="{ fontSize: '18px', margin: '10px 0px 0px 2px' }"
+            style="margin-top: -4px"
+            dense
+            :disable="loading"
+          />
+          <q-btn
+            label="Iskanje"
+            color="white"
+            flat
+            no-caps
+            class="col-1 q-ml-lg bg-green-8 border-rad"
+            :disable="loading"
+            @click="onChangeSearch"
+          />
+        </div>
+        <div class="q-mb-lg row no-wrap justify-start items-start content-start">
+          <div class="col-4">
+            1-9 od {{ numResults }} rezultatov
+          </div>
+          <div class="col-8">
+            <div style="width: 180px; float: right; margin-right: 70px;">
+              Sortiraj po:
+              <q-btn-dropdown
+                outline
+                unelevated
+                no-caps
+                :label="sortBy"
+                color="green"
+                text-color="black"
+                class="q-ml-md q-pr-none border-rad"
+                :disable="loading"
+              >
+                <q-list>
+                  <q-item
+                    v-close-popup
+                    clickable
+                  >
+                    <q-item-section @click="onChangeSortBy('Ocena')">
+                      <q-item-label>Ocena</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item
+                    v-close-popup
+                    clickable
+                  >
+                    <q-item-section @click="onChangeSortBy('Ime')">
+                      <q-item-label>Ime</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="row wrap justify-start items-start content-start">
+          <restaurant-list
+            v-if="restaurants.length > 0"
+            :restaurants="restaurants"
+          />
+        </div>
+        <div class="q-mb-xl flex flex-center">
+          <q-pagination
+            v-model="currentPage"
+            :max="numPages"
+            :max-pages="6"
+            direction-links
+            color="green-8"
+            class="custom-position"
+            :disable="loading"
+            @click="onChangePage"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -44,6 +102,7 @@
 import RestaurantList from '../components/RestaurantList.vue'
 import CategoryList from '../components/CategoryList.vue'
 import { useUserStore } from 'src/stores/UserStore'
+import { api } from 'src/boot/axios'
 
 export default {
   name: 'IndexPage',
@@ -55,102 +114,155 @@ export default {
 
   setup () {
     const userStore = useUserStore()
-
     return { userStore }
   },
 
   data () {
     return {
-      restaurants: [
-        {
-          id_restaurant: 0,
-          name: 'Lipca Index',
-          location: 'Gabrje 60A, Dobrova 1356',
-          restaurant_image: 'src/pages/restaurant.jpg',
-          rating: 6.5,
-          is_open: true,
-          is_favorited: 1
-        },
-        {
-          id_restaurant: 1,
-          name: 'Spar Restavracija',
-          location: 'Beblerjev trg 9, Ljubljana 1000',
-          restaurant_image: 'http://localhost:8000/images/food_images/food.jpg',
-          rating: 8.5,
-          is_open: false,
-          is_favorited: 0
-        },
-        {
-          id_restaurant: 2,
-          name: 'Etna',
-          location: 'Setnica 3, Polhov Gradec 1355',
-          restaurant_image: 'src/pages/restaurant.jpg',
-          rating: 9.3,
-          is_open: true,
-          is_favorited: 0
-        },
-        {
-          id_restaurant: 3,
-          name: 'Lipca Index',
-          location: 'Gabrje 60A, Dobrova 1356',
-          restaurant_image: 'src/pages/restaurant.jpg',
-          rating: 6.5,
-          is_open: true,
-          is_favorited: 1
-        },
-        {
-          id_restaurant: 4,
-          name: 'Lipca Index',
-          location: 'Gabrje 60A, Dobrova 1356',
-          restaurant_image: 'src/pages/restaurant.jpg',
-          rating: 6.5,
-          is_open: true,
-          is_favorited: 1
-        },
-        {
-          id_restaurant: 5,
-          name: 'Lipca Index',
-          location: 'Gabrje 60A, Dobrova 1356',
-          restaurant_image: 'src/pages/restaurant.jpg',
-          rating: 6.5,
-          is_open: true,
-          is_favorited: 1
-        }
-      ],
-      categories: [
-        {
-          category_id: 0,
-          category_name: 'Burgerji',
-          category_icon: 'nekineki'
-        },
-        {
-          category_id: 1,
-          category_name: 'Solate',
-          category_icon: 'nekineki'
-        },
-        {
-          category_id: 2,
-          category_name: 'Jedi iz žara',
-          category_icon: 'nekineki'
-        },
-        {
-          category_id: 3,
-          category_name: 'Pica',
-          category_icon: 'nekineki'
-        },
-        {
-          category_id: 4,
-          category_name: 'Pica',
-          category_icon: 'nekineki'
-        }
-      ],
-      isLoggedIn: false
+      restaurants: [],
+      categories: [],
+      pickedCategories: [],
+      search: '',
+      isLoggedIn: false,
+      currentPage: 1,
+      numResults: 0,
+      sortBy: 'Ocena',
+      loading: false
+    }
+  },
+
+  computed: {
+    numPages () {
+      return parseInt(Math.ceil(this.numResults / 9))
     }
   },
 
   mounted () {
     this.isLoggedIn = this.userStore.token !== null
-    console.log(this.isLoggedIn)
+    this.getAllRestaurantsPageInfo()
+  },
+
+  methods: {
+    async getAllRestaurantsPageInfo () {
+      try {
+        this.loading = true
+        await api.get('/sanctum/csrf-cookie')
+
+        const reply = await api.get('/restaurantsFirstLoad')
+
+        this.restaurants = reply.data.restaurants.data
+        this.categories = reply.data.categories
+        this.numResults = reply.data.num_of_restaurants
+        // console.log(reply)
+        // console.log(this.restaurants)
+        this.loading = false
+      } catch (error) {
+        // console.log(error)
+        this.loading = false
+      }
+    },
+
+    async onChangeCategory (newCategories) {
+      this.loading = true
+      this.currentPage = 1
+      this.pickedCategories = newCategories
+
+      const reply = await api.get('/restaurants', {
+        params: {
+          currentPage: this.currentPage,
+          search: this.search,
+          pickedCategories: this.pickedCategories,
+          sortBy: this.sortBy
+        }
+      })
+
+      this.restaurants = reply.data.restaurants.data
+      this.numResults = reply.data.num_of_restaurants
+      this.loading = false
+
+      // console.log('Sprememba kategorije: ' + newCategories)
+    },
+
+    async onChangeSortBy (newSortBy) {
+      this.loading = true
+      this.currentPage = 1
+      this.sortBy = newSortBy
+
+      const reply = await api.get('/restaurants', {
+        params: {
+          currentPage: this.currentPage,
+          search: this.search,
+          pickedCategories: this.pickedCategories,
+          sortBy: this.sortBy
+        }
+      })
+
+      this.restaurants = reply.data.restaurants.data
+      this.numResults = reply.data.num_of_restaurants
+      this.loading = false
+
+      // console.log('Sprememba sortiranja: ' + newSortBy)
+    },
+
+    async onChangeSearch () {
+      this.loading = true
+      this.currentPage = 1
+
+      const reply = await api.get('/restaurants', {
+        params: {
+          currentPage: this.currentPage,
+          search: this.search,
+          pickedCategories: this.pickedCategories,
+          sortBy: this.sortBy
+        }
+      })
+
+      this.restaurants = reply.data.restaurants.data
+      this.numResults = reply.data.num_of_restaurants
+      this.loading = false
+
+      // console.log('Sprememba iskanja: ' + this.search)
+    },
+
+    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// /////////////////                NEKI CUDN DELA onChangePage             ////////////////////////////////////
+    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    async onChangePage () {
+      this.loading = true
+
+      const reply = await api.get('/restaurants', {
+        params: {
+          currentPage: this.currentPage,
+          search: this.search,
+          pickedCategories: this.pickedCategories,
+          sortBy: this.sortBy
+        }
+      })
+
+      this.restaurants = reply.data.restaurants.data
+      this.numResults = reply.data.num_of_restaurants
+      this.loading = false
+
+      // console.log('Sprememba strani: ' + this.currentPage)
+    }
   }
 }
 </script>
+
+<style scoped>
+  .page-title {
+    background-color: #F2F2EF !important;
+    padding: 30px 100px 30px !important;
+    font-size: 22px !important;
+    width: 100% !important;
+  }
+
+  .border-rad {
+    border-radius: 5px !important;
+  }
+
+  .custom-position {
+    margin-left: -100px;
+  }
+</style>

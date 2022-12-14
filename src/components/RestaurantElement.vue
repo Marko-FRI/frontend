@@ -4,39 +4,45 @@
 
 <template>
   <div class="col-12 col-md-4 col-sm-6 q-mb-lg ">
-    <router-link :to="'restaurant/'+id">
-      <div class="whole_card">
+    <div class="whole_card">
+      <router-link
+        :to="'restaurant/' + restaurant.id_restaurant"
+        style="text-decoration: none;"
+      >
         <div class="upper_card">
           <div
-            :style="{'background-image': 'url('+restaurant_image+')'}"
+            :style="imageBg"
             class="restaurant_image"
           />
           <div class="restaurant_name">
-            {{ name }}
+            {{ restaurant.name }}
           </div>
         </div>
         <!-- <span v-if="is_favorited === true"> *</span> -->
-        <div class="lower_card">
-          <div class="left">
-            <div class="location_text">
-              {{ location }}
+        <div class="lower_card row no-wrap">
+          <div class="left col-9 row wrap justify-start items-start content-between">
+            <div class="location_text col-12">
+              {{ restaurant.address }}
             </div>
-            <div class="isOpen_text">
-              Trenutno: <span v-if="is_open === true">odprto</span> <span
-                v-if="is_open === false"
+            <div class="isOpen_text col-12">
+              Trenutno: <span v-if="restaurant.is_open === true">odprto</span> <span
+                v-if="restaurant.is_open === false"
                 style="color: rgb(122,122,122)"
               >zaprto</span>
             </div>
           </div>
 
-          <div class="right">
-            <div class="rating_text">
-              {{ rating }}
+          <div class="right col-2">
+            <div
+              class="rating_text"
+              :style="(restaurant.avg_rating === null) ? 'text-decoration: none' : 'text-decoration: underline'"
+            >
+              {{ (restaurant.avg_rating === null) ? '/' : Math.round(restaurant.avg_rating * 10) / 10 }}
             </div>
           </div>
         </div>
-      </div>
-    </router-link>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -48,13 +54,13 @@ export default {
 
   data () {
     return {
-      id: this.restaurant.id_restaurant,
-      name: this.restaurant.name,
-      location: this.restaurant.location,
-      restaurant_image: this.restaurant.restaurant_image,
-      rating: this.restaurant.rating,
-      is_open: this.restaurant.is_open,
-      is_favorited: this.restaurant.is_favorited // not finished
+      imageBg: 'background-color: grey'
+    }
+  },
+
+  mounted () {
+    if (this.restaurant.image !== null) {
+      this.imageBg = 'background-image: url(' + this.restaurant.image + ')'
     }
   }
 }
@@ -63,18 +69,17 @@ export default {
 <style scoped>
   .whole_card {
     width: 307px;
-    height: 269px;
+    height: 299px;
     border-radius: 4px;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   .upper_card {
     width: 100%;
     height: 76%;
+    overflow: hidden;
   }
 
-  .upper_card .restaurant_image {
+  .restaurant_image {
     width: 100%;
     height: 100%;
     padding: 0;
@@ -86,7 +91,13 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    transition: transform .3s ease;
     /* background-image: url("image_path");  // it's in <div style="..."> tag*/
+  }
+
+  .whole_card:hover .restaurant_image,
+  .whole_card:focus .restaurant_image {
+    transform: scale(1.2);
   }
 
   .upper_card .restaurant_name {
@@ -104,18 +115,16 @@ export default {
     border-radius: 0px 0px 4px 4px;
     width: 100%;
     height: 23%;
+    text-decoration: none;
   }
 
   .lower_card .left {
-      width: 78%;
-      float: left;
       padding-top: 11px;
       padding-left: 7px;
       padding-bottom: 7px;
   }
 
   .lower_card .right {
-    width: 42px;
     height: 42px;
     margin: 12px;
     margin-top: 9px;
@@ -123,6 +132,7 @@ export default {
     border-radius: 4px;
     float: right;
     padding: 11px;
+    text-align: center;
   }
 
   .lower_card .left .location_text {
@@ -137,7 +147,6 @@ export default {
     font-size: 16px;
     font-weight: 400;
     line-height: 19px;
-    margin-top: 11px;
   }
 
   .lower_card .right .rating_text {
