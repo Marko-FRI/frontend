@@ -1,6 +1,6 @@
 <template>
-  <div class="col-12 col-md-8">
-    <div class="fit row wrap justify-start items-start content-start">
+  <div class="col-12">
+    <div class="row wrap justify-start items-start content-start">
       <restaurant-element
         v-for="restaurant in restaurants"
         :key="restaurant.id_restaurant"

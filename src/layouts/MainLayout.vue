@@ -1,26 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-        />
-
-        <q-toolbar-title>
-          <router-link
-            to="/"
-            style="text-decoration: none; color: white;"
-          >
-            Book My Restaurant
-          </router-link>
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
-
+  <q-layout>
+    <header-component />
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -28,7 +8,13 @@
 </template>
 
 <script>
+import HeaderComponent from 'src/components/HeaderComponent.vue'
+
 export default {
-  name: 'MainLayout'
+  name: 'MainLayout',
+
+  components: {
+    HeaderComponent
+  }
 }
 </script>

@@ -1,25 +1,94 @@
 <template>
-  <div class="col-6 q-mb-lg ">
-    <div class="fit row wrap justify-center items-start content-start bg-grey-4 q-pa-lg">
-      <category-element
-        v-for="category in categories"
-        :key="category.category_id"
-        :category="category"
-      />
-    </div>
+  <div class="col-8">
+    <fieldset>
+      <legend>Kategorije</legend>
+      <div
+        style="
+            margin-left: 25%;"
+      >
+        <q-option-group
+          v-model="pickedCategories"
+          :options="allCategories"
+          type="checkbox"
+          color="green-8"
+          size="xs"
+          :disable="loading"
+        />
+      </div>
+    </fieldset>
+    <!-- :disabled="(loading === true)" -->
+    <!-- <br>{{ pickedCategories }} -->
   </div>
 </template>
 
 <script>
-import CategoryElement from './CategoryElement.vue'
 
 export default {
   name: 'CategoryList',
 
-  components: {
-    CategoryElement
+  props: {
+    categories: {
+      type: Array
+    },
+
+    loading: Boolean
   },
 
-  props: ['categories']
+  data () {
+    return {
+      // allCategories: [],
+      pickedCategories: []
+    }
+  },
+
+  computed: {
+    allCategories () {
+      return this.categories.map(category => {
+        return {
+          label: category.name,
+          value: category.id_category
+        }
+      })
+    }
+  },
+
+  watch: {
+    pickedCategories (newCategories) {
+      this.$emit('onChangeCategory', newCategories)
+    }
+  }
+
+  // mounted () {
+  //   this.categories.forEach(category => {
+  //     this.allCategories.push({
+  //       label: category.name,
+  //       value: category.id_category
+  //     })
+  //   })
+  // }
 }
 </script>
+
+<style scoped>
+fieldset {
+  border: 2px solid #759242;
+  border-radius: 0px 5px 5px 0px;
+  border-left: none;
+  width: 100%;
+  margin-left: -1px;
+}
+
+legend {
+  color: black;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.category-checkbox {
+  font-size: 14px;
+  color: black;
+}
+</style>

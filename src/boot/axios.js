@@ -11,7 +11,7 @@ import { useUserStore } from 'src/stores/UserStore'
 const api = axios.create({
   baseURL: 'http://localhost:8000/api',
   withCredentials: true,
-  contentType: 'application/json'
+  headers: { Accept: 'application/json' }
 })
 
 // on every request, send Authorization header with token
