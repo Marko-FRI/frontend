@@ -21,16 +21,14 @@
       </div>
     </div>
 
-    <div class="col-12 row">
-      <div
-        class="col-8 row wrap items-start justify-start"
-      >
+    <div class="col-12 row items-start">
+      <div class="col-8 row wrap justify-start q-gutter-y-md q-ma-none">
         <div
-          class="col-12 row items-start q-pa-none q-ma-none q-gutter-x-md"
+          class="col-12 row q-pa-none q-ma-none"
         >
           <q-tabs
             v-model="tab"
-            class="col-9 row"
+            class="col-9 row q-pa-none q-ma-none"
           >
             <!-- Ko se izbere enega, se spremeni barva v zeleno -->
             <q-tab
@@ -38,7 +36,7 @@
               label="Ponudba"
               color="green-8"
               no-caps
-              class="offset-3 col-3"
+              class="col-3"
             />
             <q-tab
               name="mnenja"
@@ -59,18 +57,16 @@
             flat
             no-caps
             style="font-size: 1.5rem"
-            class="col-2 bg-green-7 border-rad"
+            class="col-3 bg-green-7 border-rad q-ma-none q-pa-none"
           />
         </div>
         <q-separator
           color="grey"
           width="100%"
-          style="margin-top: -250px;"
           inset
         />
         <div
           class="col-12 wrap"
-          style="margin-top: -510px;"
         >
           <q-tab-panels
             v-model="tab"
