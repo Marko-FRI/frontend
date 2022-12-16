@@ -22,11 +22,15 @@
     </div>
 
     <div class="col-12 row">
-      <div class="col-8 row">
-        <div class="col-12 row items-start q-gutter-x-md">
+      <div
+        class="col-8 row wrap items-start justify-start"
+      >
+        <div
+          class="col-12 row items-start q-pa-none q-ma-none q-gutter-x-md"
+        >
           <q-tabs
             v-model="tab"
-            class="size-font col-9 row justify-start"
+            class="col-9 row"
           >
             <!-- Ko se izbere enega, se spremeni barva v zeleno -->
             <q-tab
@@ -34,19 +38,19 @@
               label="Ponudba"
               color="green-8"
               no-caps
-              class="offset-3 col-3 size-font"
+              class="offset-3 col-3"
             />
             <q-tab
               name="mnenja"
               label="Mnenja"
               no-caps
-              class="col-3 size-font"
+              class="col-3"
             />
             <q-tab
               name="informacije"
               label="Informacije"
               no-caps
-              class="col-3 size-font"
+              class="col-3"
             />
           </q-tabs>
           <q-btn
@@ -54,9 +58,78 @@
             color="white"
             flat
             no-caps
-            style="font-size: 1.2rem"
+            style="font-size: 1.5rem"
             class="col-2 bg-green-7 border-rad"
           />
+        </div>
+        <q-separator
+          color="grey"
+          width="100%"
+          style="margin-top: -250px;"
+          inset
+        />
+        <div
+          class="col-12 wrap"
+          style="margin-top: -510px;"
+        >
+          <q-tab-panels
+            v-model="tab"
+            animated
+            class="col-12 row wrap"
+          >
+            <q-tab-panel
+              name="mnenja"
+              class="col-12 row wrap"
+            >
+              <div
+                class="text-h5 col-12 q-pb-lg"
+                style="text-align:center"
+              >
+                Povprečna ocena
+              </div>
+              <div
+                class="offset-4 col-8"
+              >
+                <q-icon
+                  name="star"
+                  size="4rem"
+                  color="green-7"
+                  class="avg-rating-stars-top"
+                />
+                <q-icon
+                  name="star"
+                  size="4rem"
+                  color="green-7"
+                  class="avg-rating-stars-top"
+                />
+                <q-icon
+                  name="star"
+                  size="4rem"
+                  color="green-7"
+                  class="avg-rating-stars-top"
+                />
+                <q-icon
+                  name="star_half"
+                  size="4rem"
+                  color="green-7"
+                  class="avg-rating-stars-top"
+                />
+                <q-icon
+                  name="star_border"
+                  size="4rem"
+                  color="green-7"
+                  class="q-pr-lg avg-rating-stars-top"
+                />
+
+                <span class="avg-rating-text text-green-7">3.4/5</span>
+              </div>
+              <div
+                class="offset-4 col-8 num-ratings-text text-green-7 q-pl-sm q-pt-sm"
+              >
+                Število mnenj: 63
+              </div>
+            </q-tab-panel>
+          </q-tab-panels>
         </div>
       </div>
       <div class="col-4 row wrap">
@@ -150,7 +223,7 @@ export default {
 
   data () {
     return {
-      tab: 'ponudba',
+      tab: 'mnenja',
       userRating: 0
     }
   }
@@ -183,11 +256,6 @@ export default {
   .button-float {
     float: right;
     margin-top: -8px;
-  }
-
-  .size-font {
-    font-size: 40px !important;
-    color: black;
   }
 
   :deep .q-tab__label {
@@ -244,5 +312,23 @@ export default {
   textarea:focus {
     outline: none !important;
     border:2px solid #3f8dd9;
+  }
+
+  .pejt-gor {
+    margin-top: -420px;
+  }
+
+  .avg-rating-text {
+    text-decoration: underline;
+    font-size: 2rem;
+  }
+
+  .avg-rating-stars-top {
+    margin-top: -0.9rem;
+  }
+
+  .num-ratings-text {
+    text-decoration: underline;
+    font-size: 1.2rem;
   }
 </style>
