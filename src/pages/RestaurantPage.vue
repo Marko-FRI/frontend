@@ -36,7 +36,7 @@
               label="Ponudba"
               color="green-8"
               no-caps
-              class="col-3"
+              class="offset-2 col-3"
             />
             <q-tab
               name="mnenja"
