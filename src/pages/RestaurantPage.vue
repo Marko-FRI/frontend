@@ -73,22 +73,25 @@
           class="col-12 row wrap"
         >
           <q-tab-panel
+            name="ponudba"
+            class="col-12 row wrap"
+          >
+            <restaurant-offer-list
+              class="col-12"
+              :menus="menus"
+            />
+          </q-tab-panel>
+          <q-tab-panel
             name="mnenja"
             class="col-12 row wrap"
           >
             <restaurant-rating />
-          </q-tab-panel>
-          <q-tab-panel
-            name="ponudba"
-            class="col-12 row wrap"
-          >
-            <restaurant-offer-list :menus="menus" />
+            <comment-list
+              :comments="comments"
+              class="col-12 q-pt-xl"
+            />
           </q-tab-panel>
         </q-tab-panels>
-        <comment-list
-          :comments="comments"
-          class="col-12 q-pt-xl"
-        />
       </div>
       <div class="col-4 row wrap">
         <div class="col-12 row q-mb-lg">
@@ -191,7 +194,7 @@ export default {
 
   data () {
     return {
-      tab: 'mnenja',
+      tab: 'ponudba',
       userRating: 0,
       comments: [
         {
