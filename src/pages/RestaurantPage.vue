@@ -21,16 +21,14 @@
       </div>
     </div>
 
-    <div class="col-12 row">
-      <div
-        class="col-8 row wrap items-start justify-start"
-      >
+    <div class="col-12 row items-start">
+      <div class="col-8 row wrap justify-start q-gutter-y-md q-ma-none">
         <div
-          class="col-12 row items-start q-pa-none q-ma-none q-gutter-x-md"
+          class="col-12 row q-pa-none q-ma-none"
         >
           <q-tabs
             v-model="tab"
-            class="col-9 row"
+            class="col-9 row q-pa-none q-ma-none"
           >
             <!-- Ko se izbere enega, se spremeni barva v zeleno -->
             <q-tab
@@ -38,7 +36,7 @@
               label="Ponudba"
               color="green-8"
               no-caps
-              class="offset-3 col-3"
+              class="offset-2 col-3"
             />
             <q-tab
               name="mnenja"
@@ -59,78 +57,38 @@
             flat
             no-caps
             style="font-size: 1.5rem"
-            class="col-2 bg-green-7 border-rad"
+            class="col-3 bg-green-7 border-rad q-ma-none q-pa-none"
           />
         </div>
         <q-separator
           color="grey"
           width="100%"
-          style="margin-top: -250px;"
           inset
+          class="q-mx-xl"
         />
-        <div
-          class="col-12 wrap"
-          style="margin-top: -510px;"
+
+        <q-tab-panels
+          v-model="tab"
+          animated
+          class="col-12 row wrap"
         >
-          <q-tab-panels
-            v-model="tab"
-            animated
+          <q-tab-panel
+            name="mnenja"
             class="col-12 row wrap"
           >
-            <q-tab-panel
-              name="mnenja"
-              class="col-12 row wrap"
-            >
-              <div
-                class="text-h5 col-12 q-pb-lg"
-                style="text-align:center"
-              >
-                Povprečna ocena
-              </div>
-              <div
-                class="offset-4 col-8"
-              >
-                <q-icon
-                  name="star"
-                  size="4rem"
-                  color="green-7"
-                  class="avg-rating-stars-top"
-                />
-                <q-icon
-                  name="star"
-                  size="4rem"
-                  color="green-7"
-                  class="avg-rating-stars-top"
-                />
-                <q-icon
-                  name="star"
-                  size="4rem"
-                  color="green-7"
-                  class="avg-rating-stars-top"
-                />
-                <q-icon
-                  name="star_half"
-                  size="4rem"
-                  color="green-7"
-                  class="avg-rating-stars-top"
-                />
-                <q-icon
-                  name="star_border"
-                  size="4rem"
-                  color="green-7"
-                  class="q-pr-lg avg-rating-stars-top"
-                />
-
-                <span class="avg-rating-text text-green-7">3.4/5</span>
-              </div>
-              <div
-                class="offset-4 col-8 num-ratings-text text-green-7 q-pl-sm q-pt-sm"
-              >
-                Število mnenj: 63
-              </div>
-            </q-tab-panel>
-          </q-tab-panels>
-        </div>
+            <restaurant-rating />
+          </q-tab-panel>
+          <q-tab-panel
+            name="ponudba"
+            class="col-12 row wrap"
+          >
+            <restaurant-offer-list :menus="menus" />
+          </q-tab-panel>
+        </q-tab-panels>
+        <comment-list
+          :comments="comments"
+          class="col-12 q-pt-xl"
+        />
       </div>
       <div class="col-4 row wrap">
         <div class="col-12 row q-mb-lg">
@@ -218,13 +176,143 @@
 </template>
 
 <script>
+import CommentList from '../components/CommentList.vue'
+import RestaurantRating from '../components/RestaurantRating.vue'
+import RestaurantOfferList from '../components/RestaurantOfferList.vue'
+
 export default {
   name: 'RestaurantPage',
+
+  components: {
+    CommentList,
+    RestaurantRating,
+    RestaurantOfferList
+  },
 
   data () {
     return {
       tab: 'mnenja',
-      userRating: 0
+      userRating: 0,
+      comments: [
+        {
+          id_comment: 0,
+          name: 'Janez Novak',
+          comment_text: 'neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n eki',
+          profile_picture: 'profile.jpg',
+          other_user_rating: 3,
+          days_ago: 3
+        },
+        {
+          id_comment: 1,
+          name: 'Janez Novak',
+          comment_text: 'neki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n eki',
+          profilePicture: 'restaurant_header.jpg',
+          other_user_rating: 3,
+          days_ago: 3
+        },
+        {
+          id_comment: 2,
+          name: 'Janez Novak',
+          comment_text: 'neki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n eki',
+          profile_picture: 'http://localhost:8000/images/restaurant_images/profile.jpg',
+          other_user_rating: 3,
+          days_ago: 3
+        },
+        {
+          id_comment: 3,
+          name: 'Janez Novak',
+          comment_text: 'neki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n eki',
+          profile_picture: 'http://localhost:8000/images/restaurant_images/profile.jpg',
+          other_user_rating: 3,
+          days_ago: 3
+        }
+      ],
+      menus: [
+        {
+          id_menu: 0,
+          name: 'Sirov Burek',
+          info: 'neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki',
+          menu_picture: 'slika menija',
+          alergens: [
+            {
+              id_alergen: 0,
+              name: 'ta'
+            },
+            {
+              id_alergen: 1,
+              name: 'alergen un'
+            },
+            {
+              id_alergen: 2,
+              name: 'alergen tist'
+            }
+          ],
+          price: 3.20
+        },
+        {
+          id_menu: 1,
+          name: 'Sirov Burek',
+          info: 'neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki',
+          menu_picture: 'slika menija',
+          alergens: [
+            {
+              id_alergen: 0,
+              name: 'ta'
+            },
+            {
+              id_alergen: 1,
+              name: 'alergen un'
+            },
+            {
+              id_alergen: 2,
+              name: 'alergen tist'
+            }
+          ],
+          price: 3.20
+        },
+        {
+          id_menu: 2,
+          name: 'Sirov Burek',
+          info: 'neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki',
+          menu_picture: 'slika menija',
+          alergens: [
+            {
+              id_alergen: 0,
+              name: 'ta'
+            },
+            {
+              id_alergen: 1,
+              name: 'alergen un'
+            },
+            {
+              id_alergen: 2,
+              name: 'alergen tist'
+            }
+          ],
+          price: 3.20
+        },
+        {
+          id_menu: 3,
+          name: 'Sirov Burek',
+          info: 'neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki',
+          menu_picture: 'slika menija',
+          alergens: [
+            {
+              id_alergen: 0,
+              name: 'ta'
+            },
+            {
+              id_alergen: 1,
+              name: 'alergen un'
+            },
+            {
+              id_alergen: 2,
+              name: 'alergen tist'
+            }
+          ],
+          price: 3.20
+        }
+      ]
     }
   }
 }
@@ -316,19 +404,5 @@ export default {
 
   .pejt-gor {
     margin-top: -420px;
-  }
-
-  .avg-rating-text {
-    text-decoration: underline;
-    font-size: 2rem;
-  }
-
-  .avg-rating-stars-top {
-    margin-top: -0.9rem;
-  }
-
-  .num-ratings-text {
-    text-decoration: underline;
-    font-size: 1.2rem;
   }
 </style>
