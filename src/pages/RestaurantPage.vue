@@ -14,6 +14,7 @@
           label="Dodaj med priljubljene"
           color="white"
           flat
+          :disable="userStore.token === null"
           no-caps
           size="1.15rem"
           class="bg-green-7 border-rad q-px-lg button-float q-mr-xl"
@@ -22,7 +23,10 @@
     </div>
 
     <div class="col-12 row items-start">
-      <div class="col-8 row wrap justify-start q-gutter-y-md q-ma-none">
+      <div
+        v-if="!reservation"
+        class="col-8 row wrap justify-start q-gutter-y-md q-ma-none"
+      >
         <div
           class="col-12 row q-pa-none q-ma-none"
         >
@@ -55,9 +59,11 @@
             label="Rezerviraj"
             color="white"
             flat
+            :disable="userStore.token === null"
             no-caps
             style="font-size: 1.5rem"
             class="col-3 bg-green-7 border-rad q-ma-none q-pa-none"
+            @click="reservation = true"
           />
         </div>
         <q-separator
@@ -91,9 +97,20 @@
               class="col-12 q-pt-xl"
             />
           </q-tab-panel>
+          <q-tab-panel
+            name="informacije"
+            class="col-12 row wrap q-pl-xl"
+          >
+            <restaurant-info
+              class="col-12"
+            />
+          </q-tab-panel>
         </q-tab-panels>
       </div>
-      <div class="col-4 row wrap">
+      <div
+        v-if="!reservation"
+        class="col-4 row wrap"
+      >
         <div class="col-12 row q-mb-lg">
           <fieldset class="offset-2 col-8">
             <legend>Odpiralni čas</legend>
@@ -174,14 +191,27 @@
           </fieldset>
         </div>
       </div>
+      <div
+        v-if="reservation && (userStore.token !== null)"
+        class="col-12"
+      >
+        <restaurant-reservation
+          class="col-12"
+          :menus="menus"
+          @back_to_restaurant="reservation = false"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { useUserStore } from 'src/stores/UserStore'
 import CommentList from '../components/CommentList.vue'
 import RestaurantRating from '../components/RestaurantRating.vue'
 import RestaurantOfferList from '../components/RestaurantOfferList.vue'
+import RestaurantInfo from '../components/RestaurantInfo.vue'
+import RestaurantReservation from '../components/RestaurantReservation.vue'
 
 export default {
   name: 'RestaurantPage',
@@ -189,11 +219,20 @@ export default {
   components: {
     CommentList,
     RestaurantRating,
-    RestaurantOfferList
+    RestaurantOfferList,
+    RestaurantInfo,
+    RestaurantReservation
+  },
+
+  setup () {
+    const userStore = useUserStore()
+
+    return { userStore }
   },
 
   data () {
     return {
+      reservation: false,
       tab: 'ponudba',
       userRating: 0,
       comments: [

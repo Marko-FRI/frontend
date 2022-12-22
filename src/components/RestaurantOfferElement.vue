@@ -70,7 +70,7 @@ export default {
     }
 
     .info-popup-text {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     .info-icon-top {
