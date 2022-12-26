@@ -176,6 +176,7 @@
               <div class="q-gutter-y-md column q-mb-md">
                 <q-rating
                   v-model="userRating"
+                  :disable="loading || userStore.token === null"
                   size="xl"
                   max="5"
                   color="green-7"
@@ -187,17 +188,21 @@
               <div>Napiši Komentar</div>
               <div class="q-mb-md col-12 row">
                 <textarea
+                  id="userComment"
+                  :disabled="loading || userStore.token === null"
                   class="col-12"
                   rows="4"
                 />
               </div>
               <q-btn
-                label="Dodaj komentar"
+                label="Dodaj mnenje"
                 color="white"
                 flat
                 no-caps
                 style="font-size: 1rem"
                 class="bg-green-7 border-rad"
+                :disable="loading || userStore.token === null"
+                @click="addReview"
               />
             </div>
           </fieldset>
@@ -332,6 +337,28 @@ export default {
         this.numMenus = reply.data.numMenus
         this.menus = reply.data.menus.data
         // console.log(reply)
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        this.loading = false
+      }
+    },
+
+    async addReview () {
+      try {
+        const userComment = document.getElementById('userComment').value
+        this.loading = true
+        await api.get('/sanctum/csrf-cookie')
+        const reply = await api.post('/addReview', {
+          id_restaurant: this.$route.params.id_restaurant,
+          rating: this.userRating,
+          comment: userComment
+        })
+        this.numRatings = reply.data.numRatings
+        this.avgRating = reply.data.rating
+        this.numComments = reply.data.numReviews
+        this.comments = reply.data.reviews.data
+        console.log(reply)
         this.loading = false
       } catch (error) {
         console.log(error)

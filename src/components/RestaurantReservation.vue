@@ -48,6 +48,39 @@
         :done="step > 2"
       >
         <reservation-step-two :menus="menus" />
+        <q-dialog
+          v-model="confirm"
+          persistent
+        >
+          <q-card>
+            <q-card-section class="row items-center text-h5 q-pa-xl">
+              <span class="q-ml-sm">Ali ste prepričani, da žeilte rezervirati?</span>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn
+                v-close-popup
+                flat
+                label="Prekliči"
+                color="primary"
+                no-caps
+                style="font-size: 1rem"
+                class="border-rad text-grey-7"
+                @click="confirm = false"
+              />
+              <q-btn
+                v-close-popup
+                flat
+                label="Rezerviraj"
+                color="white"
+                no-caps
+                style="font-size: 1rem"
+                class="bg-green-7 border-rad q-ma-sm"
+                @click="step = 3"
+              />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
 
         <q-stepper-navigation class="row no-wrap">
           <div class="col-6">
@@ -70,9 +103,8 @@
               no-caps
               style="font-size: 1rem"
               class="bg-green-7 border-rad"
-              @click="step = 3"
+              @click="confirm = true"
             />
-            <!-- tukaj potreben qDialog -->
           </div>
         </q-stepper-navigation>
       </q-step>
@@ -120,9 +152,16 @@ export default {
   data () {
     return {
       step: 1,
-      error: 1
+      error: 1,
+      confirm: true
     }
   }
+
+  // methods: {
+  //   confirmReservation () {
+  //     this.confirm = true
+  //   }
+  // }
 }
 </script>
 
