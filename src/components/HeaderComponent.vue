@@ -1,15 +1,19 @@
 <template>
   <q-header class="bg-transparent q-pa-md">
     <q-toolbar>
-      <q-toolbar-title class="col-4">
+      <q-toolbar-title>
         <router-link
           to="/"
           style="text-decoration: none; color: black; font-size:32px;"
         >
-          Book My Restaurant
+          <span v-if="$q.screen.width > 385">Book My Restaurant</span>
+          <span v-else>BMR</span>
         </router-link>
       </q-toolbar-title>
-      <div class="col-8 row no-wrap justify-end q-gutter-x-lg">
+      <div
+        v-if="$q.screen.width > 1023"
+        class="col-8 row no-wrap justify-end q-gutter-x-lg"
+      >
         <q-btn
           flat
           no-caps
@@ -77,6 +81,15 @@
           class="text-custom-size bg-green-8 border-rad"
         />
       </div>
+      <q-btn
+        v-if="$q.screen.width < 1024"
+        dense
+        flat
+        round
+        icon="menu"
+        color="black"
+        @click="toggleDrawer()"
+      />
     </q-toolbar>
   </q-header>
 </template>
@@ -93,9 +106,22 @@ export default {
     return { userStore }
   },
 
+  data () {
+    return {
+      toggleLeftDrawer: false
+    }
+  },
+
   computed: {
     isLoggedIn () {
       return this.userStore.token !== null
+    }
+  },
+
+  methods: {
+    toggleDrawer () {
+      this.toggleLeftDrawer = !this.toggleLeftDrawer
+      this.$emit('toggleDrawer')
     }
   }
 }

@@ -1,27 +1,29 @@
 <template>
   <div>
-    <p class="page-title q-mb-xl">
+    <p class="page-title q-px-xl q-py-lg">
       Domov / Vse Restavracije
     </p>
 
-    <div class="fit row no-wrap justify-start items-start content-start">
-      <div class="col-3">
-        <div class="fit row no-wrap">
+    <div class="fit row justify-start items-start content-start">
+      <div class="col-12 col-lg-3 q-mb-md">
+        <div class="fit row no-wrap justify-start">
           <category-list
             :categories="categories"
             :loading="loading"
+            class="col-12 col-lg-9"
             @onChangeCategory="onChangeCategory"
           />
         </div>
       </div>
-      <div class="col-9">
-        <div class="q-mb-xl row no-wrap justify-start items-start content-start">
+      <div
+        class="col-12 col-lg-9 q-px-md"
+      >
+        <div class="row no-wrap q-pb-lg ">
           <q-input
             v-model="search"
-            class="col-6"
+            class="col-8"
             label="Iskanje Restavracij"
-            :input-style="{ fontSize: '18px', margin: '10px 0px 0px 2px' }"
-            style="margin-top: -4px"
+            :input-style="{ fontSize: '18px' }"
             dense
             :disable="loading"
           />
@@ -30,17 +32,23 @@
             color="white"
             flat
             no-caps
-            class="col-1 q-ml-lg bg-green-8 border-rad"
+            class="col-4 bg-green-8 border-rad"
             :disable="loading"
             @click="onChangeSearch"
           />
         </div>
-        <div class="q-mb-lg row no-wrap justify-start items-start content-start">
-          <div class="col-4">
+        <div class="row q-pb-md content-center">
+          <div
+            class="col-12 col-sm-6 row content-center "
+            :class="{'justify-start': $q.screen.width > 599, 'justify-center': $q.screen.width < 600}"
+          >
             1-9 od {{ numResults }} rezultatov
           </div>
-          <div class="col-8">
-            <div style="width: 180px; float: right; margin-right: 70px;">
+          <div
+            class="col-12 col-sm-6 text-center"
+            :class="{'text-right': $q.screen.width > 599}"
+          >
+            <div>
               Sortiraj po:
               <q-btn-dropdown
                 outline
@@ -49,7 +57,7 @@
                 :label="sortBy"
                 color="green"
                 text-color="black"
-                class="q-ml-md q-pr-none border-rad"
+                class="q-pr-sm border-rad"
                 :disable="loading"
               >
                 <q-list>
@@ -88,7 +96,6 @@
             :max-pages="6"
             direction-links
             color="green-8"
-            class="custom-position"
             :disable="loading"
             @click="onChangePage"
           />
@@ -253,16 +260,10 @@ export default {
 <style scoped>
   .page-title {
     background-color: #F2F2EF !important;
-    padding: 30px 100px 30px !important;
-    font-size: 22px !important;
-    width: 100% !important;
+    font-size: 18px !important;
   }
 
   .border-rad {
     border-radius: 5px !important;
-  }
-
-  .custom-position {
-    margin-left: -100px;
   }
 </style>
