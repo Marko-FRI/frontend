@@ -6,7 +6,7 @@
     >
       <img
         class="profile-picture"
-        src="../pages/restaurant_header_picture.png"
+        :src="comment.profile_image"
       >
     </div>
 
@@ -14,48 +14,48 @@
     <div class="col-10 q-px-md">
       <div class="row no-wrap text-green-7 q-mb-md">
         <div class="col-6 comment-user-name">
-          {{ comment.name }}
+          {{ comment.name }} {{ comment.surname }}
         </div>
         <div
           class="col-6"
           style="text-align: right"
         >
           <q-icon
-            name="star"
+            :name="firstStar"
             size="sm"
             color="green-7"
             class="rating-stars-top"
           />
           <q-icon
-            name="star"
+            :name="secondStar"
             size="sm"
             color="green-7"
             class="rating-stars-top"
           />
           <q-icon
-            name="star"
+            :name="thirdStar"
             size="sm"
             color="green-7"
             class="rating-stars-top"
           />
           <q-icon
-            name="star_border"
+            :name="fourthStar"
             size="sm"
             color="green-7"
             class="rating-stars-top"
           />
           <q-icon
-            name="star_border"
+            :name="fifthStar"
             size="sm"
             color="green-7"
             class="rating-stars-top"
           />
-          <span class="rating-number-text q-pl-sm">3/5</span>
+          <span class="rating-number-text q-pl-sm">{{ comment.rating }}/5</span>
         </div>
       </div>
-      <div>{{ comment.comment_text }}</div>
+      <div>{{ comment.comment }}</div>
       <div class="days-ago q-pb-none q-pt-md">
-        {{ comment.days_ago }} dni nazaj
+        {{ comment.time_ago }}
       </div>
     </div>
     <q-separator
@@ -64,14 +64,6 @@
       inset
       class="q-mt-none q-mx-md"
     />
-
-    <!--
-// id_comment: 0,
-// name: 'Janez Novak',
-// comment_text: 'neki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n eki',
-// profile_picture: 'http://localhost:8000/images/restaurant_images/profile.jpg',
-// other_user_rating: 3
--->
   </div>
 </template>
 
@@ -79,7 +71,29 @@
 export default {
   name: 'CommentElement',
 
-  props: ['comment']
+  props: ['comment'],
+
+  computed: {
+    firstStar () {
+      if (this.comment.rating < 1) { return 'star_border' } else { return 'star' }
+    },
+
+    secondStar () {
+      if (this.comment.rating < 2) { return 'star_border' } else { return 'star' }
+    },
+
+    thirdStar () {
+      if (this.comment.rating < 3) { return 'star_border' } else { return 'star' }
+    },
+
+    fourthStar () {
+      if (this.comment.rating < 4) { return 'star_border' } else { return 'star' }
+    },
+
+    fifthStar () {
+      if (this.comment.rating < 5) { return 'star_border' } else { return 'star' }
+    }
+  }
 }
 </script>
 

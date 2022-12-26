@@ -10,49 +10,74 @@
       class="offset-4 col-8"
     >
       <q-icon
-        name="star"
+        :name="firstStar"
         size="4rem"
         color="green-7"
         class="avg-rating-stars-top"
       />
       <q-icon
-        name="star"
+        :name="secondStar"
         size="4rem"
         color="green-7"
         class="avg-rating-stars-top"
       />
       <q-icon
-        name="star"
+        :name="thirdStar"
         size="4rem"
         color="green-7"
         class="avg-rating-stars-top"
       />
       <q-icon
-        name="star_half"
+        :name="fourthStar"
         size="4rem"
         color="green-7"
         class="avg-rating-stars-top"
       />
       <q-icon
-        name="star_border"
+        :name="fifthStar"
         size="4rem"
         color="green-7"
         class="q-pr-lg avg-rating-stars-top"
       />
 
-      <span class="avg-rating-text text-green-7">3.4/5</span>
+      <span class="avg-rating-text text-green-7">{{ (Math.round(avgRating * 100) / 100) }}/5</span>
     </div>
     <div
       class="offset-4 col-8 num-ratings-text text-green-7 q-pl-sm q-pt-sm"
     >
-      Število mnenj: 63
+      Število mnenj: {{ numRatings }}
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'RestaurantRating'
+  name: 'RestaurantRating',
+
+  props: ['avgRating', 'numRatings'],
+
+  computed: {
+    firstStar () {
+      if (this.avgRating <= 0.25) { return 'star_border' } else if (this.avgRating <= 0.75) { return 'star_half' } else { return 'star' }
+    },
+
+    secondStar () {
+      if (this.avgRating <= 1.25) { return 'star_border' } else if (this.avgRating <= 1.75) { return 'star_half' } else { return 'star' }
+    },
+
+    thirdStar () {
+      if (this.avgRating <= 2.25) { return 'star_border' } else if (this.avgRating <= 2.75) { return 'star_half' } else { return 'star' }
+    },
+
+    fourthStar () {
+      if (this.avgRating <= 3.25) { return 'star_border' } else if (this.avgRating <= 3.75) { return 'star_half' } else { return 'star' }
+    },
+
+    fifthStar () {
+      if (this.avgRating <= 4.25) { return 'star_border' } else if (this.avgRating <= 4.75) { return 'star_half' } else { return 'star' }
+    }
+  }
+
 }
 </script>
 

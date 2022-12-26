@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="q-pl-lg q-mx-xl text-h6">
-      Komentarji: 43
+      Komentarji: {{ numComments }}
     </div>
     <q-separator
       color="black"
@@ -15,6 +15,7 @@
     />
     <div style="text-align: center">
       <q-btn
+        v-if="comments.length > 5"
         label="Naloži več"
         color="white"
         flat
@@ -36,7 +37,13 @@ export default {
     CommentElement
   },
 
-  props: ['comments']
+  props: ['comments', 'numComments'],
+
+  data () {
+    return {
+      numOfShownComments: 0
+    }
+  }
 }
 </script>
 

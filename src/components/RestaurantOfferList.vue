@@ -9,14 +9,13 @@
       <q-pagination
         v-model="currentPage"
         :max="numPages"
-        :max-pages="4"
+        :max-pages="6"
         direction-links
         color="green-8"
         class="custom-position"
+        :disable="loading"
       />
     </div>
-    <!-- :disable="loading"
-      @click="onChangePage" -->
   </div>
 </template>
 
@@ -30,12 +29,23 @@ export default {
     RestaurantOfferElement
   },
 
-  props: ['menus'],
+  props: ['menus', 'numMenus', 'loading'],
 
   data () {
     return {
-      currentPage: 1,
-      numPages: 10
+      currentPage: 1
+    }
+  },
+
+  computed: {
+    numPages () {
+      return parseInt(Math.ceil(this.numMenus / 6))
+    }
+  },
+
+  watch: {
+    currentPage (newCurrentPage) {
+      this.$emit('onChangePage', newCurrentPage)
     }
   }
 }

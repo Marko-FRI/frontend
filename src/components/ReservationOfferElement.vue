@@ -11,7 +11,7 @@
     </div>
     <div class="col-9 row wrap">
       <div class="col-6 text-h6">
-        Sirov Burek
+        {{ menu.name }}
         <q-icon
           name="info_outlined"
           class="q-pl-md info-icon-top"
@@ -36,10 +36,11 @@
         class="col-6 text-green-7 text-h6"
         style="text-align: right"
       >
-        3.20 €
+        {{ (Math.round(menu.price * 100) / 100).toFixed(2) }} €
       </div>
       <div class="col-12 light-black-text">
-        skjgqiewrogj oiegjeoigeorig jerigo jweegio wejg wijg oiwjg wejgewoijgweoi woee weoijw oije2goi ewgjiowej gwiogjweoig
+        {{ menu.info }}
+        <!-- <br> {{ index }} -->
       </div>
       <div
         class="col-12 row no-wrap justify-end"
@@ -50,8 +51,10 @@
           outline
           color="green-7"
           class="col-1 custom-height custom-border-rad-left bg-white"
+          @click="decrementNumOfOrders"
         />
         <q-input
+          v-model="numOfOrders"
           type="number"
           square
           outlined
@@ -61,6 +64,8 @@
           bg-color="white"
           input-style="text-align: center"
           class="col-1 custom-height custom-border-rad-middle custom-hover"
+          @input="onInput"
+          @keydown="keyHandler"
         />
         <q-btn
           label="+"
@@ -68,6 +73,7 @@
           outline
           color="green-7"
           class="col-1 custom-height custom-border-rad-right bg-white"
+          @click="incrementNumOfOrders"
         />
       </div>
     </div>
@@ -81,10 +87,60 @@
 </template>
 
 <script>
+// imas tabelo, toliko veliko kot je elementov, če se poveča +,
+// dodamo v tabelo +1 na index_menija (če je page npr 2. damo index + 4*(2-1))
+
 export default {
   name: 'ReservationOfferElement',
 
-  props: ['menu']
+  props: ['menu', 'index'],
+
+  data () {
+    return {
+      numOfOrders: 0
+    }
+  },
+
+  watch: {
+    numOfOrders (newNumOfOrders, oldNumOfOrders) {
+      this.$emit('onChangePickedOrders', newNumOfOrders, oldNumOfOrders, this.index)
+    }
+  },
+
+  methods: {
+    onInput (val) {
+      this.numOfOrders = val
+      if (val && val < 0) {
+        this.numOfOrders = 0
+      }
+      if (val && (val - Math.floor(val)) === 0) {
+        this.numOfOrders = Math.floor(val)
+      }
+    },
+
+    keyHandler (evt) {
+      if (this.numOfOrders < 1 && evt.key === 'ArrowDown') {
+        evt.preventDefault()
+      }
+      if (evt.key === '-') {
+        evt.preventDefault()
+      }
+      if (evt.key === '.') {
+        evt.preventDefault()
+      }
+      if (evt.key === ',') {
+        evt.preventDefault()
+      }
+    },
+
+    incrementNumOfOrders () {
+      this.numOfOrders++
+    },
+
+    decrementNumOfOrders () {
+      if (this.numOfOrders >= 1) { this.numOfOrders-- }
+    }
+  }
 }
 </script>
 

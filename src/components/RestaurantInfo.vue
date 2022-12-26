@@ -4,10 +4,10 @@
       style="text-align: center"
       class="text-h3"
     >
-      Gostilna pod Lipco
+      {{ restaurantData.name }}
     </div>
     <div class="q-pa-xl info-text">
-      afis iog jqer iog jero ig jewriog jreio gjerop jergo jewrg operjwgop ewrrj gpew rojge wropjg ewrop gwerpogj ewpog jewrpog jergpo jer gpoe gpjo
+      {{ restaurantData.description }}
     </div>
     <div
       class="q-pa-xl"
@@ -23,23 +23,30 @@
         control-text-color="white"
       >
         <q-carousel-slide
-          :name="1"
+          v-for="(image, index) in restaurantData.images"
+          :key="index"
+          :name="index + 1"
+          :img-src="image"
+        />
+        <!-- <q-carousel-slide
+          :name="0"
           img-src="https://cdn.quasar.dev/img/mountains.jpg"
         />
         <q-carousel-slide
-          :name="2"
+          :name="1"
           img-src="https://cdn.quasar.dev/img/parallax1.jpg"
         />
         <q-carousel-slide
-          :name="3"
+          :name="2"
           img-src="https://cdn.quasar.dev/img/parallax2.jpg"
         />
         <q-carousel-slide
-          :name="4"
+          :name="3"
           img-src="https://cdn.quasar.dev/img/quasar.jpg"
-        />
+        /> -->
       </q-carousel>
     </div>
+    <!-- {{ restaurantData.images }} -->
     <div
       style="text-align: center"
       class="social-networks q-pa-xl q-my-xl"
@@ -48,29 +55,39 @@
         Socialna omrežja
       </div>
       <div>
-        <q-icon
-          name="facebook"
-          color="green-7"
-          size="md"
-          class="q-pr-sm"
-        />
-        <q-icon
-          name="facebook"
-          color="green-7"
-          size="md"
-          class="q-pr-sm"
-        />
-        <q-icon
-          name="facebook"
-          color="green-7"
-          size="md"
-          class="q-pr-sm"
-        />
-        <q-icon
-          name="facebook"
-          color="green-7"
-          size="md"
-        />
+        <a
+          :href="restaurantData.facebook_link"
+          target="_blank"
+        >
+          <q-icon
+            name="facebook"
+            color="green-7"
+            size="md"
+            class="q-pr-sm"
+          />
+        </a>
+        <a
+          :href="restaurantData.instagram_link"
+          target="_blank"
+        >
+          <q-icon
+            name="facebook"
+            color="green-7"
+            size="md"
+            class="q-pr-sm"
+          />
+        </a>
+        <a
+          :href="restaurantData.twitter_link"
+          target="_blank"
+        >
+          <q-icon
+            name="facebook"
+            color="green-7"
+            size="md"
+            class="q-pr-sm"
+          />
+        </a>
       </div>
     </div>
   </div>
@@ -79,6 +96,8 @@
 <script>
 export default {
   name: 'RestaurantInfo',
+
+  props: ['restaurantData'],
 
   data () {
     return {
@@ -98,5 +117,9 @@ export default {
         margin-right: 8rem;
         margin-left: 8rem;
         box-shadow: 4px 4px 4px rgba(0,0,0,0.25);
+    }
+
+    a {
+      text-decoration: none;
     }
 </style>
