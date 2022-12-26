@@ -2,10 +2,7 @@
   <div class="col-8">
     <fieldset>
       <legend>Kategorije</legend>
-      <div
-        style="
-            margin-left: 25%;"
-      >
+      <div class="col-12 row justify-center">
         <q-option-group
           v-model="pickedCategories"
           :options="allCategories"

@@ -4,7 +4,7 @@
 
 <template>
   <div class="col-12 col-md-4 col-sm-6 q-mb-lg ">
-    <div class="whole_card">
+    <div class="whole_card q-mx-auto">
       <router-link
         :to="'restaurant/' + restaurant.id_restaurant"
         style="text-decoration: none;"
