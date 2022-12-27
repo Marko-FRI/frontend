@@ -28,6 +28,7 @@
         >Čas</label>
         <q-input
           v-model="time"
+          :rules="[val => !!val || 'Field is required']"
           type="time"
           square
           filled
@@ -51,6 +52,7 @@
         />
         <q-input
           v-model.number="numPersons"
+          :rules="[val => !!val || 'Field is required']"
           placeholder="0"
           type="number"
           filled
@@ -69,13 +71,27 @@ export default {
 
   data () {
     return {
-      date: '2022/12/21',
+      date: '',
       time: '',
       numPersons: 0,
       days: ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'],
       daysShort: ['Ned', 'Pon', 'Tor', 'Sre', 'Čet', 'Pet', 'Sob'],
       months: ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December'],
       monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec']
+    }
+  },
+
+  watch: {
+    date (newDate) {
+      this.$emit('onChangeDate', newDate)
+    },
+
+    time (newTime) {
+      this.$emit('onChangeTime', newTime)
+    },
+
+    numPersons (newNumPersons) {
+      this.$emit('onChangeNumPersons', newNumPersons)
     }
   }
 }

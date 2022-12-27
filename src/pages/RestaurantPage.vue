@@ -222,6 +222,10 @@
   </div>
 </template>
 
+<!-- //////////////////////////////////////////////
+POTREBNO JE ŠE isFavourited in userRating (na začetku) ter 'Naloži več' komentarjev
+    //////////////////////////////////////////////-->
+
 <script>
 import { useUserStore } from 'src/stores/UserStore'
 import { api } from 'src/boot/axios'
@@ -358,6 +362,7 @@ export default {
         this.avgRating = reply.data.rating
         this.numComments = reply.data.numReviews
         this.comments = reply.data.reviews.data
+        document.getElementById('userComment').value = ''
         console.log(reply)
         this.loading = false
       } catch (error) {

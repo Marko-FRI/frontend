@@ -15,7 +15,7 @@
     />
     <div style="text-align: center">
       <q-btn
-        v-if="comments.length > 5"
+        v-if="comments.length > 3 || numComments > comments.length"
         label="Naloži več"
         color="white"
         flat

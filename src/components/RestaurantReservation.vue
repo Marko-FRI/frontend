@@ -23,7 +23,19 @@
         color="green-7"
         :done="step > 1"
       >
-        <reservation-step-one />
+        <reservation-step-one
+          @onChangeDate="onChangeDate"
+          @onChangeTime="onChangeTime"
+          @onChangeNumPersons="onChangeNumPersons"
+        />
+
+        <div
+          v-if="errorMessage != ''"
+          class="text-red-7 text-h6 q-ma-lg"
+          style="text-align: center"
+        >
+          {{ errorMessage }}
+        </div>
 
         <q-stepper-navigation
           style="text-align: right"
@@ -36,7 +48,7 @@
             no-caps
             style="font-size: 1rem"
             class="bg-green-7 border-rad"
-            @click="step = 2"
+            @click="goToStepTwo"
           />
         </q-stepper-navigation>
       </q-step>
@@ -115,9 +127,7 @@
         :color="(step > 2) ? 'green-7' : 'grey-7'"
         active-icon="done"
       >
-        Try out different ad text to see what brings in the most customers, and learn how to
-        enhance your ads using features like ad extensions. If you run into any problems with
-        your ads, find out how to tell if they're running and how to resolve approval issues.
+        <reservation-step-three />
 
         <q-stepper-navigation style="text-align: center">
           <q-btn
@@ -138,13 +148,15 @@
 <script>
 import ReservationStepOne from '../components/ReservationStepOne.vue'
 import ReservationStepTwo from '../components/ReservationStepTwo.vue'
+import ReservationStepThree from '../components/ReservationStepThree.vue'
 
 export default {
   name: 'RestaurantReservation',
 
   components: {
     ReservationStepOne,
-    ReservationStepTwo
+    ReservationStepTwo,
+    ReservationStepThree
   },
 
   props: ['menus'],
@@ -152,16 +164,38 @@ export default {
   data () {
     return {
       step: 1,
-      error: 1,
-      confirm: true
+      errorMessage: '',
+      confirm: false,
+      date: '',
+      time: '',
+      numPersons: ''
     }
-  }
+  },
 
-  // methods: {
+  methods: {
+    onChangeDate (newDate) {
+      this.date = newDate
+    },
+
+    onChangeTime (newTime) {
+      this.time = newTime
+    },
+
+    onChangeNumPersons (newNumPersons) {
+      this.numPersons = newNumPersons
+    },
+
+    goToStepTwo () {
+      if (this.date !== '' && this.time !== '' && this.numPersons > 0) {
+        // pošlji request in dobi response (preveri, če štima response)
+        this.errorMessage = ''
+        this.step = 2
+      } else { this.errorMessage = 'Potrebno je izpolniti vsa polja!' }
+    }
   //   confirmReservation () {
   //     this.confirm = true
   //   }
-  // }
+  }
 }
 </script>
 
