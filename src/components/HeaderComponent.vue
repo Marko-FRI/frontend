@@ -77,7 +77,7 @@
           no-caps
           color="white"
           :label="(isLoggedIn) ? 'Profil' : 'Prijava'"
-          :to="(isLoggedIn) ? '/profil/'+userStore.data.id_user : '/login'"
+          :to="(isLoggedIn) ? '/profile' : '/login'"
           class="text-custom-size bg-green-8 border-rad"
         />
       </div>

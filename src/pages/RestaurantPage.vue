@@ -7,13 +7,14 @@
     >
     <div class="col-12 row no-wrap change-position-top">
       <div class="q-pl-xl col-8 custom-text">
-        Gostilna Pod Lipco
+        {{ restaurantData.name }}
       </div>
       <div class="col-4">
         <q-btn
-          label="Dodaj med priljubljene"
+          :label="(!isFavourited || userStore.token === null) ? 'Dodaj med priljubljene' : 'Odstrani iz priljubljenih'"
           color="white"
           flat
+          :disable="userStore.token === null"
           no-caps
           size="1.15rem"
           class="bg-green-7 border-rad q-px-lg button-float q-mr-xl"
@@ -22,7 +23,10 @@
     </div>
 
     <div class="col-12 row items-start">
-      <div class="col-8 row wrap justify-start q-gutter-y-md q-ma-none">
+      <div
+        v-if="!reservation"
+        class="col-8 row wrap justify-start q-gutter-y-md q-ma-none"
+      >
         <div
           class="col-12 row q-pa-none q-ma-none"
         >
@@ -55,103 +59,89 @@
             label="Rezerviraj"
             color="white"
             flat
+            :disable="userStore.token === null"
             no-caps
             style="font-size: 1.5rem"
             class="col-3 bg-green-7 border-rad q-ma-none q-pa-none"
+            @click="reservation = true"
           />
         </div>
         <q-separator
           color="grey"
           width="100%"
           inset
+          class="q-mx-xl"
         />
-        <div
-          class="col-12 wrap"
+
+        <q-tab-panels
+          v-model="tab"
+          animated
+          class="col-12 row wrap"
         >
-          <q-tab-panels
-            v-model="tab"
-            animated
+          <q-tab-panel
+            name="ponudba"
             class="col-12 row wrap"
           >
-            <q-tab-panel
-              name="mnenja"
-              class="col-12 row wrap"
-            >
-              <div
-                class="text-h5 col-12 q-pb-lg"
-                style="text-align:center"
-              >
-                Povprečna ocena
-              </div>
-              <div
-                class="offset-4 col-8"
-              >
-                <q-icon
-                  name="star"
-                  size="4rem"
-                  color="green-7"
-                  class="avg-rating-stars-top"
-                />
-                <q-icon
-                  name="star"
-                  size="4rem"
-                  color="green-7"
-                  class="avg-rating-stars-top"
-                />
-                <q-icon
-                  name="star"
-                  size="4rem"
-                  color="green-7"
-                  class="avg-rating-stars-top"
-                />
-                <q-icon
-                  name="star_half"
-                  size="4rem"
-                  color="green-7"
-                  class="avg-rating-stars-top"
-                />
-                <q-icon
-                  name="star_border"
-                  size="4rem"
-                  color="green-7"
-                  class="q-pr-lg avg-rating-stars-top"
-                />
-
-                <span class="avg-rating-text text-green-7">3.4/5</span>
-              </div>
-              <div
-                class="offset-4 col-8 num-ratings-text text-green-7 q-pl-sm q-pt-sm"
-              >
-                Število mnenj: 63
-              </div>
-            </q-tab-panel>
-          </q-tab-panels>
-        </div>
+            <restaurant-offer-list
+              class="col-12"
+              :menus="menus"
+              :num-menus="numMenus"
+              :loading="loading"
+              @onChangePage="onChangePage"
+            />
+          </q-tab-panel>
+          <q-tab-panel
+            name="mnenja"
+            class="col-12 row wrap"
+          >
+            <restaurant-rating
+              :avg-rating="avgRating"
+              :num-ratings="numRatings"
+            />
+            <comment-list
+              :num-comments="numComments"
+              :comments="comments"
+              class="col-12 q-pt-xl"
+            />
+          </q-tab-panel>
+          <q-tab-panel
+            name="informacije"
+            class="col-12 row wrap q-pl-xl"
+          >
+            <restaurant-info
+              class="col-12"
+              :restaurant-data="restaurantData"
+            />
+          </q-tab-panel>
+        </q-tab-panels>
       </div>
-      <div class="col-4 row wrap">
+      <div
+        v-if="!reservation"
+        class="col-4 row wrap"
+      >
         <div class="col-12 row q-mb-lg">
           <fieldset class="offset-2 col-8">
             <legend>Odpiralni čas</legend>
             <div class="q-mb-sm q-mt-md font-right-side-schedule align-center-schedule">
-              Ponedeljek: 7:00 - 18.00
+              Ponedeljek: {{ (openingHours[0] !== '/') ? openingHours[0].start_of_shift.substring(0,5) + ' - ' + openingHours[0].end_of_shift.substring(0,5) : 'zaprto' }}
             </div>
             <div class="q-mb-sm font-right-side-schedule align-center-schedule">
-              Torek: 7:00 - 18.00
+              Torek: {{ (openingHours[1] !== '/') ? openingHours[1].start_of_shift.substring(0,5) + ' - ' + openingHours[1].end_of_shift.substring(0,5) : 'zaprto' }}
             </div>
             <div class="q-mb-sm font-right-side-schedule align-center-schedule">
-              Sreda: 7:00 - 18.00
+              Sreda: {{ (openingHours[2] !== '/') ? openingHours[2].start_of_shift.substring(0,5) + ' - ' + openingHours[2].end_of_shift.substring(0,5) : 'zaprto' }}
             </div>
             <div class="q-mb-sm font-right-side-schedule align-center-schedule">
-              Četrtek: 7:00 - 18.00
+              Četrtek: {{ (openingHours[3] !== '/') ? openingHours[3].start_of_shift.substring(0,5) + ' - ' + openingHours[3].end_of_shift.substring(0,5) : 'zaprto' }}
             </div>
             <div class="q-mb-sm font-right-side-schedule align-center-schedule">
-              Petek: 7:00 - 18.00
+              Petek: {{ (openingHours[4] !== '/') ? openingHours[4].start_of_shift.substring(0,5) + ' - ' + openingHours[4].end_of_shift.substring(0,5) : 'zaprto' }}
             </div>
             <div class="q-mb-sm font-right-side-schedule align-center-schedule">
-              Sobota: 7:00 - 18.00
+              Sobota: {{ (openingHours[5] !== '/') ? openingHours[5].start_of_shift.substring(0,5) + ' - ' + openingHours[5].end_of_shift.substring(0,5) : 'zaprto' }}
             </div>
             <div class="q-mb-md font-right-side-schedule align-center-schedule">
-              Nedelja: zaprto
+              Nedelja: {{ (openingHours[6] !== '/') ? openingHours[6].start_of_shift.substring(0,5) + ' - ' + openingHours[6].end_of_shift.substring(0,5) : 'zaprto' }}
             </div>
           </fieldset>
         </div>
@@ -162,15 +152,19 @@
               class="q-mb-md q-mt-md font-right-side-contact align-center-contact"
             >
               <q-icon name="place" />
-              Stožice 26, 1000 Ljubljana
+              {{ restaurantData.address }}
             </div>
             <div class="q-mb-md font-right-side-contact align-center-contact">
               <q-icon name="mail" />
-              <span class="underline q-ml-sm">lipca.gostilna@gmail.com</span>
+              <span class="underline q-ml-sm">
+                {{ restaurantData.email }}
+              </span>
             </div>
             <div class="q-mb-md font-right-side-contact align-center-contact">
               <q-icon name="phone" />
-              <span class="underline q-ml-sm">01 566 24 44</span>
+              <span class="underline q-ml-sm">
+                {{ restaurantData.phone_number }}
+              </span>
             </div>
           </fieldset>
         </div>
@@ -182,6 +176,7 @@
               <div class="q-gutter-y-md column q-mb-md">
                 <q-rating
                   v-model="userRating"
+                  :disable="loading || userStore.token === null"
                   size="xl"
                   max="5"
                   color="green-7"
@@ -193,34 +188,187 @@
               <div>Napiši Komentar</div>
               <div class="q-mb-md col-12 row">
                 <textarea
+                  id="userComment"
+                  :disabled="loading || userStore.token === null"
                   class="col-12"
                   rows="4"
                 />
               </div>
               <q-btn
-                label="Dodaj komentar"
+                label="Dodaj mnenje"
                 color="white"
                 flat
                 no-caps
                 style="font-size: 1rem"
                 class="bg-green-7 border-rad"
+                :disable="loading || userStore.token === null"
+                @click="addReview"
               />
             </div>
           </fieldset>
         </div>
       </div>
+      <div
+        v-if="reservation && (userStore.token !== null)"
+        class="col-12"
+      >
+        <restaurant-reservation
+          class="col-12"
+          :menus="menus"
+          @back_to_restaurant="reservation = false"
+        />
+      </div>
     </div>
   </div>
 </template>
 
+<!-- //////////////////////////////////////////////
+POTREBNO JE ŠE isFavourited in userRating (na začetku) ter 'Naloži več' komentarjev
+    //////////////////////////////////////////////-->
+
 <script>
+import { useUserStore } from 'src/stores/UserStore'
+import { api } from 'src/boot/axios'
+import CommentList from '../components/CommentList.vue'
+import RestaurantRating from '../components/RestaurantRating.vue'
+import RestaurantOfferList from '../components/RestaurantOfferList.vue'
+import RestaurantInfo from '../components/RestaurantInfo.vue'
+import RestaurantReservation from '../components/RestaurantReservation.vue'
+
 export default {
   name: 'RestaurantPage',
 
+  components: {
+    CommentList,
+    RestaurantRating,
+    RestaurantOfferList,
+    RestaurantInfo,
+    RestaurantReservation
+  },
+
+  setup () {
+    const userStore = useUserStore()
+
+    return { userStore }
+  },
+
   data () {
     return {
-      tab: 'mnenja',
-      userRating: 0
+      loading: false,
+      isFavourited: false,
+      openingHours: ['/', '/', '/', '/', '/', '/', '/'],
+      restaurantData: {
+        // id_restaurant: 0,
+        // address: 'Stožice 26, 1000 Ljubljana',
+        // email: 'lipca.gostilna@gmail.com',
+        // name: 'Gostilna Pod Lipco',
+        // phone_number: '01 566 24 44',
+        // description: 'neki neki neki nekineki neki neki nekineki neki neki nekineki neki neki nekineki neki neki neki',
+        // images: ['prvaSLika', 'drugaSlika', 'itd'],
+        // facebook_link: 'linkFacebook',
+        // instagram_link: 'linkInstagram',
+        // twitter_link: 'linkTwitter',
+        // rating: 0
+      },
+      numMenus: 0,
+      menus: [
+        // {
+        //   id_menu: 0,
+        //   name: 'Sirov Burek',
+        //   description: 'neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki',
+        //   image_path: 'slika menija',
+        //   discount: 0,
+        //   alergens: [],
+        //   price: 3
+        // }
+      ],
+      avgRating: 2.7,
+      numRatings: 42,
+      reservation: false,
+      tab: 'ponudba',
+      userRating: 0,
+      numComments: 0,
+      comments: [
+        {
+          id_review: 0,
+          name: 'Janez',
+          surname: 'Novak',
+          comment: 'neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n eki',
+          profile_image: 'profile.jpg',
+          rating: 4,
+          time_ago: '3 days ago'
+        }
+      ]
+    }
+  },
+
+  mounted () {
+    this.getRestaurantInfo()
+  },
+
+  methods: {
+    async getRestaurantInfo () {
+      try {
+        this.loading = true
+        await api.get('/sanctum/csrf-cookie')
+        const reply = await api.get('/restaurant/' + this.$route.params.id_restaurant)
+
+        this.restaurantData = reply.data.restaurant_data
+        this.openingHours = reply.data.schedule
+        this.numMenus = reply.data.numMenus
+        this.menus = reply.data.menus.data
+        this.numRatings = reply.data.numRatings
+        this.avgRating = this.restaurantData.rating
+        this.numComments = reply.data.numReviews
+        this.comments = reply.data.reviews.data
+        // console.log(reply)
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        this.loading = false
+      }
+    },
+
+    async onChangePage (newCurrentPage) {
+      try {
+        this.loading = true
+        await api.get('/sanctum/csrf-cookie')
+        const reply = await api.get('/restaurant/' + this.$route.params.id_restaurant, {
+          params: {
+            page: newCurrentPage
+          }
+        })
+        this.numMenus = reply.data.numMenus
+        this.menus = reply.data.menus.data
+        // console.log(reply)
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        this.loading = false
+      }
+    },
+
+    async addReview () {
+      try {
+        const userComment = document.getElementById('userComment').value
+        this.loading = true
+        await api.get('/sanctum/csrf-cookie')
+        const reply = await api.post('/addReview', {
+          id_restaurant: this.$route.params.id_restaurant,
+          rating: this.userRating,
+          comment: userComment
+        })
+        this.numRatings = reply.data.numRatings
+        this.avgRating = reply.data.rating
+        this.numComments = reply.data.numReviews
+        this.comments = reply.data.reviews.data
+        document.getElementById('userComment').value = ''
+        console.log(reply)
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        this.loading = false
+      }
     }
   }
 }
@@ -312,19 +460,5 @@ export default {
 
   .pejt-gor {
     margin-top: -420px;
-  }
-
-  .avg-rating-text {
-    text-decoration: underline;
-    font-size: 2rem;
-  }
-
-  .avg-rating-stars-top {
-    margin-top: -0.9rem;
-  }
-
-  .num-ratings-text {
-    text-decoration: underline;
-    font-size: 1.2rem;
   }
 </style>

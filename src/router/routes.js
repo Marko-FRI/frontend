@@ -33,6 +33,14 @@ const routes = [
   },
 
   {
+    path: '/profile',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/ProfilePage.vue') }
+    ]
+  },
+
+  {
     path: '/restaurant/:id_restaurant',
     component: () => import('layouts/MainLayout.vue'),
     children: [
