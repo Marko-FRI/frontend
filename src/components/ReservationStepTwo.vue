@@ -14,7 +14,7 @@
     </div>
     <div class="grey-bg q-py-lg q-my-lg">
       <reservation-offer-element
-        v-for="(menu, index) in menus"
+        v-for="(menu, index) in menusList"
         :key="menu.id_menu"
         :menu="menu"
         :index="index"
@@ -29,6 +29,7 @@
           direction-links
           color="green-8"
           class="custom-position"
+          :disable="loading"
         />
       </div>
     </div>
@@ -43,18 +44,17 @@
         class="text-h6 custom-margin"
       >
         <div
-          v-for="(numOfOrders, index) in pickedMenus"
-          :key="index"
+          v-for="(pickedMenu) in pickedMenus"
+          :key="pickedMenu.id_menu"
         >
           <div
-            v-if="numOfOrders > 0"
             class="row no-wrap"
           >
-            <span class="col-8">{{ menus[index].name }} {{ numOfOrders }}x</span>
+            <span class="col-8">{{ pickedMenu.name }} {{ pickedMenu.quantity }}x</span>
             <span
               class="col-4"
               style="text-align: right"
-            >{{ (Math.round((menus[index].price * numOfOrders) * 100) / 100).toFixed(2) }} €</span>
+            >{{ (Math.round((pickedMenu.price * pickedMenu.quantity) * 100) / 100).toFixed(2) }} €</span>
           </div>
         </div>
         <q-separator
@@ -76,6 +76,8 @@
 </template>
 
 <script>
+import { useUserStore } from 'src/stores/UserStore'
+import { api } from 'src/boot/axios'
 import ReservationOfferElement from '../components/ReservationOfferElement.vue'
 
 export default {
@@ -85,7 +87,13 @@ export default {
     ReservationOfferElement
   },
 
-  props: ['menus'],
+  props: ['menus', 'numMenus'],
+
+  setup () {
+    const userStore = useUserStore()
+
+    return { userStore }
+  },
 
   data () {
     return {
@@ -94,24 +102,89 @@ export default {
       totalPrice: 0,
       isAvailable: true,
       currentPage: 1,
-      numPages: 10
+      menusList: [],
+      loading: false
+    }
+  },
+
+  computed: {
+    numPages () {
+      return parseInt(Math.ceil(this.numMenus / 6))
+    }
+  },
+
+  watch: {
+    currentPage (newCurrentPage) {
+      this.onChangePage(newCurrentPage)
     }
   },
 
   mounted () {
-    for (let i = 0; i < this.numOfMenus; i++) {
-      this.pickedMenus[i] = 0
-    }
+    if (this.userStore.token === null) { this.$router.push('/') }
+    this.menusList = this.menus
   },
 
+  // tuki je treba shrant v pickedMenus {id_menu in quantity} (za pol sa pošiljanje)
+  // pogugli kko se isce v tabeli po kljucu (kljuc je id_menu)
   methods: {
+    // onChangePickedOrders (newNumOfOrders, oldNumOfOrders, index) {
+    //   this.pickedMenus[index] = newNumOfOrders
+    //   this.$emit('onChangePickedMenus', this.pickedMenus)
+
+    //   if (newNumOfOrders > oldNumOfOrders) {
+    //     this.totalPrice += this.menusList[index].price * (newNumOfOrders - oldNumOfOrders)
+    //   } else {
+    //     this.totalPrice -= this.menusList[index].price * (oldNumOfOrders - newNumOfOrders)
+    //   }
+    // },
+
     onChangePickedOrders (newNumOfOrders, oldNumOfOrders, index) {
-      this.pickedMenus[index] = newNumOfOrders
+      let menuIndex = -1
+      this.pickedMenus.forEach((menu, ind) => {
+        if (menu.id_menu === this.menusList[index].id_menu) {
+          menuIndex = ind
+        }
+      })
+
+      if (menuIndex === -1) {
+        this.pickedMenus.push({
+          id_menu: this.menusList[index].id_menu,
+          name: this.menusList[index].name,
+          price: this.menusList[index].price,
+          quantity: newNumOfOrders
+        })
+      } else {
+        if (newNumOfOrders < 1) {
+          this.pickedMenus.splice(menuIndex, 1)
+        } else {
+          this.pickedMenus[menuIndex].quantity = newNumOfOrders
+        }
+      }
+
+      this.$emit('onChangePickedMenus', this.pickedMenus)
 
       if (newNumOfOrders > oldNumOfOrders) {
-        this.totalPrice += this.menus[index].price * (newNumOfOrders - oldNumOfOrders)
+        this.totalPrice += this.menusList[index].price * (newNumOfOrders - oldNumOfOrders)
       } else {
-        this.totalPrice -= this.menus[index].price * (oldNumOfOrders - newNumOfOrders)
+        this.totalPrice -= this.menusList[index].price * (oldNumOfOrders - newNumOfOrders)
+      }
+    },
+
+    async onChangePage (newCurrentPage) {
+      try {
+        this.loading = true
+        await api.get('/sanctum/csrf-cookie')
+        const reply = await api.get('/restaurant/' + this.$route.params.id_restaurant, {
+          params: {
+            page: newCurrentPage
+          }
+        })
+        this.menusList = reply.data.menus.data
+        // console.log(reply)
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        this.loading = false
       }
     }
   }

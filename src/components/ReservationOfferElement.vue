@@ -5,13 +5,13 @@
       style="text-align: center"
     >
       <img
-        src="../pages/food.jpg"
+        :src="menu.image_path"
         class="food-image"
       >
     </div>
     <div class="col-9 row wrap">
       <div class="col-6 text-h6">
-        {{ menu.name }}
+        Meni {{ menu.name }}
         <q-icon
           name="info_outlined"
           class="q-pl-md info-icon-top"
@@ -23,10 +23,10 @@
             <span class="text-h6">Alergeni</span>
             <ol class="q-px-lg info-popup-text">
               <li
-                v-for="alergen in menu.alergens"
-                :key="alergen.id_alergen"
+                v-for="(alergen, alergenIndex) in menu.alergens"
+                :key="alergenIndex"
               >
-                {{ alergen.name }}
+                {{ alergen }}
               </li>
             </ol>
           </q-tooltip>
@@ -39,8 +39,7 @@
         {{ (Math.round(menu.price * 100) / 100).toFixed(2) }} €
       </div>
       <div class="col-12 light-black-text">
-        {{ menu.info }}
-        <!-- <br> {{ index }} -->
+        {{ menu.description }}
       </div>
       <div
         class="col-12 row no-wrap justify-end"

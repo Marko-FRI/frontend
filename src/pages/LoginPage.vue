@@ -3,22 +3,22 @@
     padding
     class="column flex-center"
   >
-    <h3>Login</h3>
+    <h3>Prijava</h3>
 
     <q-input
       v-model="email"
       label="E-mail"
       dense
       class="loginInput"
-      :rules="[val => !!val || 'Field is required']"
+      :rules="[val => !!val || 'Polje je obvezno']"
     />
 
     <q-input
       v-model="password"
-      label="Password"
+      label="Geslo"
       class="loginInput"
       :type="isPwd ? 'password' : 'text'"
-      :rules="[val => !!val || 'Field is required']"
+      :rules="[val => !!val || 'Polje je obvezno']"
       dense
     >
       <template #append>
@@ -35,15 +35,18 @@
       :disabled="!isEmptyInput"
       @click="validateLogin"
     >
-      Login
+      Prijava
     </q-btn>
 
     <p>
-      Don't have an account? <router-link to="/register">
-        Register
+      Še nimate računa? <router-link to="/register">
+        Registracija
       </router-link>
     </p>
-    <p v-if="errorMessage.length > 0">
+    <p
+      v-if="errorMessage.length > 0"
+      class="text-red-7 text-h6"
+    >
       {{ errorMessage }}
     </p>
   </q-page>

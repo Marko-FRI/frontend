@@ -59,14 +59,18 @@
         :color="(step > 1) ? 'green-7' : 'grey-7'"
         :done="step > 2"
       >
-        <reservation-step-two :menus="menus" />
+        <reservation-step-two
+          :menus="menus"
+          :num-menus="numMenus"
+          @onChangePickedMenus="onChangePickedMenus"
+        />
         <q-dialog
           v-model="confirm"
           persistent
         >
           <q-card>
             <q-card-section class="row items-center text-h5 q-pa-xl">
-              <span class="q-ml-sm">Ali ste prepričani, da žeilte rezervirati?</span>
+              <span class="q-ml-sm">Ali ste prepričani, da želite rezervirati?</span>
             </q-card-section>
 
             <q-card-actions align="right">
@@ -88,7 +92,7 @@
                 no-caps
                 style="font-size: 1rem"
                 class="bg-green-7 border-rad q-ma-sm"
-                @click="step = 3"
+                @click="confirmReservation"
               />
             </q-card-actions>
           </q-card>
@@ -146,6 +150,8 @@
 </template>
 
 <script>
+import { useUserStore } from 'src/stores/UserStore'
+import { api } from 'src/boot/axios'
 import ReservationStepOne from '../components/ReservationStepOne.vue'
 import ReservationStepTwo from '../components/ReservationStepTwo.vue'
 import ReservationStepThree from '../components/ReservationStepThree.vue'
@@ -159,17 +165,29 @@ export default {
     ReservationStepThree
   },
 
-  props: ['menus'],
+  props: ['menus', 'numMenus'],
+
+  setup () {
+    const userStore = useUserStore()
+
+    return { userStore }
+  },
 
   data () {
     return {
-      step: 1,
+      step: 2,
       errorMessage: '',
       confirm: false,
       date: '',
       time: '',
-      numPersons: ''
+      numPersons: '',
+      isAvailable: false,
+      pickedMenus: []
     }
+  },
+
+  mounted () {
+    if (this.userStore.token === null) { this.$router.push('/restaurant/' + this.$route.params.id_restaurant) }
   },
 
   methods: {
@@ -185,16 +203,67 @@ export default {
       this.numPersons = newNumPersons
     },
 
-    goToStepTwo () {
+    onChangePickedMenus (newPickedMenus) {
+      this.pickedMenus = newPickedMenus
+    },
+
+    async goToStepTwo () {
       if (this.date !== '' && this.time !== '' && this.numPersons > 0) {
         // pošlji request in dobi response (preveri, če štima response)
-        this.errorMessage = ''
-        this.step = 2
+        try {
+          this.loading = true
+          await api.get('/sanctum/csrf-cookie')
+          const reply = await api.post('/reserveRestaurantTimeDate', {
+            restaurant_id: this.$route.params.id_restaurant,
+            date: this.date,
+            time: this.time,
+            numPersons: this.numPersons
+          })
+
+          this.isAvailable = reply.data.isAvailable
+          console.log(reply)
+          this.loading = false
+          this.errorMessage = ''
+          this.step = 2
+        } catch (error) {
+          console.log(error)
+          this.loading = false
+          this.errorMessage = error.response.data.message
+        }
       } else { this.errorMessage = 'Potrebno je izpolniti vsa polja!' }
+    },
+
+    async confirmReservation () {
+      try {
+        const menus = []
+        let i = 0
+        this.pickedMenus.forEach(pickedMenu => {
+          menus[i].id_menu = pickedMenu.id_menu
+          menus[i].quantity = pickedMenu.quantity
+          i++
+        })
+
+        this.loading = true
+        await api.get('/sanctum/csrf-cookie')
+        const reply = await api.post('/reserveRestaurant', {
+          restaurant_id: this.$route.params.id_restaurant,
+          date: this.date,
+          time: this.time,
+          numPersons: this.numPersons,
+          pickedMenus: menus
+        })
+
+        this.successfulReservation = reply.data.successfulReservation
+        console.log(reply)
+        this.loading = false
+        if (this.successfulReservation) {
+          this.step = 3
+        }
+      } catch (error) {
+        console.log(error)
+        this.loading = false
+      }
     }
-  //   confirmReservation () {
-  //     this.confirm = true
-  //   }
   }
 }
 </script>

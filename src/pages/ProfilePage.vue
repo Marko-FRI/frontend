@@ -50,15 +50,57 @@
         inset
         class="q-mx-lg"
       />
+      <q-tab-panels
+        v-model="tab"
+        animated
+        class="q-my-xl"
+      >
+        <q-tab-panel
+          name="edit_profile"
+        >
+          <profile-edit-profile />
+        </q-tab-panel>
+        <q-tab-panel
+          name="favourited"
+        >
+          <profile-favourited
+            :restaurants="restaurants"
+            :num-results="numResults"
+          />
+        </q-tab-panel>
+        <q-tab-panel
+          name="previus_reservations"
+        >
+          <profile-past-reservations />
+        </q-tab-panel>
+
+        <q-tab-panel
+          name="active_reservations"
+        >
+          <profile-active-reservations />
+        </q-tab-panel>
+      </q-tab-panels>
     </div>
   </div>
 </template>
 
 <script>
 import { useUserStore } from 'src/stores/UserStore'
+import { api } from 'src/boot/axios'
+import ProfileEditProfile from '../components/ProfileEditProfile.vue'
+import ProfileFavourited from '../components/ProfileFavourited.vue'
+import ProfilePastReservations from '../components/ProfilePastReservations.vue'
+import ProfileActiveReservations from '../components/ProfileActiveReservations.vue'
 
 export default {
   name: 'ProfilePage',
+
+  components: {
+    ProfileEditProfile,
+    ProfileFavourited,
+    ProfilePastReservations,
+    ProfileActiveReservations
+  },
 
   setup () {
     const userStore = useUserStore()
@@ -68,12 +110,40 @@ export default {
 
   data () {
     return {
-      tab: 'edit_profile'
+      tab: 'edit_profile',
+      restaurants: [],
+      numResults: 0
     }
   },
 
   mounted () {
     if (this.userStore.token === null) { this.$router.push('/') }
+    this.loadRestaurants()
+  },
+
+  methods: {
+    async loadRestaurants () {
+      try {
+        this.loading = true
+
+        const reply = await api.get('/restaurants', {
+          params: {
+            currentPage: this.currentPage,
+            search: '',
+            pickedCategories: [],
+            sortBy: 'ocena'
+          }
+        })
+
+        this.restaurants = reply.data.restaurants.data
+        this.numResults = reply.data.num_of_restaurants
+        console.log(reply)
+        this.loading = false
+      } catch (error) {
+        // console.log(error)
+        this.loading = false
+      }
+    }
   }
 }
 </script>
@@ -92,7 +162,7 @@ export default {
         height: 150px;
     }
 
-    :deep .q-tab__label {
+    :deep(.q-tab__label) {
         font-size: 1.2rem;
     }
 </style>
