@@ -4,22 +4,22 @@
     class="column flex-center"
   >
     <h3>
-      Register
+      Registracija
     </h3>
 
     <q-input
       v-model="name"
-      label="name"
+      label="Ime"
       dense
       class="registerInput"
-      :rules="[val => !!val || 'Field is required']"
+      :rules="[val => !!val || 'Polje je obvezno']"
     />
 
     <q-input
       v-model="surname"
-      label="Surname"
+      label="Priimek"
       class="registerInput"
-      :rules="[val => !!val || 'Field is required']"
+      :rules="[val => !!val || 'Polje je obvezno']"
       dense
     />
 
@@ -28,20 +28,20 @@
       label="E-mail"
       class="registerInput"
       :rules="[
-        (val => !!val || 'Field is required'),
-        ((val, rules) => rules.email(val) || 'Please enter a valid email address')
+        (val => !!val || 'Polje je obvezno'),
+        ((val, rules) => rules.email(val) || 'Prosim napišite veljaven e-mail')
       ]"
       dense
     />
 
     <q-input
       v-model="password"
-      label="Password"
+      label="Geslo"
       class="registerInput"
       :type="isPwd1 ? 'password' : 'text'"
       :rules="[
-        (val => !!val || 'Field is required'),
-        (val => val.length >= 6 || 'Password must be at least 6 characters long!')
+        (val => !!val || 'Polje je obvezno'),
+        (val => val.length >= 6 || 'Geslo mora biti vsaj 6 znakov dolgo')
       ]"
       dense
     >
@@ -56,10 +56,10 @@
 
     <q-input
       v-model="confirmPassword"
-      label="Confirm Password"
+      label="Potrdi Geslo"
       class="registerInput"
       :type="isPwd2 ? 'password' : 'text'"
-      :rules="[ (val => !!val || 'Field is required'), (val => val === password || 'Both passwords must be the same!')]"
+      :rules="[ (val => !!val || 'Polje je obvezno'), (val => val === password || 'Oba gesla morata biti enaka')]"
       dense
     >
       <template #append>
@@ -76,9 +76,12 @@
       :disabled="!isEmptyInput"
       @click="validateRegister"
     >
-      Register
+      Registracija
     </q-btn>
-    <p v-if="errorMessage.length > 0">
+    <p
+      v-if="errorMessage.length > 0"
+      class="text-red-7 text-h6"
+    >
       {{ errorMessage }}
     </p>
   </q-page>
@@ -147,7 +150,6 @@ export default {
     }
   }
 }
-// v mounted pogledam ce obstaja token ga redirectam na home page (this.$router.push("/"))
 </script>
 
 <style scoped>

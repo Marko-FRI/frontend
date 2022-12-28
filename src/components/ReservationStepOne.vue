@@ -52,7 +52,7 @@
         />
         <q-input
           v-model.number="numPersons"
-          :rules="[val => !!val || 'Field is required']"
+          :rules="[val => !!val]"
           placeholder="0"
           type="number"
           filled

@@ -101,7 +101,9 @@
             <comment-list
               :num-comments="numComments"
               :comments="comments"
+              :loading="loading"
               class="col-12 q-pt-xl"
+              @loadMoreComments="loadMoreComments"
             />
           </q-tab-panel>
           <q-tab-panel
@@ -215,6 +217,7 @@
         <restaurant-reservation
           class="col-12"
           :menus="menus"
+          :num-menus="numMenus"
           @back_to_restaurant="reservation = false"
         />
       </div>
@@ -223,7 +226,7 @@
 </template>
 
 <!-- //////////////////////////////////////////////
-POTREBNO JE ŠE isFavourited in userRating (na začetku) ter 'Naloži več' komentarjev
+POTREBNO JE ŠE isFavourited in userRating (na začetku)
     //////////////////////////////////////////////-->
 
 <script>
@@ -258,30 +261,10 @@ export default {
       isFavourited: false,
       openingHours: ['/', '/', '/', '/', '/', '/', '/'],
       restaurantData: {
-        // id_restaurant: 0,
-        // address: 'Stožice 26, 1000 Ljubljana',
-        // email: 'lipca.gostilna@gmail.com',
-        // name: 'Gostilna Pod Lipco',
-        // phone_number: '01 566 24 44',
-        // description: 'neki neki neki nekineki neki neki nekineki neki neki nekineki neki neki nekineki neki neki neki',
-        // images: ['prvaSLika', 'drugaSlika', 'itd'],
-        // facebook_link: 'linkFacebook',
-        // instagram_link: 'linkInstagram',
-        // twitter_link: 'linkTwitter',
-        // rating: 0
+        images: []
       },
       numMenus: 0,
-      menus: [
-        // {
-        //   id_menu: 0,
-        //   name: 'Sirov Burek',
-        //   description: 'neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki neki',
-        //   image_path: 'slika menija',
-        //   discount: 0,
-        //   alergens: [],
-        //   price: 3
-        // }
-      ],
+      menus: [],
       avgRating: 2.7,
       numRatings: 42,
       reservation: false,
@@ -291,12 +274,12 @@ export default {
       comments: [
         {
           id_review: 0,
-          name: 'Janez',
-          surname: 'Novak',
-          comment: 'neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki nekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n ekineki neki neki neki n eki',
-          profile_image: 'profile.jpg',
-          rating: 4,
-          time_ago: '3 days ago'
+          name: '',
+          surname: '',
+          comment: '',
+          profile_image: '',
+          rating: 0,
+          time_ago: ''
         }
       ]
     }
@@ -320,7 +303,7 @@ export default {
         this.numRatings = reply.data.numRatings
         this.avgRating = this.restaurantData.rating
         this.numComments = reply.data.numReviews
-        this.comments = reply.data.reviews.data
+        this.comments = reply.data.reviews
         // console.log(reply)
         this.loading = false
       } catch (error) {
@@ -354,15 +337,33 @@ export default {
         this.loading = true
         await api.get('/sanctum/csrf-cookie')
         const reply = await api.post('/addReview', {
+          commentOffset: 4,
           id_restaurant: this.$route.params.id_restaurant,
           rating: this.userRating,
           comment: userComment
         })
-        this.numRatings = reply.data.numRatings
+        this.numRatings = reply.data.numReviews
         this.avgRating = reply.data.rating
         this.numComments = reply.data.numReviews
-        this.comments = reply.data.reviews.data
+        this.comments = reply.data.reviews
         document.getElementById('userComment').value = ''
+        console.log(reply)
+        this.loading = false
+      } catch (error) {
+        console.log(error)
+        this.loading = false
+      }
+    },
+
+    async loadMoreComments (commentsLength) {
+      try {
+        this.loading = true
+        await api.get('/sanctum/csrf-cookie')
+        const reply = await api.post('/moreReviews', {
+          commentOffset: commentsLength + 4, // dobim nazaj commentLength + 4 komentarje
+          id_restaurant: this.$route.params.id_restaurant
+        })
+        this.comments = reply.data.reviews
         console.log(reply)
         this.loading = false
       } catch (error) {

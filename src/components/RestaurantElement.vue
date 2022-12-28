@@ -18,7 +18,6 @@
             {{ restaurant.name }}
           </div>
         </div>
-        <!-- <span v-if="is_favorited === true"> *</span> -->
         <div class="lower_card row no-wrap">
           <div class="left col-9 row wrap justify-start items-start content-between">
             <div class="location_text col-12">
@@ -61,6 +60,7 @@ export default {
   mounted () {
     if (this.restaurant.image !== null) {
       this.imageBg = 'background-image: url(' + this.restaurant.image + ')'
+      // this.imageBg = 'background-color: grey'
     }
   }
 }
@@ -84,7 +84,7 @@ export default {
     height: 100%;
     padding: 0;
     margin: 0;
-    z-index: -1;
+    /* z-index: -1; */
     position: relative;
     border-radius: 4px 4px 0px 0px;
     box-shadow: inset 0px -50px 23px -13px rgba(0,0,0,0.61);

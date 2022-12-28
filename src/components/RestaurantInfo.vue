@@ -13,6 +13,7 @@
       class="q-pa-xl"
     >
       <q-carousel
+        v-if="restaurantData.images.length === undefined || restaurantData.images.length > 0"
         v-model="slide"
         swipeable
         animated
