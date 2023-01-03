@@ -17,32 +17,31 @@
     <div class="q-mt-xl">
       <q-tabs
         v-model="tab"
-        class="row no-wrap q-mx-lg"
+        inline-label
+        outside-arrows
+        mobile-arrows
+        align="justify"
       >
         <!-- Ko se izbere enega, se spremeni barva v zeleno -->
         <q-tab
           name="edit_profile"
           label="Uredi profil"
           no-caps
-          class="col-3"
         />
         <q-tab
           name="favourited"
           label="Priljubljene"
           no-caps
-          class="col-3"
         />
         <q-tab
           name="previus_reservations"
           label="Pretekle rezervacije (14)"
           no-caps
-          class="col-3"
         />
         <q-tab
           name="active_reservations"
           label="Aktivne rezervacije (1)"
           no-caps
-          class="col-3"
         />
       </q-tabs>
       <q-separator

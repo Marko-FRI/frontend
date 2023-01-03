@@ -1,16 +1,14 @@
 <template>
   <div class="row wrap q-px-xl q-my-xl q-pb-md">
     <div
-      class="col-3"
-      style="text-align: center"
+      class="col-12 col-sm-3"
     >
-      <img
+      <q-img
         :src="menu.image_path"
-        class="food-image"
-      >
+      />
     </div>
-    <div class="col-9 row wrap">
-      <div class="col-6 text-h6">
+    <div class="col-12 col-sm-9 q-px-md q-pt-none row wrap">
+      <div class="col-9 text-h6">
         Meni {{ menu.name }}
         <q-icon
           name="info_outlined"
@@ -33,7 +31,7 @@
         </q-icon>
       </div>
       <div
-        class="col-6 text-positive text-h6"
+        class="col-3 text-positive text-h6"
         style="text-align: right"
       >
         {{ (Math.round(menu.price * 100) / 100).toFixed(2) }} €
@@ -43,6 +41,7 @@
       </div>
       <div
         class="col-12 row no-wrap justify-end"
+        style="min-width: 50%;"
       >
         <q-btn
           label="-"
@@ -62,7 +61,7 @@
           color="positive"
           bg-color="white"
           input-style="text-align: center"
-          class="col-1 custom-height custom-border-rad-middle custom-hover"
+          class="col-3 col-sm-2 custom-height custom-border-rad-middle custom-hover"
           @input="onInput"
           @keydown="keyHandler"
         />

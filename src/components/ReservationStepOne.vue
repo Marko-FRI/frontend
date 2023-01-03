@@ -7,7 +7,7 @@
       Za rezervacijo izberite datum, uro in število oseb.
     </div>
     <div
-      class="form-container q-mx-xl q-my-md"
+      class="form-container q-my-md"
     >
       <div
         style="text-align: center"
@@ -21,7 +21,8 @@
         <!-- mogoce se da locale="days" -->
       </div>
       <div
-        class="custom-input-width q-mx-auto"
+        class="q-mx-auto text-center"
+        style="width: 30%;"
       >
         <label
           class="text-h6"
@@ -35,9 +36,9 @@
           bg-color="white"
         />
       </div>
-      <div class="row wrap q-py-xl">
+      <div class="row wrap q-pb-xl justify-center">
         <span
-          class="offset-3 col-5 q-pl-lg text-h6"
+          class="col-12 q-pl-lg text-h6 text-center"
         >
           Število oseb
         </span>
@@ -48,7 +49,7 @@
           color="positive"
           icon="person_outline"
           icon-selected="person"
-          class="offset-3 col-5 q-pl-lg"
+          class="col-12 q-pl-lg justify-center"
         />
         <q-input
           v-model.number="numPersons"
@@ -58,7 +59,9 @@
           filled
           square
           bg-color="white"
-          class="col-1 q-pl-md"
+          class="col-12 q-pa-md"
+          input-class="text-center"
+          style="max-width: 500px;"
         />
       </div>
     </div>

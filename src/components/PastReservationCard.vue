@@ -1,10 +1,13 @@
 <template>
   <div class="row wrap">
-    <img
-      src="../pages/food.jpg"
-      class="col-4"
-    >
-    <div class="col-8 row wrap q-px-md">
+    <div class="col-12 col-sm-4 self-baseline">
+      <q-img
+        src="../pages/food.jpg"
+        fit
+      />
+    </div>
+
+    <div class="col-12 col-sm-8 row wrap q-px-md self-stretch">
       <div class="col-8 text-h5 q-mb-md">
         {{ pastReservation.name }}
       </div>
@@ -36,8 +39,7 @@
         />
       </div>
       <div
-        class="col-8 text-h6 custom-font-color"
-        style="text-align: right"
+        class="col-12 col-sm-8 text-h6 text-right custom-font-color"
       >
         <span
           v-if="!showMoreInfo"
@@ -57,7 +59,7 @@
         Vaše naročilo
       </div>
       <div
-        class="text-h6 offset-3 col-6 custom-font-color"
+        class="text-h6 col-10 custom-font-color q-mx-auto"
       >
         <div
           v-for="(pickedMenu) in pastReservation.pickedMenus"
@@ -74,14 +76,14 @@
           </div>
         </div>
       </div>
-      <div class="offset-3 col-6">
+      <div class="col-10 q-mx-auto">
         <q-separator
           color="black"
           width="100%"
           class="q-my-md"
         />
       </div>
-      <div class="offset-3 col-6 row no-wrap text-h6 custom-font-color">
+      <div class="col-10 q-mx-auto row no-wrap text-h6 custom-font-color">
         <span class="col-8">Skupaj</span>
         <span
           class="col-4"
@@ -89,8 +91,7 @@
         >{{ (Math.round(totalPrice * 100) / 100).toFixed(2) }} €</span>
       </div>
       <div
-        class="col-12 q-mt-xl"
-        style="text-align: right"
+        class="col-10 q-mx-auto q-mt-xl text-right"
       >
         <span
           class="info-button text-h6 custom-font-color"

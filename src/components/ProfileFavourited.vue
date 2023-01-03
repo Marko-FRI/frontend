@@ -6,21 +6,20 @@
     >
       Priljubljene
     </div>
-    <div class="row wrap">
-      <div class="offset-2 col-8 q-pl-md q-mb-md text-h6">
+    <div class="row wrap justify-center">
+      <div class="col-12 q-mb-md text-h6 text-center">
         Priljubljene restavracije
         <q-icon
           name="favorite"
           color="positive"
           size="md"
-          class="q-ml-sm"
         />
       </div>
-      <div class="offset-2 col-8">
+      <div class="col-12">
         <restaurant-list :restaurants="restaurants" />
       </div>
       <div
-        class="offset-2 col-8 q-mb-xl flex flex-center"
+        class="col-8 q-mb-xl flex flex-center"
       >
         <q-pagination
           v-model="currentPage"

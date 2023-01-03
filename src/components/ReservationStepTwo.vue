@@ -42,48 +42,44 @@
         Vaše naročilo
       </div>
       <div
-        class="text-h6 custom-margin"
+        class="text-h6 q-mx-auto"
+        style="max-width: 500px;"
       >
         <div
           v-for="(pickedMenu) in pickedMenus"
           :key="pickedMenu.id_menu"
+          class="row no-wrap"
         >
-          <div
-            class="row no-wrap"
-          >
-            <span class="col-8">{{ pickedMenu.name }} {{ pickedMenu.quantity }}x</span>
-            <span
-              class="col-4"
-              style="text-align: right"
-            >{{ (Math.round((pickedMenu.price * pickedMenu.quantity) * 100) / 100).toFixed(2) }} €</span>
-          </div>
+          <span class="col-8">{{ pickedMenu.name }} {{ pickedMenu.quantity }}x</span>
+          <span
+            class="col-4"
+            style="text-align: right"
+          >{{ (Math.round((pickedMenu.price * pickedMenu.quantity) * 100) / 100).toFixed(2) }} €</span>
         </div>
         <q-separator
           color="black"
           class="q-my-md"
         />
-      </div>
-      <div
-        class="row no-wrap text-h5 custom-margin"
-      >
-        <span class="col-8">Skupaj</span>
-        <span
-          class="col-4"
-          style="text-align: right"
-        >{{ (Math.round(totalPrice * 100) / 100).toFixed(2) }} €</span>
-      </div>
-    </div>
-    <div class="q-mt-xl custom-margin">
-      <div class="text-h6">
-        Opomba
-      </div>
-      <div class="q-mb-md col-12 row">
-        <textarea
-          id="userComment"
-          v-model="note"
-          class="col-12"
-          rows="4"
-        />
+        <div
+          class="row text-h5 q-mx-auto text-right justify-between"
+          style="max-width: 700px"
+        >
+          <span>Skupaj</span>
+          <span>{{ (Math.round(totalPrice * 100) / 100).toFixed(2) }} €</span>
+        </div>
+        <div class="q-mt-xl">
+          <div class="text-h6">
+            Opomba
+          </div>
+          <div class="q-mb-md col-12 row">
+            <textarea
+              id="userComment"
+              v-model="note"
+              class="col-12"
+              rows="4"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>

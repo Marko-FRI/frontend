@@ -17,7 +17,7 @@
           :disable="userStore.token === null"
           no-caps
           size="1.15rem"
-          class="bg-positive border-rad q-px-lg button-float q-mr-xl"
+          class="bg-positive border-rad q-px-lg button-float q-mr-xl no-wrap"
           @click="onChangeIsFavourited"
         />
       </div>
@@ -27,13 +27,18 @@
       <div
         v-if="!reservation"
         class="col-8 row wrap justify-start q-gutter-y-md q-ma-none"
+        :class="$q.screen.width < 1160 ? 'col-12' : 'col-8'"
       >
         <div
-          class="col-12 row q-pa-none q-ma-none"
+          class="col-12 row q-pa-none q-ma-none justify-center"
         >
           <q-tabs
             v-model="tab"
-            class="col-9 row q-pa-none q-ma-none"
+            class="col-8 row q-pa-none q-ma-none"
+            inline-label
+            outside-arrows
+            mobile-arrows
+            align="justify"
           >
             <!-- Ko se izbere enega, se spremeni barva v zeleno -->
             <q-tab
@@ -41,19 +46,16 @@
               label="Ponudba"
               color="positive"
               no-caps
-              class="offset-2 col-3"
             />
             <q-tab
               name="mnenja"
               label="Mnenja"
               no-caps
-              class="col-3"
             />
             <q-tab
               name="informacije"
               label="Informacije"
               no-caps
-              class="col-3"
             />
           </q-tabs>
           <q-btn
@@ -62,7 +64,7 @@
             flat
             :disable="userStore.token === null"
             no-caps
-            style="font-size: 1.5rem"
+            :style="$q.screen.width > 599 ? 'font-size: 1.5rem' : 'font-size: 1rem'"
             class="col-3 bg-positive border-rad q-ma-none q-pa-none"
             @click="reservation = true"
           />
@@ -70,8 +72,6 @@
         <q-separator
           color="grey"
           width="100%"
-          inset
-          class="q-mx-xl"
         />
 
         <q-tab-panels
@@ -109,7 +109,7 @@
           </q-tab-panel>
           <q-tab-panel
             name="informacije"
-            class="col-12 row wrap q-pl-xl"
+            class="col-12 row wrap"
           >
             <restaurant-info
               class="col-12"
@@ -119,51 +119,53 @@
         </q-tab-panels>
       </div>
       <div
-        v-if="!reservation"
+        v-if="!reservation && $q.screen.width >= 1160"
         class="col-4 row wrap"
       >
-        <div class="col-12 row q-mb-lg">
-          <fieldset class="offset-2 col-8">
+        <div class="col-12 row q-mb-lg justify-center">
+          <fieldset class="col-8 row justify-center">
             <legend>Odpiralni čas</legend>
-            <div class="q-mb-sm q-mt-md font-right-side-schedule align-center-schedule">
-              Ponedeljek: {{ (openingHours[0] !== '/') ? openingHours[0].start_of_shift.substring(0,5) + ' - ' + openingHours[0].end_of_shift.substring(0,5) : 'zaprto' }}
-            </div>
-            <div class="q-mb-sm font-right-side-schedule align-center-schedule">
-              Torek: {{ (openingHours[1] !== '/') ? openingHours[1].start_of_shift.substring(0,5) + ' - ' + openingHours[1].end_of_shift.substring(0,5) : 'zaprto' }}
-            </div>
-            <div class="q-mb-sm font-right-side-schedule align-center-schedule">
-              Sreda: {{ (openingHours[2] !== '/') ? openingHours[2].start_of_shift.substring(0,5) + ' - ' + openingHours[2].end_of_shift.substring(0,5) : 'zaprto' }}
-            </div>
-            <div class="q-mb-sm font-right-side-schedule align-center-schedule">
-              Četrtek: {{ (openingHours[3] !== '/') ? openingHours[3].start_of_shift.substring(0,5) + ' - ' + openingHours[3].end_of_shift.substring(0,5) : 'zaprto' }}
-            </div>
-            <div class="q-mb-sm font-right-side-schedule align-center-schedule">
-              Petek: {{ (openingHours[4] !== '/') ? openingHours[4].start_of_shift.substring(0,5) + ' - ' + openingHours[4].end_of_shift.substring(0,5) : 'zaprto' }}
-            </div>
-            <div class="q-mb-sm font-right-side-schedule align-center-schedule">
-              Sobota: {{ (openingHours[5] !== '/') ? openingHours[5].start_of_shift.substring(0,5) + ' - ' + openingHours[5].end_of_shift.substring(0,5) : 'zaprto' }}
-            </div>
-            <div class="q-mb-md font-right-side-schedule align-center-schedule">
-              Nedelja: {{ (openingHours[6] !== '/') ? openingHours[6].start_of_shift.substring(0,5) + ' - ' + openingHours[6].end_of_shift.substring(0,5) : 'zaprto' }}
+            <div>
+              <div class="q-mb-sm q-mt-md font-right-side-schedule">
+                Ponedeljek: {{ (openingHours[0] !== '/') ? openingHours[0].start_of_shift.substring(0,5) + ' - ' + openingHours[0].end_of_shift.substring(0,5) : 'zaprto' }}
+              </div>
+              <div class="q-mb-sm font-right-side-schedule">
+                Torek: {{ (openingHours[1] !== '/') ? openingHours[1].start_of_shift.substring(0,5) + ' - ' + openingHours[1].end_of_shift.substring(0,5) : 'zaprto' }}
+              </div>
+              <div class="q-mb-sm font-right-side-schedule">
+                Sreda: {{ (openingHours[2] !== '/') ? openingHours[2].start_of_shift.substring(0,5) + ' - ' + openingHours[2].end_of_shift.substring(0,5) : 'zaprto' }}
+              </div>
+              <div class="q-mb-sm font-right-side-schedule">
+                Četrtek: {{ (openingHours[3] !== '/') ? openingHours[3].start_of_shift.substring(0,5) + ' - ' + openingHours[3].end_of_shift.substring(0,5) : 'zaprto' }}
+              </div>
+              <div class="q-mb-sm font-right-side-schedule">
+                Petek: {{ (openingHours[4] !== '/') ? openingHours[4].start_of_shift.substring(0,5) + ' - ' + openingHours[4].end_of_shift.substring(0,5) : 'zaprto' }}
+              </div>
+              <div class="q-mb-sm font-right-side-schedule">
+                Sobota: {{ (openingHours[5] !== '/') ? openingHours[5].start_of_shift.substring(0,5) + ' - ' + openingHours[5].end_of_shift.substring(0,5) : 'zaprto' }}
+              </div>
+              <div class="q-mb-md font-right-side-schedule">
+                Nedelja: {{ (openingHours[6] !== '/') ? openingHours[6].start_of_shift.substring(0,5) + ' - ' + openingHours[6].end_of_shift.substring(0,5) : 'zaprto' }}
+              </div>
             </div>
           </fieldset>
         </div>
-        <div class="col-12 row q-mb-lg">
-          <fieldset class="offset-2 col-8">
+        <div class="col-12 row q-mb-lg justify-center">
+          <fieldset class="col-8 row justify-center">
             <legend>Kontakt</legend>
             <div
-              class="q-mb-md q-mt-md font-right-side-contact align-center-contact"
+              class="q-mb-md q-mt-md font-right-side-contact"
             >
               <q-icon name="place" />
               {{ restaurantData.address }}
             </div>
-            <div class="q-mb-md font-right-side-contact align-center-contact">
+            <div class="q-mb-md font-right-side-contact">
               <q-icon name="mail" />
               <span class="underline q-ml-sm">
                 {{ restaurantData.email }}
               </span>
             </div>
-            <div class="q-mb-md font-right-side-contact align-center-contact">
+            <div class="q-mb-md font-right-side-contact">
               <q-icon name="phone" />
               <span class="underline q-ml-sm">
                 {{ restaurantData.phone_number }}
@@ -229,6 +231,157 @@
         />
       </div>
     </div>
+    <!-- DIALOG BUTTONS -->
+    <q-page-sticky
+      v-if="$q.screen.width < 1160"
+      position="right"
+      :offset="[18, 0]"
+    >
+      <div class="column q-gutter-y-sm">
+        <q-btn
+          round
+          icon="schedule"
+          color="green"
+          size="lg"
+          @click="openingHoursDialog = true"
+        />
+        <q-btn
+          round
+          icon="place"
+          color="green"
+          size="lg"
+          @click="contactsDialog = true"
+        />
+        <q-btn
+          round
+          icon="star"
+          color="green"
+          size="lg"
+          @click="reviewDialog = true"
+        />
+      </div>
+    </q-page-sticky>
+    <!-- DIALOGS -->
+    <q-dialog
+      v-model="openingHoursDialog"
+      position="right"
+    >
+      <div
+        class="row col-12 bg-white q-pa-md overflow-hidden"
+        style="width: 70vw; min-width: min(300px, 100vw); max-width: 500px;"
+      >
+        <fieldset class="col-12 row justify-center">
+          <legend>Odpiralni čas</legend>
+          <div>
+            <div class="q-mb-sm q-mt-md font-right-side-schedule ">
+              Ponedeljek: {{ (openingHours[0] !== '/') ? openingHours[0].start_of_shift.substring(0,5) + ' - ' + openingHours[0].end_of_shift.substring(0,5) : 'zaprto' }}
+            </div>
+            <div class="q-mb-sm font-right-side-schedule ">
+              Torek: {{ (openingHours[1] !== '/') ? openingHours[1].start_of_shift.substring(0,5) + ' - ' + openingHours[1].end_of_shift.substring(0,5) : 'zaprto' }}
+            </div>
+            <div class="q-mb-sm font-right-side-schedule ">
+              Sreda: {{ (openingHours[2] !== '/') ? openingHours[2].start_of_shift.substring(0,5) + ' - ' + openingHours[2].end_of_shift.substring(0,5) : 'zaprto' }}
+            </div>
+            <div class="q-mb-sm font-right-side-schedule ">
+              Četrtek: {{ (openingHours[3] !== '/') ? openingHours[3].start_of_shift.substring(0,5) + ' - ' + openingHours[3].end_of_shift.substring(0,5) : 'zaprto' }}
+            </div>
+            <div class="q-mb-sm font-right-side-schedule ">
+              Petek: {{ (openingHours[4] !== '/') ? openingHours[4].start_of_shift.substring(0,5) + ' - ' + openingHours[4].end_of_shift.substring(0,5) : 'zaprto' }}
+            </div>
+            <div class="q-mb-sm font-right-side-schedule">
+              Sobota: {{ (openingHours[5] !== '/') ? openingHours[5].start_of_shift.substring(0,5) + ' - ' + openingHours[5].end_of_shift.substring(0,5) : 'zaprto' }}
+            </div>
+            <div class="q-mb-md font-right-side-schedule">
+              Nedelja: {{ (openingHours[6] !== '/') ? openingHours[6].start_of_shift.substring(0,5) + ' - ' + openingHours[6].end_of_shift.substring(0,5) : 'zaprto' }}
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </q-dialog>
+    <q-dialog
+      v-model="contactsDialog"
+      position="right"
+    >
+      <div
+        class="col-12 row bg-white q-pa-md overflow-hidden"
+        style="width: 70vw; min-width: min(300px, 100vw); max-width: 500px;"
+      >
+        <fieldset class="col-12">
+          <legend>Kontakt</legend>
+          <div
+            class="q-mb-md q-mt-md font-right-side-contact align-center-contact"
+          >
+            <q-icon name="place" />
+            {{ restaurantData.address }}
+          </div>
+          <div class="q-mb-md font-right-side-contact align-center-contact">
+            <q-icon name="mail" />
+            <span class="underline q-ml-sm">
+              {{ restaurantData.email }}
+            </span>
+          </div>
+          <div class="q-mb-md font-right-side-contact align-center-contact">
+            <q-icon name="phone" />
+            <span class="underline q-ml-sm">
+              {{ restaurantData.phone_number }}
+            </span>
+          </div>
+        </fieldset>
+      </div>
+    </q-dialog>
+    <q-dialog
+      v-model="reviewDialog"
+      position="right"
+    >
+      <div
+        class="col-12 row bg-white q-pa-md overflow-hidden"
+        style="width: 70vw; min-width: min(300px, 100vw); max-width: 500px;"
+      >
+        <fieldset class="col-12 row">
+          <legend>Vaše mnenje</legend>
+          <div class="offset-1 col-10 q-my-md font-right-side-comment">
+            <div>Vaša ocena:</div>
+            <div class="q-gutter-y-md column q-mb-md">
+              <q-rating
+                v-model="userRating"
+                :disable="loading || userStore.token === null"
+                size="xl"
+                max="5"
+                color="positive"
+                icon="star_border"
+                icon-selected="star"
+                icon-half="star_half"
+              />
+            </div>
+            <div>Napiši Komentar</div>
+            <div class="q-mb-md col-12 row">
+              <textarea
+                id="userComment"
+                :disabled="loading || userStore.token === null"
+                class="col-12"
+                rows="4"
+              />
+            </div>
+            <q-btn
+              label="Dodaj mnenje"
+              color="white"
+              flat
+              no-caps
+              style="font-size: 1rem"
+              class="bg-positive border-rad"
+              :disable="loading || userStore.token === null"
+              @click="addReview"
+            />
+          </div>
+          <div
+            v-if="commentErrorMessage !== ''"
+            class="text-red-7 text-h6 offset-1 col-10"
+          >
+            {{ commentErrorMessage }}
+          </div>
+        </fieldset>
+      </div>
+    </q-dialog>
   </div>
 </template>
 
@@ -267,6 +420,9 @@ export default {
       loading: false,
       isFavourited: false,
       openingHours: ['/', '/', '/', '/', '/', '/', '/'],
+      openingHoursDialog: false,
+      contactsDialog: false,
+      reviewDialog: false,
       restaurantData: {
         images: []
       },
@@ -462,15 +618,6 @@ export default {
   .font-right-side-contact {
     font-size: 1.2rem;
   }
-
-  .align-center-schedule {
-    margin-left: 20%;
-  }
-
-  .align-center-contact {
-    margin-left: 10%;
-  }
-
   .underline {
     text-decoration: underline;
   }
@@ -494,4 +641,5 @@ export default {
   .pejt-gor {
     margin-top: -420px;
   }
+
 </style>

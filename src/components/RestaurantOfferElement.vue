@@ -1,20 +1,19 @@
 <template>
   <div class="row wrap q-px-xl q-my-xl q-pb-md">
     <div
-      class="col-3"
+      class="col-12 col-sm-3"
       style="text-align: center"
     >
-      <img
+      <q-img
         :src="menu.image_path"
-        class="food-image"
-      >
+      />
     </div>
-    <div class="col-9 row wrap">
-      <div class="col-6 text-h6">
-        Meni {{ menu.name }}
+    <div class="col-12 col-sm-9 q-pa-md row wrap justify-between">
+      <div class="text-h6">
+        {{ menu.name }}
         <q-icon
           name="info_outlined"
-          class="q-pl-md info-icon-top"
+          class="q-pl-md"
         >
           <q-tooltip
             anchor="center right"
@@ -33,7 +32,7 @@
         </q-icon>
       </div>
       <div
-        class="col-6 text-positive text-h6"
+        class="text-positive text-h6"
         style="text-align: right"
       >
         {{ (Math.round(menu.price * 100) / 100).toFixed(2) }} €

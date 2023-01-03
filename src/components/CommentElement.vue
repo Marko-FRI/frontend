@@ -1,5 +1,5 @@
 <template>
-  <div class="row wrap q-px-xl margin-top">
+  <div class="row wrap margin-top">
     <div
       class="col-2"
       style="text-align: center"
@@ -11,7 +11,7 @@
     </div>
 
     <!-- :src="comment.comment_picture" -->
-    <div class="col-10 q-px-md">
+    <div class="col-12 col-sm-10 q-px-md">
       <div class="row no-wrap text-positive q-mb-md">
         <div class="col-6 comment-user-name">
           {{ comment.name }} {{ comment.surname }}
@@ -61,8 +61,6 @@
     <q-separator
       color="grey"
       width="100%"
-      inset
-      class="q-mt-none q-mx-md"
     />
   </div>
 </template>
