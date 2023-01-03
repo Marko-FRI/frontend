@@ -32,7 +32,7 @@
             color="white"
             flat
             no-caps
-            class="col-4 bg-green-8 border-rad"
+            class="col-4 bg-positive border-rad"
             :disable="loading"
             @click="onChangeSearch"
           />
@@ -55,7 +55,7 @@
                 unelevated
                 no-caps
                 :label="sortBy"
-                color="green"
+                color="positive"
                 text-color="black"
                 class="q-pr-sm border-rad"
                 :disable="loading"
@@ -95,7 +95,7 @@
             :max="numPages"
             :max-pages="6"
             direction-links
-            color="green-8"
+            color="positive"
             :disable="loading"
             @click="onChangePage"
           />

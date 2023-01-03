@@ -12,7 +12,7 @@
 
     <!-- :src="comment.comment_picture" -->
     <div class="col-10 q-px-md">
-      <div class="row no-wrap text-green-7 q-mb-md">
+      <div class="row no-wrap text-positive q-mb-md">
         <div class="col-6 comment-user-name">
           {{ comment.name }} {{ comment.surname }}
         </div>
@@ -23,31 +23,31 @@
           <q-icon
             :name="firstStar"
             size="sm"
-            color="green-7"
+            color="positive"
             class="rating-stars-top"
           />
           <q-icon
             :name="secondStar"
             size="sm"
-            color="green-7"
+            color="positive"
             class="rating-stars-top"
           />
           <q-icon
             :name="thirdStar"
             size="sm"
-            color="green-7"
+            color="positive"
             class="rating-stars-top"
           />
           <q-icon
             :name="fourthStar"
             size="sm"
-            color="green-7"
+            color="positive"
             class="rating-stars-top"
           />
           <q-icon
             :name="fifthStar"
             size="sm"
-            color="green-7"
+            color="positive"
             class="rating-stars-top"
           />
           <span class="rating-number-text q-pl-sm">{{ comment.rating }}/5</span>

@@ -24,7 +24,7 @@
         flat
         no-caps
         style="font-size: 1.3rem"
-        class="bg-green-7 border-rad q-px-xl q-py-none"
+        class="bg-positive border-rad q-px-xl q-py-none"
         :disable="loading"
         @click="loadMoreComments(comments.length)"
       />

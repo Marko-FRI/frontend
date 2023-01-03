@@ -19,48 +19,15 @@
           no-caps
           color="black"
           label="Domov"
-          class=" text-custom-size  border-rad"
+          to="/"
+          class=" text-custom-size border-rad"
         />
-        <q-btn-dropdown
-          flat
-          no-caps
-          label="Restavracije"
-          class=" q-pr-none bg-transparent text-black text-custom-size border-rad"
-        >
-          <q-list>
-            <q-item
-              v-close-popup
-              clickable
-            >
-              <q-item-section>
-                <q-item-label>Photos</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              v-close-popup
-              clickable
-            >
-              <q-item-section>
-                <q-item-label>Videos</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              v-close-popup
-              clickable
-            >
-              <q-item-section>
-                <q-item-label>Articles</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
         <q-btn
           flat
           no-caps
           color="black"
-          label="O nas"
+          label="Restavracije"
+          to="/"
           class=" text-custom-size border-rad"
         />
 
@@ -68,7 +35,8 @@
           flat
           no-caps
           color="black"
-          label="Priljubljeno"
+          label="O nas"
+          to="/aboutUs"
           class=" text-custom-size border-rad"
         />
 
@@ -78,7 +46,17 @@
           color="white"
           :label="(isLoggedIn) ? 'Profil' : 'Prijava'"
           :to="(isLoggedIn) ? '/profile' : '/login'"
-          class="text-custom-size bg-green-8 border-rad"
+          class="text-custom-size bg-positive border-rad"
+        />
+
+        <q-btn
+          v-if="isLoggedIn"
+          flat
+          no-caps
+          color="white"
+          label="Odjava"
+          to="/logout"
+          class="text-custom-size bg-red-7 border-rad"
         />
       </div>
       <q-btn
@@ -127,7 +105,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   .text-custom-size {
     font-size: 18px !important;
   }

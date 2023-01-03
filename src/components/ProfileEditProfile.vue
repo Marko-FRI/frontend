@@ -23,7 +23,7 @@
         >
         <img
           id="profilePicture"
-          src="../pages/food.jpg"
+          :src="oldProfileImage"
           class="aspect-ratio rounded-circle profile-picture w-100"
         >
       </div>
@@ -91,7 +91,7 @@
         flat
         no-caps
         style="font-size: 1rem"
-        class="bg-green-7 border-rad"
+        class="bg-positive border-rad"
         @click="checkChanges"
       />
       <p
@@ -111,6 +111,8 @@ import { useUserStore } from 'src/stores/UserStore'
 export default {
   name: 'ProfileEditProfile',
 
+  props: ['userData'],
+
   setup () {
     const userStore = useUserStore()
 
@@ -119,6 +121,8 @@ export default {
 
   data () {
     return {
+      oldProfileImage: '',
+      newProfileImage: '',
       email: 'jan.merhar@gmail.com',
       oldName: 'Jan',
       newName: '',
@@ -139,6 +143,12 @@ export default {
   mounted () {
     if (this.userStore.token === null) { this.$router.push('/') }
 
+    this.oldProfileImage = this.userStore.data.profile_image_path
+    this.email = this.userStore.data.email
+    this.oldName = this.userStore.data.name
+    this.oldSurname = this.userStore.data.surname
+
+    this.newProfileImage = this.oldProfileImage
     this.newName = this.oldName
     this.newSurname = this.oldSurname
   },

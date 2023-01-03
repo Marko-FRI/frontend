@@ -20,7 +20,7 @@
         arrows
         infinite
         control-type="regular"
-        control-color="green-7"
+        control-color="positive"
         control-text-color="white"
       >
         <q-carousel-slide
@@ -62,7 +62,7 @@
         >
           <q-icon
             name="facebook"
-            color="green-7"
+            color="positive"
             size="md"
             class="q-pr-sm"
           />
@@ -73,7 +73,7 @@
         >
           <q-icon
             name="facebook"
-            color="green-7"
+            color="positive"
             size="md"
             class="q-pr-sm"
           />
@@ -84,7 +84,7 @@
         >
           <q-icon
             name="facebook"
-            color="green-7"
+            color="positive"
             size="md"
             class="q-pr-sm"
           />

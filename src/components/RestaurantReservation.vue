@@ -20,7 +20,7 @@
       <q-step
         :name="1"
         title="Povpraševanje"
-        color="green-7"
+        color="positive"
         :done="step > 1"
       >
         <reservation-step-one
@@ -47,7 +47,7 @@
             flat
             no-caps
             style="font-size: 1rem"
-            class="bg-green-7 border-rad"
+            class="bg-positive border-rad"
             @click="goToStepTwo"
           />
         </q-stepper-navigation>
@@ -56,13 +56,15 @@
       <q-step
         :name="2"
         title="Izbira"
-        :color="(step > 1) ? 'green-7' : 'grey-7'"
+        :color="(step > 1) ? 'positive' : 'grey-7'"
         :done="step > 2"
       >
         <reservation-step-two
           :menus="menus"
           :num-menus="numMenus"
+          :is-available="isAvailable"
           @onChangePickedMenus="onChangePickedMenus"
+          @onChangeNote="onChangeNote"
         />
         <q-dialog
           v-model="confirm"
@@ -91,7 +93,7 @@
                 color="white"
                 no-caps
                 style="font-size: 1rem"
-                class="bg-green-7 border-rad q-ma-sm"
+                class="bg-positive border-rad q-ma-sm"
                 @click="confirmReservation"
               />
             </q-card-actions>
@@ -118,7 +120,7 @@
               flat
               no-caps
               style="font-size: 1rem"
-              class="bg-green-7 border-rad"
+              class="bg-positive border-rad"
               @click="confirm = true"
             />
           </div>
@@ -128,7 +130,7 @@
       <q-step
         :name="3"
         title="Potrditev"
-        :color="(step > 2) ? 'green-7' : 'grey-7'"
+        :color="(step > 2) ? 'positive' : 'grey-7'"
         active-icon="done"
       >
         <reservation-step-three />
@@ -140,7 +142,7 @@
             flat
             no-caps
             style="font-size: 1rem"
-            class="bg-green-7 border-rad"
+            class="bg-positive border-rad"
             @click="$router.push('/')"
           />
         </q-stepper-navigation>
@@ -175,14 +177,15 @@ export default {
 
   data () {
     return {
-      step: 2,
+      step: 1,
       errorMessage: '',
       confirm: false,
       date: '',
       time: '',
       numPersons: '',
       isAvailable: false,
-      pickedMenus: []
+      pickedMenus: [],
+      note: ''
     }
   },
 
@@ -207,21 +210,25 @@ export default {
       this.pickedMenus = newPickedMenus
     },
 
+    onChangeNote (newNote) {
+      this.note = newNote
+    },
+
     async goToStepTwo () {
       if (this.date !== '' && this.time !== '' && this.numPersons > 0) {
         // pošlji request in dobi response (preveri, če štima response)
         try {
+          const dateTime = this.date.replace(/\//g, '-') + ' ' + this.time + ':00'
           this.loading = true
           await api.get('/sanctum/csrf-cookie')
-          const reply = await api.post('/reserveRestaurantTimeDate', {
-            restaurant_id: this.$route.params.id_restaurant,
-            date: this.date,
-            time: this.time,
+          const reply = await api.post('/restaurantAvaliability', {
+            id_restaurant: this.$route.params.id_restaurant,
+            dateTime,
             numPersons: this.numPersons
           })
 
-          this.isAvailable = reply.data.isAvailable
-          console.log(reply)
+          this.isAvailable = reply.data.available
+          // console.log(reply)
           this.loading = false
           this.errorMessage = ''
           this.step = 2
@@ -236,30 +243,33 @@ export default {
     async confirmReservation () {
       try {
         const menus = []
-        let i = 0
         this.pickedMenus.forEach(pickedMenu => {
-          menus[i].id_menu = pickedMenu.id_menu
-          menus[i].quantity = pickedMenu.quantity
-          i++
+          const menu = {
+            id_menu: pickedMenu.id_menu,
+            quantity: pickedMenu.quantity
+          }
+          menus.push(menu)
         })
+        console.log('Menus')
+        console.log(menus)
+
+        const dateTime = this.date.replace(/\//g, '-') + ' ' + this.time + ':00'
 
         this.loading = true
         await api.get('/sanctum/csrf-cookie')
         const reply = await api.post('/reserveRestaurant', {
-          restaurant_id: this.$route.params.id_restaurant,
-          date: this.date,
-          time: this.time,
+          id_restaurant: this.$route.params.id_restaurant,
+          dateTime,
           numPersons: this.numPersons,
-          pickedMenus: menus
+          pickedMenus: menus,
+          note: this.note
         })
 
-        this.successfulReservation = reply.data.successfulReservation
         console.log(reply)
         this.loading = false
-        if (this.successfulReservation) {
-          this.step = 3
-        }
+        this.step = 3
       } catch (error) {
+        console.log('Napaka')
         console.log(error)
         this.loading = false
       }

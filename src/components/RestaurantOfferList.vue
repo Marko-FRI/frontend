@@ -11,7 +11,7 @@
         :max="numPages"
         :max-pages="6"
         direction-links
-        color="green-8"
+        color="positive"
         class="custom-position"
         :disable="loading"
       />
