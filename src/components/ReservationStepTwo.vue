@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      :class="(isAvailable) ? 'text-green-7 text-h6' : 'text-red-7 text-h6'"
+      :class="(isAvailable) ? 'text-positive text-h6' : 'text-red-7 text-h6'"
       style="text-align: center"
     >
       Vaš termin {{ (isAvailable) ? 'je' : 'ni' }} na voljo
@@ -18,6 +18,7 @@
         :key="menu.id_menu"
         :menu="menu"
         :index="index"
+        :num-of-orders-parent="getNumOfOrders(menu.id_menu)"
         @onChangePickedOrders="onChangePickedOrders"
       />
 
@@ -27,7 +28,7 @@
           :max="numPages"
           :max-pages="4"
           direction-links
-          color="green-8"
+          color="positive"
           class="custom-position"
           :disable="loading"
         />
@@ -72,6 +73,19 @@
         >{{ (Math.round(totalPrice * 100) / 100).toFixed(2) }} €</span>
       </div>
     </div>
+    <div class="q-mt-xl custom-margin">
+      <div class="text-h6">
+        Opomba
+      </div>
+      <div class="q-mb-md col-12 row">
+        <textarea
+          id="userComment"
+          v-model="note"
+          class="col-12"
+          rows="4"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -87,7 +101,7 @@ export default {
     ReservationOfferElement
   },
 
-  props: ['menus', 'numMenus'],
+  props: ['menus', 'numMenus', 'isAvailable'],
 
   setup () {
     const userStore = useUserStore()
@@ -100,9 +114,9 @@ export default {
       numOfMenus: 4,
       pickedMenus: [],
       totalPrice: 0,
-      isAvailable: true,
       currentPage: 1,
       menusList: [],
+      note: '',
       loading: false
     }
   },
@@ -116,6 +130,10 @@ export default {
   watch: {
     currentPage (newCurrentPage) {
       this.onChangePage(newCurrentPage)
+    },
+
+    note (newNote) {
+      this.$emit('onChangeNote', newNote)
     }
   },
 
@@ -124,19 +142,16 @@ export default {
     this.menusList = this.menus
   },
 
-  // tuki je treba shrant v pickedMenus {id_menu in quantity} (za pol sa pošiljanje)
-  // pogugli kko se isce v tabeli po kljucu (kljuc je id_menu)
   methods: {
-    // onChangePickedOrders (newNumOfOrders, oldNumOfOrders, index) {
-    //   this.pickedMenus[index] = newNumOfOrders
-    //   this.$emit('onChangePickedMenus', this.pickedMenus)
+    getNumOfOrders (idMenu) {
+      this.pickedMenus.forEach(pickedMenu => {
+        if (pickedMenu.id_menu === idMenu) {
+          return pickedMenu.quantity
+        }
+      })
 
-    //   if (newNumOfOrders > oldNumOfOrders) {
-    //     this.totalPrice += this.menusList[index].price * (newNumOfOrders - oldNumOfOrders)
-    //   } else {
-    //     this.totalPrice -= this.menusList[index].price * (oldNumOfOrders - newNumOfOrders)
-    //   }
-    // },
+      return 0
+    },
 
     onChangePickedOrders (newNumOfOrders, oldNumOfOrders, index) {
       let menuIndex = -1

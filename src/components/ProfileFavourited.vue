@@ -11,7 +11,7 @@
         Priljubljene restavracije
         <q-icon
           name="favorite"
-          color="green-7"
+          color="positive"
           size="md"
           class="q-ml-sm"
         />
@@ -27,7 +27,7 @@
           :max="numPages"
           :max-pages="6"
           direction-links
-          color="green-8"
+          color="positive"
           :disable="loading"
           @click="onChangePage"
         />

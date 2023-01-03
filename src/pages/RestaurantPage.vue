@@ -17,7 +17,8 @@
           :disable="userStore.token === null"
           no-caps
           size="1.15rem"
-          class="bg-green-7 border-rad q-px-lg button-float q-mr-xl"
+          class="bg-positive border-rad q-px-lg button-float q-mr-xl"
+          @click="onChangeIsFavourited"
         />
       </div>
     </div>
@@ -38,7 +39,7 @@
             <q-tab
               name="ponudba"
               label="Ponudba"
-              color="green-8"
+              color="positive"
               no-caps
               class="offset-2 col-3"
             />
@@ -62,7 +63,7 @@
             :disable="userStore.token === null"
             no-caps
             style="font-size: 1.5rem"
-            class="col-3 bg-green-7 border-rad q-ma-none q-pa-none"
+            class="col-3 bg-positive border-rad q-ma-none q-pa-none"
             @click="reservation = true"
           />
         </div>
@@ -181,7 +182,7 @@
                   :disable="loading || userStore.token === null"
                   size="xl"
                   max="5"
-                  color="green-7"
+                  color="positive"
                   icon="star_border"
                   icon-selected="star"
                   icon-half="star_half"
@@ -202,10 +203,16 @@
                 flat
                 no-caps
                 style="font-size: 1rem"
-                class="bg-green-7 border-rad"
+                class="bg-positive border-rad"
                 :disable="loading || userStore.token === null"
                 @click="addReview"
               />
+            </div>
+            <div
+              v-if="commentErrorMessage !== ''"
+              class="text-red-7 text-h6 offset-1 col-10"
+            >
+              {{ commentErrorMessage }}
             </div>
           </fieldset>
         </div>
@@ -270,6 +277,7 @@ export default {
       reservation: false,
       tab: 'ponudba',
       userRating: 0,
+      commentErrorMessage: '',
       numComments: 0,
       comments: [
         {
@@ -304,7 +312,12 @@ export default {
         this.avgRating = this.restaurantData.rating
         this.numComments = reply.data.numReviews
         this.comments = reply.data.reviews
-        // console.log(reply)
+        console.log(reply)
+        if (this.userStore.token !== null) {
+          this.userRating = (reply.data.restaurant_data.userReview === null) ? 0 : reply.data.restaurant_data.userReview.rating
+          document.getElementById('userComment').value = (reply.data.restaurant_data.userReview === null) ? '' : reply.data.restaurant_data.userReview.comment
+          this.isFavourited = reply.data.restaurant_data.isFavourited
+        }
         this.loading = false
       } catch (error) {
         console.log(error)
@@ -331,6 +344,23 @@ export default {
       }
     },
 
+    async onChangeIsFavourited () {
+      try {
+        this.loading = true
+        await api.get('/sanctum/csrf-cookie')
+        const reply = await api.post('/favourite', {
+          id_restaurant: this.$route.params.id_restaurant,
+          isFavourited: this.isFavourited
+        })
+        console.log(reply)
+        this.loading = false
+        this.isFavourited = !this.isFavourited
+      } catch (error) {
+        console.log(error)
+        this.loading = false
+      }
+    },
+
     async addReview () {
       try {
         const userComment = document.getElementById('userComment').value
@@ -346,11 +376,13 @@ export default {
         this.avgRating = reply.data.rating
         this.numComments = reply.data.numReviews
         this.comments = reply.data.reviews
-        document.getElementById('userComment').value = ''
-        console.log(reply)
+        // document.getElementById('userComment').value = ''
+        this.commentErrorMessage = ''
+        // console.log(reply)
         this.loading = false
       } catch (error) {
         console.log(error)
+        this.commentErrorMessage = error.response.data.message
         this.loading = false
       }
     },
@@ -364,7 +396,7 @@ export default {
           id_restaurant: this.$route.params.id_restaurant
         })
         this.comments = reply.data.reviews
-        console.log(reply)
+        // console.log(reply)
         this.loading = false
       } catch (error) {
         console.log(error)

@@ -33,7 +33,7 @@
         </q-icon>
       </div>
       <div
-        class="col-6 text-green-7 text-h6"
+        class="col-6 text-positive text-h6"
         style="text-align: right"
       >
         {{ (Math.round(menu.price * 100) / 100).toFixed(2) }} €
@@ -48,7 +48,7 @@
           label="-"
           unelevated
           outline
-          color="green-7"
+          color="positive"
           class="col-1 custom-height custom-border-rad-left bg-white"
           @click="decrementNumOfOrders"
         />
@@ -59,7 +59,7 @@
           outlined
           dense
           align="center"
-          color="green-7"
+          color="positive"
           bg-color="white"
           input-style="text-align: center"
           class="col-1 custom-height custom-border-rad-middle custom-hover"
@@ -70,7 +70,7 @@
           label="+"
           unelevated
           outline
-          color="green-7"
+          color="positive"
           class="col-1 custom-height custom-border-rad-right bg-white"
           @click="incrementNumOfOrders"
         />
@@ -92,7 +92,7 @@
 export default {
   name: 'ReservationOfferElement',
 
-  props: ['menu', 'index'],
+  props: ['menu', 'index', 'numOfOrdersParent'],
 
   data () {
     return {
@@ -104,6 +104,10 @@ export default {
     numOfOrders (newNumOfOrders, oldNumOfOrders) {
       this.$emit('onChangePickedOrders', newNumOfOrders, oldNumOfOrders, this.index)
     }
+  },
+
+  mounted () {
+    this.numOfOrders = this.numOfOrdersParent
   },
 
   methods: {
@@ -174,7 +178,7 @@ export default {
     }
 
     .q-input--outlined .q-input__control:before {
-        border: 1px solid green !important;
+        border: 1px solid #759242 !important;
     }
 
     .custom-border-rad-left {

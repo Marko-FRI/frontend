@@ -20,54 +20,20 @@
           class=" text-custom-size  border-rad"
           to="/"
         />
-        <q-btn-dropdown
+        <q-btn
           flat
           no-caps
+          color="black"
           label="Restavracije"
-          class=" q-pr-none bg-transparent text-black text-custom-size border-rad"
-        >
-          <q-list>
-            <q-item
-              v-close-popup
-              clickable
-            >
-              <q-item-section>
-                <q-item-label>Photos</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              v-close-popup
-              clickable
-            >
-              <q-item-section>
-                <q-item-label>Videos</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              v-close-popup
-              clickable
-            >
-              <q-item-section>
-                <q-item-label>Articles</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
+          class=" text-custom-size  border-rad"
+          to="/"
+        />
         <q-btn
           flat
           no-caps
           color="black"
           label="O nas"
-          class=" text-custom-size border-rad"
-        />
-
-        <q-btn
-          flat
-          no-caps
-          color="black"
-          label="Priljubljeno"
+          to="/aboutUs"
           class=" text-custom-size border-rad"
         />
 
@@ -76,8 +42,18 @@
           no-caps
           color="white"
           :label="(isLoggedIn) ? 'Profil' : 'Prijava'"
-          :to="(isLoggedIn) ? '/profil/'+userStore.data.id_user : '/login'"
-          class="text-custom-size bg-green-8 border-rad"
+          :to="(isLoggedIn) ? '/profil' : '/login'"
+          class="text-custom-size bg-positive border-rad"
+        />
+
+        <q-btn
+          v-if="isLoggedIn"
+          flat
+          no-caps
+          color="white"
+          label="Odjava"
+          to="/logout"
+          class="text-custom-size bg-red-7 border-rad"
         />
       </div>
     </q-drawer>
@@ -85,18 +61,21 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <footer-component />
   </q-layout>
 </template>
 
 <script>
 import HeaderComponent from 'src/components/HeaderComponent.vue'
+import FooterComponent from 'src/components/FooterComponent.vue'
 import { useUserStore } from 'src/stores/UserStore'
 
 export default {
   name: 'MainLayout',
 
   components: {
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   },
   setup () {
     const userStore = useUserStore()

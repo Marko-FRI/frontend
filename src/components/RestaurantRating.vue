@@ -12,38 +12,38 @@
       <q-icon
         :name="firstStar"
         size="4rem"
-        color="green-7"
+        color="positive"
         class="avg-rating-stars-top"
       />
       <q-icon
         :name="secondStar"
         size="4rem"
-        color="green-7"
+        color="positive"
         class="avg-rating-stars-top"
       />
       <q-icon
         :name="thirdStar"
         size="4rem"
-        color="green-7"
+        color="positive"
         class="avg-rating-stars-top"
       />
       <q-icon
         :name="fourthStar"
         size="4rem"
-        color="green-7"
+        color="positive"
         class="avg-rating-stars-top"
       />
       <q-icon
         :name="fifthStar"
         size="4rem"
-        color="green-7"
+        color="positive"
         class="q-pr-lg avg-rating-stars-top"
       />
 
-      <span class="avg-rating-text text-green-7">{{ (Math.round(avgRating * 100) / 100) }}/5</span>
+      <span class="avg-rating-text text-positive">{{ (Math.round(avgRating * 100) / 100) }}/5</span>
     </div>
     <div
-      class="offset-4 col-8 num-ratings-text text-green-7 q-pl-sm q-pt-sm"
+      class="offset-4 col-8 num-ratings-text text-positive q-pl-sm q-pt-sm"
     >
       Število mnenj: {{ numRatings }}
     </div>

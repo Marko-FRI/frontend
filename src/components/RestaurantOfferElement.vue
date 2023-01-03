@@ -33,7 +33,7 @@
         </q-icon>
       </div>
       <div
-        class="col-6 text-green-7 text-h6"
+        class="col-6 text-positive text-h6"
         style="text-align: right"
       >
         {{ (Math.round(menu.price * 100) / 100).toFixed(2) }} €

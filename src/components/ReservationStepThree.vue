@@ -1,7 +1,7 @@
 <template>
   <div
     style="text-align: center"
-    class="text-green-7 text-h4"
+    class="text-positive text-h4"
   >
     <div class="q-mb-lg">
       Rezervacija uspešno končana

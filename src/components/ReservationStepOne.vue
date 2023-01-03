@@ -15,7 +15,7 @@
       >
         <q-date
           v-model="date"
-          color="green-7"
+          color="positive"
           :locale="{ days: days, daysShort: daysShort, months: months, monthsShort: monthsShort }"
         />
         <!-- mogoce se da locale="days" -->
@@ -45,7 +45,7 @@
           v-model="numPersons"
           max="10"
           size="md"
-          color="green-5"
+          color="positive"
           icon="person_outline"
           icon-selected="person"
           class="offset-3 col-5 q-pl-lg"

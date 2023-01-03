@@ -9,7 +9,7 @@
         {{ pastReservation.name }}
       </div>
       <div
-        class="col-4 text-green-7 text-h5"
+        class="col-4 text-positive text-h5"
         style="text-align: right"
       >
         {{ (Math.round(totalPrice * 100) / 100).toFixed(2) }} €
@@ -18,21 +18,21 @@
         {{ pastReservation.numPersons }}
         <q-icon
           name="person"
-          color="green-7"
+          color="positive"
         />
       </div>
       <div class="col-12 text-h5 custom-font-color">
         {{ pastReservation.date }}
         <q-icon
           name="event"
-          color="green-7"
+          color="positive"
         />
       </div>
       <div class="col-4 text-h5 custom-font-color">
         {{ pastReservation.time }}
         <q-icon
           name="schedule"
-          color="green-7"
+          color="positive"
         />
       </div>
       <div

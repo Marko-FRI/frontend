@@ -7,7 +7,7 @@
           v-model="pickedCategories"
           :options="allCategories"
           type="checkbox"
-          color="green-8"
+          color="positive"
           size="xs"
           :disable="loading"
         />
