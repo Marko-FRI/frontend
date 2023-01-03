@@ -1,16 +1,16 @@
 <template>
-  <div class="q-pa-xl">
+  <div class="q-py-xl">
     <div
       style="text-align: center"
       class="text-h3"
     >
       {{ restaurantData.name }}
     </div>
-    <div class="q-pa-xl info-text">
+    <div class="q-py-md info-text">
       {{ restaurantData.description }}
     </div>
     <div
-      class="q-pa-xl"
+      class="q-py-xl"
     >
       <q-carousel
         v-if="restaurantData.images.length === undefined || restaurantData.images.length > 0"
@@ -22,6 +22,8 @@
         control-type="regular"
         control-color="positive"
         control-text-color="white"
+        style="max-width: 700px;"
+        class="q-mx-auto"
       >
         <q-carousel-slide
           v-for="(image, index) in restaurantData.images"
@@ -49,10 +51,12 @@
     </div>
     <!-- {{ restaurantData.images }} -->
     <div
-      style="text-align: center"
-      class="social-networks q-pa-xl q-my-xl"
+      class="social-networks q-py-xl q-my-md text-center q-mx-auto"
+      style="max-width: 700px;"
     >
-      <div class="text-h4 q-mb-md">
+      <div
+        class="text-h4 q-mb-md"
+      >
         Socialna omrežja
       </div>
       <div>
@@ -115,8 +119,6 @@ export default {
 
     .social-networks {
         background-color: #F2F2EF;
-        margin-right: 8rem;
-        margin-left: 8rem;
         box-shadow: 4px 4px 4px rgba(0,0,0,0.25);
     }
 

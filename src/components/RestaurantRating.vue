@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 row wrap">
+  <div class="col-12 row wrap justify-center">
     <div
       class="text-h5 col-12 q-pb-lg"
       style="text-align:center"
@@ -7,35 +7,35 @@
       Povprečna ocena
     </div>
     <div
-      class="offset-4 col-8"
+      class="col-12 row justify-center items-center"
     >
       <q-icon
         :name="firstStar"
-        size="4rem"
+        :size="$q.screen.width > 599 ? '4rem' : '3rem'"
         color="positive"
         class="avg-rating-stars-top"
       />
       <q-icon
         :name="secondStar"
-        size="4rem"
+        :size="$q.screen.width > 599 ? '4rem' : '3rem'"
         color="positive"
         class="avg-rating-stars-top"
       />
       <q-icon
         :name="thirdStar"
-        size="4rem"
+        :size="$q.screen.width > 599 ? '4rem' : '3rem'"
         color="positive"
         class="avg-rating-stars-top"
       />
       <q-icon
         :name="fourthStar"
-        size="4rem"
+        :size="$q.screen.width > 599 ? '4rem' : '3rem'"
         color="positive"
         class="avg-rating-stars-top"
       />
       <q-icon
         :name="fifthStar"
-        size="4rem"
+        :size="$q.screen.width > 599 ? '4rem' : '3rem'"
         color="positive"
         class="q-pr-lg avg-rating-stars-top"
       />
@@ -43,7 +43,7 @@
       <span class="avg-rating-text text-positive">{{ (Math.round(avgRating * 100) / 100) }}/5</span>
     </div>
     <div
-      class="offset-4 col-8 num-ratings-text text-positive q-pl-sm q-pt-sm"
+      class="col-8 num-ratings-text text-positive q-pl-sm q-pt-sm text-center"
     >
       Število mnenj: {{ numRatings }}
     </div>

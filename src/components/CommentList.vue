@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-pl-lg q-mx-xl text-h6">
+    <div class="q-pl-lg q-mx-xl text-h6 text-center">
       Komentarji: {{ numComments }}
     </div>
     <q-separator

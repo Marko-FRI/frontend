@@ -1,12 +1,24 @@
 <template>
-  <div class="col-12 row wrap q-mt-md">
+  <div class="col-12 row wrap q-mt-md justify-center">
+    <div
+      v-if="$q.screen.width < 700"
+      class="col-12 back-button text-grey-7 text-center"
+    >
+      <span
+        @click="$emit('back_to_restaurant')"
+      >Nazaj na restavracijo</span>
+    </div>
     <div
       class="col-12 text-h3"
       style="text-align: center"
     >
       Rezervacija
     </div>
-    <div class="back-button text-grey-7 q-ml-xl">
+    <div
+      v-if="$q.screen.width > 699"
+      class="col-12 back-button text-grey-7 q-pl-xl"
+      style="margin-top: -40px;"
+    >
       <span
         @click="$emit('back_to_restaurant')"
       >Nazaj na restavracijo</span>
@@ -14,8 +26,9 @@
     <q-stepper
       v-model="step"
       animated
+      header-nav
       flat
-      class="col-8 q-my-xl"
+      class="col-12 col-md-8 q-my-xl"
     >
       <q-step
         :name="1"
@@ -39,7 +52,6 @@
 
         <q-stepper-navigation
           style="text-align: right"
-          class="q-mr-xl"
         >
           <q-btn
             label="Naprej >"

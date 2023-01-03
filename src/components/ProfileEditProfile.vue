@@ -3,7 +3,10 @@
     <div class="text-h4 q-mb-xl">
       Uredi profil
     </div>
-    <div class="form-container q-py-lg">
+    <div
+      class="form-container q-py-lg q-px-xl q-mx-auto"
+      style="max-width: 700px;"
+    >
       <div
         style="text-align: center"
         class="text-h6 q-mb-md q-mt-xl"
@@ -224,10 +227,6 @@ export default {
 <style scoped>
     .form-container {
         background-color: #F2F2EF;
-        margin-left: 25rem;
-        margin-right: 25rem;
-        padding-left: 12rem;
-        padding-right: 12rem;
     }
 
     .profile-picture {

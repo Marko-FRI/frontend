@@ -6,11 +6,12 @@
     >
       Pretekle Rezervacije
     </div>
-    <div class="offset-3 col-6">
+    <div class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
       <past-reservation-card
         v-for="pastReservation in pastReservations"
         :key="pastReservation.id_reservation"
         :past-reservation="pastReservation"
+        class="col-6"
       />
     </div>
   </div>
