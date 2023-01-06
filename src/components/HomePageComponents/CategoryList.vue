@@ -1,49 +1,25 @@
 <template>
   <div class="categories">
     <div class="categories_cards row">
-      <div class="categories_card col-sm-2 col-6">
-        <div class="categories_card__content">
-          <img src="../HomePageComponents/category.png">
-          indijska hrana
-        </div>
-      </div>
-      <div class="categories_card col-sm-2 col-6">
-        <div class="categories_card__content">
-          <img src="../HomePageComponents/category.png">
-          indijska hrana
-        </div>
-      </div>
-      <div class="categories_card col-sm-2 col-6">
-        <div class="categories_card__content">
-          <img src="../HomePageComponents/category.png">
-          indijska hrana
-        </div>
-      </div>
-      <div class="categories_card col-sm-2 col-6">
-        <div class="categories_card__content">
-          <img src="../HomePageComponents/category.png">
-          indijska hrana
-        </div>
-      </div>
-      <div class="categories_card col-sm-2 col-6">
-        <div class="categories_card__content">
-          <img src="../HomePageComponents/category.png">
-          indijska hrana
-        </div>
-      </div>
-      <div class="categories_card col-sm-2 col-6">
-        <div class="categories_card__content">
-          <img src="../HomePageComponents/category.png">
-          indijska hrana
-        </div>
-      </div>
+      <category-card
+        v-for="(category,index) in categories"
+        :key="index"
+        :category="category"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import CategoryCard from './CategoryCard.vue'
 export default {
-  name: 'CategoryList'
+  name: 'CategoryList',
+  components: {
+    CategoryCard
+  },
+
+  props: ['categories']
+
 }
 </script>
 <style scoped>

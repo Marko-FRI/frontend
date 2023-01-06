@@ -16,7 +16,7 @@
       <main-title title="Izpostavljene rastavracije" />
       <popular-restaurant />
       <main-title title="Priljubljene kategorije" />
-      <category-list />
+      <category-list :categories="categories" />
       <main-title title="Restavracije" />
       <div class="module q-mx-auto">
         <div class="row restaurant_list-titleGroup">
@@ -28,79 +28,56 @@
             style="text-align:right"
           >
             <q-btn
-              label="Več"
-              color="white"
-              flat
-              no-caps
-              class="bg-green-8"
-            />
-          </div>
-        </div>
-        <restaurant-list
-          :restaurants="restaurants"
-        />
-      </div>
-      <div class="module q-mx-auto">
-        <div class="row restaurant_list-titleGroup">
-          <div class="restaurant_list-title col-6">
-            Burgerji
-          </div>
-          <div
-            class="col-6"
-            style="text-align:right"
-          >
-            <q-btn
-              label="Več"
-              color="white"
-              flat
-              no-caps
-              class="bg-green-8"
-            />
-          </div>
-        </div>
-        <restaurant-list
-          :restaurants="restaurants"
-        />
-      </div>
-      <div class="module q-mx-auto">
-        <div class="row restaurant_list-titleGroup">
-          <div class="restaurant_list-title col-6">
-            Burgerji
-          </div>
-          <div
-            class="col-6"
-            style="text-align:right"
-          >
-            <q-btn
-              label="Več"
-              color="white"
-              flat
-              no-caps
-              class="bg-green-8"
-            />
-          </div>
-        </div>
-        <restaurant-list
-          :restaurants="restaurants"
-        />
-      </div>
-      <div class="module q-mx-auto">
-        <div class="row restaurant_list-titleGroup">
-          <div class="restaurant_list-title col-6">
-            Burgerji
-          </div>
-          <div
-            class="col-6"
-            style="text-align:right"
-          >
-            <q-btn
-              label="Več"
+              label="Prikaži vse restavracije"
               color="white"
               flat
               no-caps
               class="bg-positive"
+              to="/restaurants"
             />
           </div>
+        </div>
+        <restaurant-list
+          :restaurants="restaurants"
+        />
+      </div>
+      <div class="module q-mx-auto">
+        <div class="row restaurant_list-titleGroup">
+          <div class="restaurant_list-title col-6">
+            Burgerji
+          </div>
+          <div
+            class="col-6"
+            style="text-align:right"
+          />
+        </div>
+        <restaurant-list
+          :restaurants="restaurants"
+        />
+      </div>
+      <div class="module q-mx-auto">
+        <div class="row restaurant_list-titleGroup">
+          <div class="restaurant_list-title col-6">
+            Burgerji
+          </div>
+          <div
+            class="col-6"
+            style="text-align:right"
+          />
+        </div>
+        <restaurant-list
+          :restaurants="restaurants"
+        />
+      </div>
+      <div class="module q-mx-auto">
+        <div class="row restaurant_list-titleGroup">
+          <div class="restaurant_list-title col-6">
+            Burgerji
+          </div>
+          <div
+            class="col-6"
+            style="text-align:right"
+          />
         </div>
         <quotations
           :quotations="quotations"
@@ -122,6 +99,7 @@ import PopularRestaurant from '../components/HomePageComponents/PopularRestauran
 import RestaurantList from '../components/RestaurantList.vue'
 import QuotationList from '../components/HomePageComponents/QuotationList.vue'
 
+import { api } from 'src/boot/axios'
 export default {
   components: {
     MainTitle,
@@ -159,56 +137,60 @@ export default {
         }
       ],
       quotations: [
+      ],
+      categories: [
         {
-          user_name: 'Miha',
-          user_image_path: '../pages/food.png',
-          comment: 'naslov_test',
-          restaurant_id: 1,
-          restaurant_name: true,
-          rating: 4.3
+          category_id: 0,
+          name: 'test',
+          image_path: '../pages/category.png'
         },
         {
-          user_name: 'Luka',
-          user_image_path: '../pages/food.png',
-          comment: 'naslov_test',
-          restaurant_id: 1,
-          restaurant_name: true,
-          rating: 4.3
+          category_id: 0,
+          name: 'test',
+          image_path: '../pages/category.png'
         },
         {
-          user_name: 'Mojca',
-          user_image_path: '../pages/food.png',
-          comment: 'naslov_test',
-          restaurant_id: 1,
-          restaurant_name: true,
-          rating: 4.3
+          category_id: 0,
+          name: 'test',
+          image_path: '../pages/category.png'
         },
         {
-          user_name: 'Janez',
-          user_image_path: '../pages/food.png',
-          comment: 'naslov_test',
-          restaurant_id: 1,
-          restaurant_name: true,
-          rating: 4.3
+          category_id: 0,
+          name: 'test',
+          image_path: '../pages/category.png'
         },
         {
-          user_name: 'Štefan',
-          user_image_path: '../pages/food.png',
-          comment: 'naslov_test',
-          restaurant_id: 1,
-          restaurant_name: true,
-          rating: 4.3
+          category_id: 0,
+          name: 'test',
+          image_path: '../pages/category.png'
         },
         {
-          user_name: 'Klemen',
-          user_image_path: '../pages/food.png',
-          comment: 'naslov_test',
-          restaurant_id: 1,
-          restaurant_name: true,
-          rating: 4.3
+          category_id: 0,
+          name: 'test',
+          image_path: '../pages/category.png'
         }
       ]
     }
+  },
+  mounted () {
+    this.getCategories()
+  },
+  methods: {
+    async getCategories () {
+      try {
+        await api.get('/sanctum/csrf-cookie')
+        const reply = await api.get('/homePage?reviewsOffset=6')
+        this.quotations = reply.data.reviews
+        // this.errorMessage = ''
+        console.log(reply)
+        // this.$router.push('/')
+      } catch (error) {
+        this.errorMessage = error.response.data.message
+        this.password = ''
+        // console.log(error)
+      }
+    }
+
   }
 
 }
