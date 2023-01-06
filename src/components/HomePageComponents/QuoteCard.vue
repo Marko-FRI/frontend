@@ -7,9 +7,12 @@
           height="30"
         >
       </div>
-      <div class="card__content-restaurant">
+      <div
+        class="card__content-restaurant"
+        :style="imageBg"
+      >
         <div class="card__content-restaurant_content">
-          Gostilna pod lipco
+          {{ quote.restaurant_name }}
         </div>
       </div>
       <div class="card_content-comment">
@@ -24,7 +27,7 @@
               {{ quote.user_name }}
             </div>
             <div class="q-mx-auto q-mt-sm card_content-comment_content-text text-center ">
-              dlsajkdiasduihasufhsdufhajs dhfjasdhfjdhmsfjkhfmksd fisd if sdjikfmsdi fjsdkfj sdi fjisdfjisd jfisdmn ifhidjfisd ifjsdifjmisdj fids fjisfjmdis
+              {{ quote.comment }}
             </div>
             <q-rating
               v-model="ratingModel"
@@ -35,7 +38,7 @@
               class="q-mx-auto q-mt-md"
             />
             <div class="card_content-comment_content-rating text-center q-mt-lg q-mx-auto q-pa-md">
-              4.5
+              {{ quote.rating }}
             </div>
           </div>
         </div>
@@ -48,8 +51,20 @@
 export default {
   name: 'QuoteCard',
 
-  props: ['quote']
+  props: ['quote'],
+  data () {
+    return {
+      imageBg: 'background-color: grey'
+    }
+  },
+  mounted () {
+    if (this.quote.image !== null) {
+      this.imageBg = 'background-image: url(' + this.quote.restaurant_image_path + ')'
+      // this.imageBg = 'background-color: grey'
+    }
+  }
 }
+
 </script>
 
 <style scoped>
@@ -69,6 +84,7 @@ export default {
     filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
     border-radius: 4px 4px 0px 0px;
     color: white;
+    border-bottom: 4px solid #759242;
 
   }
 .card__content-restaurant_content {
