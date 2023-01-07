@@ -5,13 +5,16 @@
       :key="index"
       :quote="quote"
     />
-    <q-btn
-      label="Naloži več"
-      color="white"
-      flat
-      no-caps
-      class="bg-positive q-mx-auto q-mb-xl"
-    />
+    <div class="col-12 text-center">
+      <q-btn
+        label="Naloži več"
+        color="white"
+        flat
+        no-caps
+        class="bg-positive q-mx-auto q-mb-xl"
+        @click="loadMoreReviews(quotations.length)"
+      />
+    </div>
   </div>
 </template>
 
@@ -25,7 +28,12 @@ export default {
     QuoteCard
   },
 
-  props: ['quotations']
+  props: ['quotations'],
+  methods: {
+    loadMoreReviews (reviewsLen) {
+      this.$emit('loadMoreReviews', reviewsLen)
+    }
+  }
 }
 </script>
 <style scoped>

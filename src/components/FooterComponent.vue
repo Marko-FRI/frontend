@@ -5,9 +5,9 @@
       width="100%"
       class="q-pt-sm"
     />
-    <div class="row no-wrap q-pa-xl">
+    <div class="row no-wrap q-pa-xl custom-class_content q-mx-auto">
       <div class="col-3">
-        <div class="text-h5 text-white">
+        <div class="text-h5 text-white custom-class_content-title">
           Povezave
         </div>
         <div>
@@ -20,7 +20,7 @@
         </div>
         <div>
           <router-link
-            to="/"
+            to="/restaurants"
             class="custom-link"
           >
             Restavracije
@@ -49,7 +49,7 @@
             to="/logout"
             class="custom-link"
           >
-            Logout
+            Odjava
           </router-link>
         </div>
         <div>
@@ -58,36 +58,95 @@
             to="/login"
             class="custom-link"
           >
-            Login
+            Prijava
           </router-link>
         </div>
       </div>
       <div class="col-3">
-        <div class="text-h5 text-white">
+        <div class="text-h5 text-white custom-class_content-title">
           Kategorije
         </div>
         <div>
           <router-link
-            to="/"
+            to="/restaurants"
             class="custom-link"
           >
-            prva
+            Burgerji
           </router-link>
         </div>
         <div>
           <router-link
-            to="/"
+            to="/restaurants"
             class="custom-link"
           >
-            druga
+            Solata
           </router-link>
         </div>
       </div>
       <div class="col-3">
-        tretji
+        <div class="text-h5 text-white custom-class_content-title">
+          Kontakt
+        </div>
+        <div>
+          <p
+            class="custom-link"
+          >
+            Fakulteta za računalništvo in<br> informatiko
+          </p>
+        </div>
+        <div>
+          <p
+            class="custom-link q-mt-sm"
+          >
+            Večna pot 113, 1000 Ljubljanas
+          </p>
+        </div>
+        <div>
+          <p
+            class="custom-link q-mt-sm"
+          >
+            T: 01/321321123
+          </p>
+        </div>
+        <div>
+          <p
+            class="custom-link"
+          >
+            E:bmr@fri.com
+          </p>
+        </div>
       </div>
-      <div class="col-3">
-        cetrti
+      <div class="col-3 text-center">
+        <div class="text-h5 text-white custom-class_content-title">
+          Družbena omrežja
+        </div>
+        <div class="row  text-center">
+          <div class="col-4">
+            <q-icon
+              name="mdi-facebook"
+              size="md"
+            />
+          </div>
+          <div class="col-4">
+            <q-icon
+              name="mdi-twitter"
+              size="md"
+            />
+          </div>
+          <div class="col-4">
+            <q-icon
+              name="mdi-instagram"
+              size="md"
+            />
+          </div>
+        </div>
+        <div>
+          <p
+            class="custom-link q-mt-lg"
+          >
+            Sledite nam na družbenih <br> omrežjih
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -121,5 +180,11 @@ export default {
     .custom-link:hover {
         text-decoration: underline !important;
         color: white !important;
+    }
+    .custom-class_content {
+      width:70%;
+    }
+    .custom-class_content-title {
+      margin-bottom: 30px;
     }
 </style>

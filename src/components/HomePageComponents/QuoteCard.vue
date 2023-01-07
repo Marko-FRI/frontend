@@ -29,14 +29,80 @@
             <div class="q-mx-auto q-mt-sm card_content-comment_content-text text-center ">
               {{ quote.comment }}
             </div>
-            <q-rating
-              v-model="ratingModel"
-              size="md"
-              color="positive"
-              icon="star_border"
-              icon-selected="star"
-              class="q-mx-auto q-mt-md"
-            />
+            <div class="row q-mt-md">
+              <div class="col-1" />
+              <div class="col-2">
+                <q-icon
+                  v-if="quote.rating >= 1"
+                  name="star"
+                  size="md"
+                  color="positive"
+                />
+                <q-icon
+                  v-if="quote.rating < 1"
+                  name="star_border"
+                  size="md"
+                  color="positive"
+                />
+              </div>
+              <div class="col-2">
+                <q-icon
+                  v-if="quote.rating >= 2"
+                  name="star"
+                  size="md"
+                  color="positive"
+                />
+                <q-icon
+                  v-if="quote.rating < 2"
+                  name="star_border"
+                  size="md"
+                  color="positive"
+                />
+              </div>
+              <div class="col-2">
+                <q-icon
+                  v-if="quote.rating >= 3"
+                  name="star"
+                  size="md"
+                  color="positive"
+                />
+                <q-icon
+                  v-if="quote.rating < 3"
+                  name="star_border"
+                  size="md"
+                  color="positive"
+                />
+              </div>
+              <div class="col-2">
+                <q-icon
+                  v-if="quote.rating >= 4"
+                  name="star"
+                  size="md"
+                  color="positive"
+                />
+                <q-icon
+                  v-if="quote.rating < 4"
+                  name="star_border"
+                  size="md"
+                  color="positive"
+                />
+              </div>
+              <div class="col-2">
+                <q-icon
+                  v-if="quote.rating >= 5"
+                  name="star"
+                  size="md"
+                  color="positive"
+                />
+                <q-icon
+                  v-if="quote.rating < 5"
+                  name="star_border"
+                  size="md"
+                  color="positive"
+                />
+              </div>
+              <div class="col-1" />
+            </div>
             <div class="card_content-comment_content-rating text-center q-mt-lg q-mx-auto q-pa-md">
               {{ quote.rating }}
             </div>

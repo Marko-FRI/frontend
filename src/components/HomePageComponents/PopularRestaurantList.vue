@@ -14,86 +14,74 @@
         class="bg-grey-2 text-white rounded-borders"
       >
         <q-carousel-slide
+          v-if="popularRestaurants[0]"
           name="style"
           class="no-wrap flex-center popular_restaurant-slide row"
+          :style="'background-image: url(' + popularRestaurants[0].restaurant_image_path + ')'"
         >
           <div class="text-center col-sm-0 col-0 col-md-6" />
           <div class="popular_restaurant-content text-center col-sm-12 col-12 col-md-6">
             <div class="popular_restaurant-content-title">
-              Gostilna pod lipco
+              {{ popularRestaurants[0].name }}
             </div>
             <div class="popular_restaurant-content-text">
-              {{ lorem }}
+              {{ popularRestaurants[0].description }}
             </div>
             <q-btn
               label="OBIŠČI"
               color="white"
               flat
               no-caps
-              class="bg-green-8"
+              class="bg-positive"
+              :to="'/restaurant/' + popularRestaurants[0].id_restaurant"
             />
           </div>
         </q-carousel-slide>
         <q-carousel-slide
+          v-if="popularRestaurants[1]"
           name="drugi_slide"
           class="no-wrap flex-center popular_restaurant-slide row"
+          :style="'background-image: url(' + popularRestaurants[1].restaurant_image_path + ')'"
         >
           <div class="text-center col-sm-0 col-0 col-md-6" />
           <div class="popular_restaurant-content text-center col-sm-12 col-12 col-md-6">
             <div class="popular_restaurant-content-title">
-              Gostilna pod lipco2
+              {{ popularRestaurants[1].name }}
             </div>
             <div class="popular_restaurant-content-text">
-              {{ lorem }}
+              {{ popularRestaurants[1].description }}
             </div>
             <q-btn
               label="OBIŠČI"
               color="white"
               flat
               no-caps
-              class="bg-green-8"
+              class="bg-positive"
+              :to="'/restaurant/' + popularRestaurants[0].id_restaurant"
             />
           </div>
         </q-carousel-slide>
         <q-carousel-slide
+          v-if="popularRestaurants[2]"
           name="trert_slide"
           class="no-wrap flex-center popular_restaurant-slide row"
+          :style="'background-image: url(' + popularRestaurants[2].restaurant_image_path + ')'"
         >
           <div class="text-center col-sm-0 col-0 col-md-6" />
           <div class="popular_restaurant-content text-center col-sm-12 col-12 col-md-6">
             <div class="popular_restaurant-content-title">
-              Gostilna pod lipco2
+              {{ popularRestaurants[2].name }}
             </div>
             <div class="popular_restaurant-content-text">
-              {{ lorem }}
+              {{ popularRestaurants[2].description }}
             </div>
             <q-btn
               label="OBIŠČI"
               color="white"
               flat
               no-caps
-              class="bg-green-8"
-            />
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide
-          name="cesa_slide"
-          class="no-wrap flex-center popular_restaurant-slide row"
-        >
-          <div class="text-center col-sm-0 col-0 col-md-6" />
-          <div class="popular_restaurant-content text-center col-sm-12 col-12 col-md-6">
-            <div class="popular_restaurant-content-title">
-              Gostilna pod lipco2
-            </div>
-            <div class="popular_restaurant-content-text">
-              {{ lorem }}
-            </div>
-            <q-btn
-              label="OBIŠČI"
-              color="white"
-              flat
-              no-caps
-              class="bg-green-8"
+              class="bg-positive"
+              :to="'/restaurant/' + popularRestaurants[0].id_restaurant"
             />
           </div>
         </q-carousel-slide>
@@ -106,10 +94,10 @@
 import { ref } from 'vue'
 
 export default {
+  props: ['popularRestaurants'],
   setup () {
     return {
-      slide: ref('style'),
-      lorem: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
+      slide: ref('style')
     }
   }
 }
@@ -120,7 +108,7 @@ export default {
     margin: 0 15%;
 }
 .popular_restaurant-slide{
-    background-image: url('../HomePageComponents/cheff.png') !important;
+    background-image: url('../HomePageComponents/cheff.png');
 }
 .popular_restaurant-content {
     background: rgba(0, 0, 0, 0.58);

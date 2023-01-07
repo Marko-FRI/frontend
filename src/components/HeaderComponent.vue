@@ -56,7 +56,7 @@
           color="white"
           label="Odjava"
           to="/logout"
-          class="text-custom-size bg-red-7 border-rad"
+          class="text-custom-size bg-grey-6 border-rad"
         />
       </div>
       <q-btn
