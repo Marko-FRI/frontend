@@ -176,11 +176,10 @@ export default {
 
       this.$emit('onChangePickedMenus', this.pickedMenus)
 
-      if (newNumOfOrders > oldNumOfOrders) {
-        this.totalPrice += this.menusList[index].price * (newNumOfOrders - oldNumOfOrders)
-      } else {
-        this.totalPrice -= this.menusList[index].price * (oldNumOfOrders - newNumOfOrders)
-      }
+      this.totalPrice = 0
+      this.pickedMenus.forEach(pickedMenu => {
+        this.totalPrice += pickedMenu.price * pickedMenu.quantity
+      })
     },
 
     async onChangePage (newCurrentPage) {
@@ -196,7 +195,7 @@ export default {
         // console.log(reply)
         this.loading = false
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.loading = false
       }
     }

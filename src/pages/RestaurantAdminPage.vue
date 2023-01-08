@@ -175,10 +175,10 @@ export default {
         this.numActiveReservations = reply.data.numOfActiveReservations
         this.pastReservations = reply.data.pastReservations
         this.numPastReservations = reply.data.numOfPastReservations
-        console.log(reply)
+        // console.log(reply)
         this.loading = false
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.loading = false
         this.$router.push('/')
       }

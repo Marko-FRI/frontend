@@ -199,7 +199,7 @@ export default {
       this.totalPrice += (pickedMenu.quantity * pickedMenu.price)
     })
 
-    console.log(this.activeReservation)
+    // console.log(this.activeReservation)
   },
 
   methods: {
