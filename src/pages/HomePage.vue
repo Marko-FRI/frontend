@@ -10,9 +10,6 @@
         <div class="headline1">
           BOOK MY RESTAURANT
         </div>
-        <div class="scrolling-down">
-          Scroll down v
-        </div>
       </div>
     </div>
     <div>

@@ -154,18 +154,18 @@
           <fieldset class="col-8 row justify-start q-px-lg">
             <legend>Kontakt</legend>
             <div
-              class="q-mb-md q-mt-md font-right-side-contact"
+              class="q-mb-md q-mt-md font-right-side-contact col-12"
             >
               <q-icon name="place" />
               {{ restaurantData.address }}
             </div>
-            <div class="q-mb-md font-right-side-contact">
+            <div class="q-mb-md font-right-side-contact col-12">
               <q-icon name="mail" />
               <span class="underline q-ml-sm">
                 {{ restaurantData.email }}
               </span>
             </div>
-            <div class="q-mb-md font-right-side-contact">
+            <div class="q-mb-md font-right-side-contact col-12">
               <q-icon name="phone" />
               <span class="underline q-ml-sm">
                 {{ restaurantData.phone_number }}

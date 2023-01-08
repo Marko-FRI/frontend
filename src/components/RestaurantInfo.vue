@@ -6,7 +6,7 @@
     >
       {{ restaurantData.name }}
     </div>
-    <div class="q-py-md info-text">
+    <div class="q-py-md q-px-xl text-center info-text">
       {{ restaurantData.description }}
     </div>
     <div
