@@ -1,6 +1,6 @@
 <template>
   <div class="categories">
-    <div class="categories_cards row">
+    <div class="categories_cards row justify-center">
       <category-card
         v-for="(category,index) in categories"
         :key="index"
