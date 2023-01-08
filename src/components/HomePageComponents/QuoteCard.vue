@@ -20,6 +20,7 @@
           <div class="column">
             <q-avatar
               class="card_content-comment_content-avatar q-mx-auto"
+              size="5rem"
             >
               <img :src="quote.user_image_path">
             </q-avatar>
