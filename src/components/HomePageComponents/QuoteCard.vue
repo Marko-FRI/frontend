@@ -175,5 +175,6 @@ export default {
   background: #D9D9D9;
   border-radius: 4px;
   width: 30%;
+  text-decoration: underline;
 }
 </style>

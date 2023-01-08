@@ -187,6 +187,7 @@ export default {
         this.popularRestaurants = reply.data.restaurants
         this.categories = reply.data.categories
         this.restaurantsbycategory = reply.data.categories
+        // console.log('reply.data.reviews.length' + reply.data.reviews.length)
         // this.errorMessage = ''
         // this.$router.push('/')
       } catch (error) {
@@ -206,6 +207,7 @@ export default {
         })
         this.quotations = reply.data.reviews
         this.loading = false
+        // console.log(reply.data.reviews.length)
       } catch (error) {
         console.log(error)
         this.loading = false
