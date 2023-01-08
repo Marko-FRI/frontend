@@ -2,20 +2,12 @@
   <div>
     <div
       style="text-align: center"
-      class="text-h4 q-mb-lg"
+      class="text-h4 q-mb-xl"
     >
-      Priljubljene
+      Priljubljene restavracije
     </div>
     <div class="row wrap justify-center">
-      <div class="col-12 q-mb-md text-h6 text-center">
-        Priljubljene restavracije
-        <q-icon
-          name="favorite"
-          color="positive"
-          size="md"
-        />
-      </div>
-      <div class="col-12">
+      <div class="col-12 col-md-11 col-lg-8">
         <restaurant-list :restaurants="restaurants" />
       </div>
       <div
@@ -45,7 +37,13 @@ export default {
     RestaurantList
   },
 
-  props: ['restaurants', 'numResults'],
+  props: ['restaurants', 'numResults', 'loading'],
+
+  data () {
+    return {
+      currentPage: 1
+    }
+  },
 
   computed: {
     numPages () {
@@ -55,7 +53,7 @@ export default {
 
   methods: {
     onChangePage () {
-      console.log('Current Page: ' + this.currentPage)
+      this.$emit('loadRestaurants', this.currentPage)
     }
   }
 

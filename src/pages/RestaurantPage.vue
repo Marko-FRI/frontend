@@ -2,7 +2,7 @@
   <div>
     <img
       class="header-img"
-      src="./restaurant_header_picture.png"
+      :src="headerImage"
       alt="default"
     >
     <div class="col-12 row no-wrap change-position-top">
@@ -151,7 +151,7 @@
           </fieldset>
         </div>
         <div class="col-12 row q-mb-lg justify-center">
-          <fieldset class="col-8 row justify-center">
+          <fieldset class="col-8 row justify-start q-px-lg">
             <legend>Kontakt</legend>
             <div
               class="q-mb-md q-mt-md font-right-side-contact"
@@ -182,7 +182,7 @@
                 <q-rating
                   v-model="userRating"
                   :disable="loading || userStore.token === null"
-                  size="xl"
+                  :size="$q.screen.width > 1439 ? 'xl' : 'md'"
                   max="5"
                   color="positive"
                   icon="star_border"
@@ -306,7 +306,7 @@
         class="col-12 row bg-white q-pa-md overflow-hidden"
         style="width: 70vw; min-width: min(300px, 100vw); max-width: 500px;"
       >
-        <fieldset class="col-12">
+        <fieldset class="col-12 justify-start q-px-sm">
           <legend>Kontakt</legend>
           <div
             class="q-mb-md q-mt-md font-right-side-contact align-center-contact"
@@ -345,7 +345,7 @@
               <q-rating
                 v-model="userRating"
                 :disable="loading || userStore.token === null"
-                size="xl"
+                :size="$q.screen.width > 599 ? 'xl' : 'lg'"
                 max="5"
                 color="positive"
                 icon="star_border"
@@ -417,6 +417,7 @@ export default {
 
   data () {
     return {
+      headerImage: '',
       loading: false,
       isFavourited: false,
       openingHours: ['/', '/', '/', '/', '/', '/', '/'],
@@ -468,6 +469,7 @@ export default {
         this.avgRating = this.restaurantData.rating
         this.numComments = reply.data.numReviews
         this.comments = reply.data.reviews
+        this.headerImage = reply.data.restaurant_header_image
         console.log(reply)
         if (this.userStore.token !== null) {
           this.userRating = (reply.data.restaurant_data.userReview === null) ? 0 : reply.data.restaurant_data.userReview.rating
@@ -547,9 +549,11 @@ export default {
       try {
         this.loading = true
         await api.get('/sanctum/csrf-cookie')
-        const reply = await api.post('/moreReviews', {
-          commentOffset: commentsLength + 4, // dobim nazaj commentLength + 4 komentarje
-          id_restaurant: this.$route.params.id_restaurant
+        const reply = await api.get('/moreReviews', {
+          params: {
+            commentOffset: commentsLength + 4, // dobim nazaj commentLength + 4 komentarje
+            id_restaurant: this.$route.params.id_restaurant
+          }
         })
         this.comments = reply.data.reviews
         // console.log(reply)

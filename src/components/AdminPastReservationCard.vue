@@ -1,27 +1,17 @@
 <template>
-  <div class="row wrap">
-    <div class="col-12 col-sm-4 self-baseline">
-      <q-img
-        :src="pastReservation.image"
-        alt="Ni slike"
-        fit
-      />
-    </div>
-
-    <div class="col-12 col-sm-8 row wrap q-px-md self-stretch">
-      <router-link
-        :to="'/restaurant/' + pastReservation.id_restaurant"
-        class="col-8 text-h5 q-mb-md custom-link"
-      >
-        <div>
-          {{ pastReservation.name }}
-        </div>
-      </router-link>
+  <div>
+    <div class="row wrap q-px-md self-stretch">
+      <div class="col-8 text-h5">
+        {{ pastReservation.userName }} {{ pastReservation.userSurname }}
+      </div>
       <div
         class="col-4 text-positive text-h5"
         style="text-align: right"
       >
         {{ (Math.round(totalPrice * 100) / 100).toFixed(2) }} €
+      </div>
+      <div class="col-12 custom-font-color text-h6 q-mb-md">
+        {{ pastReservation.userEmail }}
       </div>
       <div class="col-12 text-h5 custom-font-color">
         {{ pastReservation.number_of_personel }}
@@ -62,7 +52,7 @@
         class="text-h5 q-my-lg col-12"
         style="text-align: center"
       >
-        Vaše naročilo
+        Naročilo
       </div>
       <div
         class="text-h6 col-10 custom-font-color q-mx-auto"
@@ -104,6 +94,7 @@
       </div>
       <div
         class="col-10 q-mx-auto q-mt-xl text-right"
+        style="text-align: right"
       >
         <span
           class="info-button text-h6 custom-font-color"
@@ -129,12 +120,13 @@
 
 <script>
 export default {
-  name: 'PastReservationCard',
+  name: 'AdminPastReservationCard',
 
   props: ['pastReservation'],
 
   data () {
     return {
+      confirmDelete: false,
       showMoreInfo: false,
       totalPrice: 0,
       time: '',
@@ -150,6 +142,12 @@ export default {
     this.pastReservation.pickedMenus.forEach(pickedMenu => {
       this.totalPrice += (pickedMenu.quantity * pickedMenu.price)
     })
+  },
+
+  methods: {
+    deleteReservation () {
+      this.$emit('deleteReservation', this.pastReservation.id_reservation)
+    }
   }
 }
 </script>
@@ -159,12 +157,11 @@ export default {
         color: #504A3E;
     }
 
-    .custom-link {
-      text-decoration: none;
-      color: black;
-    }
-
     .info-button:hover {
         cursor: pointer;
+    }
+
+    .border-rad {
+        border-radius: 5px;
     }
 </style>

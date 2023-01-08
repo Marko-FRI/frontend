@@ -67,19 +67,8 @@
           <q-icon
             name="facebook"
             color="positive"
-            size="md"
-            class="q-pr-sm"
-          />
-        </a>
-        <a
-          :href="restaurantData.instagram_link"
-          target="_blank"
-        >
-          <q-icon
-            name="facebook"
-            color="positive"
-            size="md"
-            class="q-pr-sm"
+            size="lg"
+            class="q-pr-lg"
           />
         </a>
         <a
@@ -87,10 +76,20 @@
           target="_blank"
         >
           <q-icon
-            name="facebook"
+            name="mdi-twitter"
             color="positive"
-            size="md"
-            class="q-pr-sm"
+            size="lg"
+            class="q-pr-lg"
+          />
+        </a>
+        <a
+          :href="restaurantData.instagram_link"
+          target="_blank"
+        >
+          <q-icon
+            name="mdi-instagram"
+            color="positive"
+            size="lg"
           />
         </a>
       </div>

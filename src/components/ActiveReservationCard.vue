@@ -2,15 +2,21 @@
   <div class="row wrap">
     <div class="col-12 col-sm-4 self-baseline">
       <q-img
-        src="../pages/food.jpg"
+        :src="activeReservation.image"
+        alt="Ni slike"
         fit
       />
     </div>
 
     <div class="col-12 col-sm-8 row wrap q-px-md self-stretch">
-      <div class="col-8 text-h5 q-mb-md">
-        {{ activeReservation.name }}
-      </div>
+      <router-link
+        :to="'/restaurant/' + activeReservation.id_restaurant"
+        class="col-8 text-h5 q-mb-md custom-link"
+      >
+        <div>
+          {{ activeReservation.name }}
+        </div>
+      </router-link>
       <div
         class="col-4 text-positive text-h5"
         style="text-align: right"
@@ -18,21 +24,21 @@
         {{ (Math.round(totalPrice * 100) / 100).toFixed(2) }} €
       </div>
       <div class="col-12 text-h5 custom-font-color">
-        {{ activeReservation.numPersons }}
+        {{ activeReservation.number_of_personel }}
         <q-icon
           name="person"
           color="positive"
         />
       </div>
       <div class="col-12 text-h5 custom-font-color">
-        {{ activeReservation.date }}
+        {{ date }}
         <q-icon
           name="event"
           color="positive"
         />
       </div>
       <div class="col-4 text-h5 custom-font-color">
-        {{ activeReservation.time }}
+        {{ time }}
         <q-icon
           name="schedule"
           color="positive"
@@ -89,6 +95,12 @@
           class="col-4"
           style="text-align: right"
         >{{ (Math.round(totalPrice * 100) / 100).toFixed(2) }} €</span>
+      </div>
+      <div
+        v-if="activeReservation.note !== null"
+        class="col-10 q-mx-auto custom-font-color q-mt-md text-h6"
+      >
+        <span class="text-h5">(</span>Opomba: {{ activeReservation.note }}<span class="text-h5">)</span>
       </div>
       <div
         class="col-10 q-mx-auto q-mt-lg text-right"
@@ -172,7 +184,27 @@ export default {
     return {
       confirmDelete: false,
       showMoreInfo: false,
-      totalPrice: 23.20
+      totalPrice: 0,
+      time: '',
+      date: ''
+    }
+  },
+
+  mounted () {
+    const d = new Date(this.activeReservation.date_and_time_of_reservation.split(' '))
+    this.date = d.getDate() + '. ' + (d.getMonth() + 1) + '. ' + d.getFullYear()
+    this.time = d.getHours() + ':' + d.getMinutes()
+
+    this.activeReservation.pickedMenus.forEach(pickedMenu => {
+      this.totalPrice += (pickedMenu.quantity * pickedMenu.price)
+    })
+
+    console.log(this.activeReservation)
+  },
+
+  methods: {
+    deleteReservation () {
+      this.$emit('deleteReservation', this.activeReservation.id_reservation)
     }
   }
 
@@ -185,6 +217,11 @@ export default {
 <style scoped>
     .custom-font-color {
         color: #504A3E;
+    }
+
+    .custom-link {
+      text-decoration: none;
+      color: black;
     }
 
     .info-button:hover {

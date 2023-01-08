@@ -99,8 +99,12 @@ export default {
         this.userStore.token = reply.data.token
         this.userStore.data = reply.data.userData
         this.errorMessage = ''
-        // console.log(reply)
-        this.$router.push('/')
+        console.log(reply)
+        if (this.userStore.data.id_restaurant !== null) {
+          this.$router.push('/restaurant/' + this.userStore.data.id_restaurant + '/admin')
+        } else {
+          this.$router.push('/')
+        }
       } catch (error) {
         this.errorMessage = error.response.data.message
         this.password = ''

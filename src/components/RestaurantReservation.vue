@@ -27,6 +27,7 @@
       v-model="step"
       animated
       header-nav
+      swipeable="false"
       flat
       class="col-12 col-md-8 q-my-xl"
     >
@@ -37,6 +38,7 @@
         :done="step > 1"
       >
         <reservation-step-one
+          :loading="loading"
           @onChangeDate="onChangeDate"
           @onChangeTime="onChangeTime"
           @onChangeNumPersons="onChangeNumPersons"
@@ -60,6 +62,7 @@
             no-caps
             style="font-size: 1rem"
             class="bg-positive border-rad"
+            :disable="loading"
             @click="goToStepTwo"
           />
         </q-stepper-navigation>
@@ -106,6 +109,7 @@
                 no-caps
                 style="font-size: 1rem"
                 class="bg-positive border-rad q-ma-sm"
+                :disable="loading"
                 @click="confirmReservation"
               />
             </q-card-actions>
@@ -133,6 +137,7 @@
               no-caps
               style="font-size: 1rem"
               class="bg-positive border-rad"
+              :disable="loading"
               @click="confirm = true"
             />
           </div>
@@ -190,6 +195,7 @@ export default {
   data () {
     return {
       step: 1,
+      buttonConfirm: false,
       errorMessage: '',
       confirm: false,
       date: '',
@@ -197,7 +203,18 @@ export default {
       numPersons: '',
       isAvailable: false,
       pickedMenus: [],
-      note: ''
+      note: '',
+      loading: false
+    }
+  },
+
+  watch: {
+    step (newStep, oldStep) {
+      if (oldStep === 3) {
+        this.step = 3
+      } else if (newStep > oldStep) {
+        if (!this.buttonConfirm) { this.step = oldStep } else { this.buttonConfirm = false }
+      }
     }
   },
 
@@ -240,9 +257,10 @@ export default {
           })
 
           this.isAvailable = reply.data.available
-          // console.log(reply)
+          console.log(reply)
           this.loading = false
           this.errorMessage = ''
+          this.buttonConfirm = true
           this.step = 2
         } catch (error) {
           console.log(error)
@@ -279,6 +297,7 @@ export default {
 
         console.log(reply)
         this.loading = false
+        this.buttonConfirm = true
         this.step = 3
       } catch (error) {
         console.log('Napaka')

@@ -1,30 +1,20 @@
 <template>
-  <div class="row wrap">
-    <div class="col-12 col-sm-4 self-baseline">
-      <q-img
-        :src="pastReservation.image"
-        alt="Ni slike"
-        fit
-      />
-    </div>
-
-    <div class="col-12 col-sm-8 row wrap q-px-md self-stretch">
-      <router-link
-        :to="'/restaurant/' + pastReservation.id_restaurant"
-        class="col-8 text-h5 q-mb-md custom-link"
-      >
-        <div>
-          {{ pastReservation.name }}
-        </div>
-      </router-link>
+  <div>
+    <div class="row wrap q-px-md self-stretch">
+      <div class="col-8 text-h5">
+        {{ activeReservation.userName }} {{ activeReservation.userSurname }}
+      </div>
       <div
         class="col-4 text-positive text-h5"
         style="text-align: right"
       >
         {{ (Math.round(totalPrice * 100) / 100).toFixed(2) }} €
       </div>
+      <div class="col-12 custom-font-color text-h6 q-mb-md">
+        {{ activeReservation.userEmail }}
+      </div>
       <div class="col-12 text-h5 custom-font-color">
-        {{ pastReservation.number_of_personel }}
+        {{ activeReservation.number_of_personel }}
         <q-icon
           name="person"
           color="positive"
@@ -62,13 +52,13 @@
         class="text-h5 q-my-lg col-12"
         style="text-align: center"
       >
-        Vaše naročilo
+        Naročilo
       </div>
       <div
         class="text-h6 col-10 custom-font-color q-mx-auto"
       >
         <div
-          v-for="(pickedMenu) in pastReservation.pickedMenus"
+          v-for="(pickedMenu) in activeReservation.pickedMenus"
           :key="pickedMenu.id_menu"
         >
           <div
@@ -97,13 +87,27 @@
         >{{ (Math.round(totalPrice * 100) / 100).toFixed(2) }} €</span>
       </div>
       <div
-        v-if="pastReservation.note !== null"
+        v-if="activeReservation.note !== null"
         class="col-10 q-mx-auto custom-font-color q-mt-md text-h6"
       >
-        <span class="text-h5">(</span>Opomba: {{ pastReservation.note }}<span class="text-h5">)</span>
+        <span class="text-h5">(</span>Opomba: {{ activeReservation.note }}<span class="text-h5">)</span>
+      </div>
+      <div
+        class="col-10 q-mx-auto q-mt-lg text-right"
+      >
+        <q-btn
+          label="Prekliči rezervacijo"
+          color="white"
+          flat
+          no-caps
+          size="1.15rem"
+          class="bg-red-8 border-rad button-float"
+          @click="confirmDelete = true"
+        />
       </div>
       <div
         class="col-10 q-mx-auto q-mt-xl text-right"
+        style="text-align: right"
       >
         <span
           class="info-button text-h6 custom-font-color"
@@ -124,17 +128,51 @@
         :class="(showMoreInfo) ? 'q-mt-md q-mb-xl' : 'q-mt-xl q-mb-xl'"
       />
     </div>
+    <q-dialog
+      v-model="confirmDelete"
+      persistent
+    >
+      <q-card>
+        <q-card-section class="row items-center text-h5 q-pa-xl">
+          <span class="q-ml-sm">Ali ste prepričani, da želite preklicati rezervacijo?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn
+            v-close-popup
+            flat
+            label="Ne"
+            color="primary"
+            no-caps
+            style="font-size: 1rem"
+            class="border-rad text-grey-7"
+            @click="confirmDelete = false"
+          />
+          <q-btn
+            v-close-popup
+            flat
+            label="Da"
+            color="white"
+            no-caps
+            style="font-size: 1rem"
+            class="bg-red-8 border-rad q-ma-sm"
+            @click="deleteReservation"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PastReservationCard',
+  name: 'AdminActiveReservationCard',
 
-  props: ['pastReservation'],
+  props: ['activeReservation'],
 
   data () {
     return {
+      confirmDelete: false,
       showMoreInfo: false,
       totalPrice: 0,
       time: '',
@@ -143,13 +181,19 @@ export default {
   },
 
   mounted () {
-    const d = new Date(this.pastReservation.date_and_time_of_reservation.split(' '))
+    const d = new Date(this.activeReservation.date_and_time_of_reservation.split(' '))
     this.date = d.getDate() + '. ' + (d.getMonth() + 1) + '. ' + d.getFullYear()
     this.time = d.getHours() + ':' + d.getMinutes()
 
-    this.pastReservation.pickedMenus.forEach(pickedMenu => {
+    this.activeReservation.pickedMenus.forEach(pickedMenu => {
       this.totalPrice += (pickedMenu.quantity * pickedMenu.price)
     })
+  },
+
+  methods: {
+    deleteReservation () {
+      this.$emit('deleteReservation', this.activeReservation.id_reservation)
+    }
   }
 }
 </script>
@@ -159,12 +203,11 @@ export default {
         color: #504A3E;
     }
 
-    .custom-link {
-      text-decoration: none;
-      color: black;
-    }
-
     .info-button:hover {
         cursor: pointer;
+    }
+
+    .border-rad {
+        border-radius: 5px;
     }
 </style>
