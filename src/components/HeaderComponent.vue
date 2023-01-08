@@ -27,7 +27,7 @@
           no-caps
           color="black"
           label="Restavracije"
-          to="/"
+          to="/restaurants"
           class=" text-custom-size border-rad"
         />
 

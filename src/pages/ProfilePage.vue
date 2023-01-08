@@ -395,7 +395,7 @@ export default {
         this.numPastReservations = reply.data.numOfPastReservations
         this.numActiveReservations = reply.data.numOfActiveReservations
 
-        console.log(reply)
+        // console.log(reply)
         this.loading = false
       } catch (error) {
         // console.log(error)
@@ -422,7 +422,7 @@ export default {
 
         this.userStore.data = reply.data.userData
         this.editProfileErrorMessage = ''
-        console.log(reply)
+        // console.log(reply)
         // console.log(newProfileData)
 
         if (newProfileData.image !== null) {
@@ -440,7 +440,7 @@ export default {
         this.loading = false
       } catch (error) {
         this.editProfileErrorMessage = error.response.data.message
-        console.log(error)
+        // console.log(error)
         this.loading = false
       }
     },

@@ -10,9 +10,6 @@
         <div class="headline1">
           BOOK MY RESTAURANT
         </div>
-        <div class="scrolling-down">
-          Scroll down v
-        </div>
       </div>
     </div>
     <div>
@@ -209,7 +206,7 @@ export default {
         this.loading = false
         // console.log(reply.data.reviews.length)
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.loading = false
       }
     }

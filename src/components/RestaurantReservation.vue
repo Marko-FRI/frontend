@@ -204,7 +204,8 @@ export default {
       isAvailable: false,
       pickedMenus: [],
       note: '',
-      loading: false
+      loading: false,
+      reply: Object
     }
   },
 
@@ -257,13 +258,13 @@ export default {
           })
 
           this.isAvailable = reply.data.available
-          console.log(reply)
+          // console.log(reply)
           this.loading = false
           this.errorMessage = ''
           this.buttonConfirm = true
           this.step = 2
         } catch (error) {
-          console.log(error)
+          // console.log(error)
           this.loading = false
           this.errorMessage = error.response.data.message
         }
@@ -280,8 +281,8 @@ export default {
           }
           menus.push(menu)
         })
-        console.log('Menus')
-        console.log(menus)
+        // console.log('Menus')
+        // console.log(menus)
 
         const dateTime = this.date.replace(/\//g, '-') + ' ' + this.time + ':00'
 
@@ -295,13 +296,14 @@ export default {
           note: this.note
         })
 
-        console.log(reply)
+        this.reply = reply
+        // console.log(reply)
         this.loading = false
         this.buttonConfirm = true
         this.step = 3
       } catch (error) {
-        console.log('Napaka')
-        console.log(error)
+        // console.log('Napaka')
+        // console.log(error)
         this.loading = false
       }
     }

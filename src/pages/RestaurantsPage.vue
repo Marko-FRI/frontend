@@ -115,7 +115,7 @@ import { useUserStore } from 'src/stores/UserStore'
 import { api } from 'src/boot/axios'
 
 export default {
-  name: 'IndexPage',
+  name: 'RestaurantsPage',
 
   components: {
     RestaurantList,
@@ -147,9 +147,25 @@ export default {
     }
   },
 
-  mounted () {
+  watch: {
+    'this.$route.query' (newRoute) {
+      // this.pickedCategories.push(newCategory)
+      console.log(newRoute)
+      // this.onChangeCategory(this.pickedCategories)
+    }
+
+  //   deep: true,
+  //   immediate: true
+  },
+
+  async mounted () {
     this.isLoggedIn = this.userStore.token !== null
-    this.getAllRestaurantsPageInfo()
+    await this.getAllRestaurantsPageInfo()
+    // console.log(this.$route.query.category)
+    // if (this.$route.query.category) {
+    //   this.pickedCategories.push(this.$route.query.category)
+    //   this.onChangeCategory(this.pickedCategories)
+    // }
   },
 
   methods: {
@@ -163,7 +179,7 @@ export default {
         this.restaurants = reply.data.restaurants.data
         this.categories = reply.data.categories
         this.numResults = reply.data.num_of_restaurants
-        console.log(reply)
+        // console.log(reply)
         this.loading = false
       } catch (error) {
         // console.log(error)
@@ -189,7 +205,7 @@ export default {
       this.numResults = reply.data.num_of_restaurants
       this.loading = false
 
-      console.log(reply)
+      // console.log(reply)
 
       // console.log('Sprememba kategorije: ' + newCategories)
     },

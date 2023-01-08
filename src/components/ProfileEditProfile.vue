@@ -221,7 +221,7 @@ export default {
         return reply.data.isChanged // to je bool, ali je sprememba
       } catch (error) {
         this.errorMessage = error.response.data.message
-        console.log(error)
+        // console.log(error)
         return false
       }
     }

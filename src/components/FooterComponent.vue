@@ -22,7 +22,7 @@
             </div>
             <div class="q-mb-xs">
               <router-link
-                to="/"
+                to="/restaurants"
                 class="custom-link"
               >
                 Restavracije
@@ -75,11 +75,11 @@
             </div>
             <div
               v-for="category in categories"
-              :key="category.id"
+              :key="category.id_category"
               class="q-mb-xs"
             >
               <!-- <router-link
-                to="/"
+                :to="'/restaurants?category=' + category.id_category"
                 class="custom-link"
               > -->
               {{ category.name }}
@@ -201,8 +201,9 @@ export default {
 
         this.categories = reply.data.categories
         this.loading = false
+        // console.log(reply)
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.loading = false
       }
     }
