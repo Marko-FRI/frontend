@@ -57,7 +57,7 @@
               flat
               no-caps
               class="bg-positive"
-              :to="'/restaurant/' + popularRestaurants[0].id_restaurant"
+              :to="'/restaurant/' + popularRestaurants[1].id_restaurant"
             />
           </div>
         </q-carousel-slide>
@@ -81,7 +81,7 @@
               flat
               no-caps
               class="bg-positive"
-              :to="'/restaurant/' + popularRestaurants[0].id_restaurant"
+              :to="'/restaurant/' + popularRestaurants[2].id_restaurant"
             />
           </div>
         </q-carousel-slide>
