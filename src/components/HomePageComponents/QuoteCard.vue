@@ -21,7 +21,7 @@
             <q-avatar
               class="card_content-comment_content-avatar q-mx-auto"
             >
-              <img src="https://cdn.quasar.dev/img/avatar.png">
+              <img :src="quote.user_image_path">
             </q-avatar>
             <div class="q-mx-auto q-mt-sm card_content-comment_content-name text-bold">
               {{ quote.user_name }}
