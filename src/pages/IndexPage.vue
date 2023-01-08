@@ -19,20 +19,23 @@
         class="col-12 col-lg-9 q-px-md"
       >
         <div class="row no-wrap q-pb-lg ">
-          <q-input
-            v-model="search"
-            class="col-8"
-            label="Iskanje Restavracij"
-            :input-style="{ fontSize: '18px' }"
-            dense
-            :disable="loading"
-          />
+          <div
+            class="col-8 col-md-6 q-pr-md"
+          >
+            <q-input
+              v-model="search"
+              label="Iskanje Restavracij"
+              :input-style="{ fontSize: '18px' }"
+              dense
+              :disable="loading"
+            />
+          </div>
           <q-btn
             label="Iskanje"
             color="white"
             flat
             no-caps
-            class="col-4 bg-positive border-rad"
+            class="col-4 col-md-2 bg-positive border-rad"
             :disable="loading"
             @click="onChangeSearch"
           />
@@ -160,8 +163,7 @@ export default {
         this.restaurants = reply.data.restaurants.data
         this.categories = reply.data.categories
         this.numResults = reply.data.num_of_restaurants
-        // console.log(reply)
-        // console.log(this.restaurants)
+        console.log(reply)
         this.loading = false
       } catch (error) {
         // console.log(error)
@@ -176,7 +178,7 @@ export default {
 
       const reply = await api.get('/restaurants', {
         params: {
-          currentPage: this.currentPage,
+          page: this.currentPage,
           search: this.search,
           pickedCategories: this.pickedCategories,
           sortBy: this.sortBy
@@ -186,6 +188,8 @@ export default {
       this.restaurants = reply.data.restaurants.data
       this.numResults = reply.data.num_of_restaurants
       this.loading = false
+
+      console.log(reply)
 
       // console.log('Sprememba kategorije: ' + newCategories)
     },
@@ -197,7 +201,7 @@ export default {
 
       const reply = await api.get('/restaurants', {
         params: {
-          currentPage: this.currentPage,
+          page: this.currentPage,
           search: this.search,
           pickedCategories: this.pickedCategories,
           sortBy: this.sortBy
@@ -217,7 +221,7 @@ export default {
 
       const reply = await api.get('/restaurants', {
         params: {
-          currentPage: this.currentPage,
+          page: this.currentPage,
           search: this.search,
           pickedCategories: this.pickedCategories,
           sortBy: this.sortBy
@@ -231,16 +235,12 @@ export default {
       // console.log('Sprememba iskanja: ' + this.search)
     },
 
-    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// /////////////////                NEKI CUDN DELA onChangePage             ////////////////////////////////////
-    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     async onChangePage () {
       this.loading = true
 
       const reply = await api.get('/restaurants', {
         params: {
-          currentPage: this.currentPage,
+          page: this.currentPage,
           search: this.search,
           pickedCategories: this.pickedCategories,
           sortBy: this.sortBy

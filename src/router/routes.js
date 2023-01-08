@@ -9,6 +9,14 @@ const routes = [
   },
 
   {
+    path: '/aboutUs',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/AboutUsPage.vue') }
+    ]
+  },
+
+  {
     path: '/login',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -53,6 +61,11 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') }
     ]
+  },
+
+  {
+    path: '/restaurant/:id_restaurant/admin',
+    component: () => import('pages/RestaurantAdminPage.vue')
   },
 
   // Always leave this as last one,

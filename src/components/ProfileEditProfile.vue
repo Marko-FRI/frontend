@@ -40,17 +40,20 @@
         v-model="newName"
         label="Ime"
         class="q-py-lg"
+        :disable="loading"
       />
       <q-input
         v-model="newSurname"
         label="Priimek"
         class="q-py-lg"
+        :disable="loading"
       />
       <q-input
         v-model="newPassword"
         label="Novo geslo"
         :type="isNewPwd ? 'password' : 'text'"
         class="q-py-lg"
+        :disable="loading"
       >
         <template #append>
           <q-icon
@@ -65,6 +68,7 @@
         label="Ponovi novo geslo"
         :type="isNewRepeatPwd ? 'password' : 'text'"
         class="q-py-lg"
+        :disable="loading"
       >
         <template #append>
           <q-icon
@@ -79,6 +83,7 @@
         label="Trenutno geslo"
         :type="isCurrPwd ? 'password' : 'text'"
         class="q-py-lg"
+        :disable="loading"
       >
         <template #append>
           <q-icon
@@ -95,6 +100,7 @@
         no-caps
         style="font-size: 1rem"
         class="bg-positive border-rad"
+        :disable="loading"
         @click="checkChanges"
       />
       <p
@@ -114,7 +120,7 @@ import { useUserStore } from 'src/stores/UserStore'
 export default {
   name: 'ProfileEditProfile',
 
-  props: ['userData'],
+  props: ['editProfileErrorMessage', 'loadingParent'],
 
   setup () {
     const userStore = useUserStore()
@@ -140,6 +146,16 @@ export default {
       uploadedFile: null,
       errorMessage: '',
       loading: false
+    }
+  },
+
+  watch: {
+    editProfileErrorMessage (newMsg) {
+      this.errorMessage = newMsg
+    },
+
+    loadingParent (newLoading) {
+      this.loading = newLoading
     }
   },
 
@@ -178,10 +194,15 @@ export default {
         this.errorMessage = 'Nova gesla se ne ujemata!'
       } else if (this.newName === this.oldName && this.newSurname === this.oldSurname && !this.changeInPassword && this.uploadedFile === null) {
         this.errorMessage = 'Ni nobene spremembe v podatkih!'
-      } else if (!this.correctCurrentPassword) {
-        this.errorMessage = 'Napačno trenutno geslo!'
       } else {
-        console.log('Shrani spremembe v bazo')
+        const newProfileData = {
+          currentPassword: this.currentPassword,
+          name: this.newName,
+          surname: this.newSurname,
+          password: this.newPassword,
+          image: this.uploadedFile
+        }
+        this.$emit('changeProfileData', newProfileData)
       }
     },
 
@@ -190,34 +211,18 @@ export default {
         this.loading = true
         await api.get('/sanctum/csrf-cookie')
         const reply = await api.post('/checkChangeInPassword', {
-          newPassword: this.newPassword
+          password: this.newPassword,
+          password_confirmation: this.newRepeatPassword
         })
 
         this.errorMessage = ''
         this.loading = false
+        // console.log(reply)
         return reply.data.isChanged // to je bool, ali je sprememba
-        // console.log(reply)
       } catch (error) {
         this.errorMessage = error.response.data.message
-        // console.log(error)
-      }
-    },
-
-    async correctCurrentPassword () {
-      try {
-        this.loading = true
-        await api.get('/sanctum/csrf-cookie')
-        const reply = await api.post('/checkCorrectPassword', {
-          currentPassword: this.currentPassword
-        })
-
-        this.errorMessage = ''
-        this.loading = false
-        return reply.data.isCorrect // to je bool, ali je sprememba
-        // console.log(reply)
-      } catch (error) {
-        this.errorMessage = error.response.data.message
-        // console.log(error)
+        console.log(error)
+        return false
       }
     }
   }

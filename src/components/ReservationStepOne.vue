@@ -17,6 +17,7 @@
           v-model="date"
           color="positive"
           :locale="{ days: days, daysShort: daysShort, months: months, monthsShort: monthsShort }"
+          :disable="loading"
         />
         <!-- mogoce se da locale="days" -->
       </div>
@@ -34,11 +35,14 @@
           square
           filled
           bg-color="white"
+          :disable="loading"
+          style="max-width: 200px;"
+          class="q-mx-auto"
         />
       </div>
       <div class="row wrap q-pb-xl justify-center">
         <span
-          class="col-12 q-pl-lg text-h6 text-center"
+          class="col-12 text-h6 text-center"
         >
           Število oseb
         </span>
@@ -49,7 +53,7 @@
           color="positive"
           icon="person_outline"
           icon-selected="person"
-          class="col-12 q-pl-lg justify-center"
+          :disable="loading"
         />
         <q-input
           v-model.number="numPersons"
@@ -59,9 +63,10 @@
           filled
           square
           bg-color="white"
-          class="col-12 q-pa-md"
+          class=" q-pa-md"
           input-class="text-center"
-          style="max-width: 500px;"
+          style="max-width: 150px;"
+          :disable="loading"
         />
       </div>
     </div>
@@ -71,6 +76,8 @@
 <script>
 export default {
   name: 'ReservationStepOne',
+
+  props: ['loading'],
 
   data () {
     return {

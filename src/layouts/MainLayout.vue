@@ -42,7 +42,7 @@
           no-caps
           color="white"
           :label="(isLoggedIn) ? 'Profil' : 'Prijava'"
-          :to="(isLoggedIn) ? '/profil' : '/login'"
+          :to="(isLoggedIn) ? '/profile' : '/login'"
           class="text-custom-size bg-positive border-rad"
         />
 

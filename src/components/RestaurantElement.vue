@@ -1,13 +1,12 @@
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<!-- Manjka ikona za favorite in ikona za lokacijo -->
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-
 <template>
-  <div class="col-12 col-md-4 col-sm-6 q-mb-lg ">
-    <div class="whole_card q-mx-auto">
+  <div class="col-12 col-md-4 col-sm-6 q-mb-lg q-pa-md">
+    <div
+      class="col-12 whole_card mx-auto-mobile q-mx-auto"
+    >
       <router-link
         :to="'restaurant/' + restaurant.id_restaurant"
         style="text-decoration: none;"
+        class="col-12q"
       >
         <div class="upper_card">
           <div
@@ -21,7 +20,7 @@
         <div class="lower_card row no-wrap">
           <div class="left col-9 row wrap justify-start items-start content-between">
             <div class="location_text col-12">
-              {{ restaurant.address }}
+              {{ restaurant.address }} <q-icon name="place" />
             </div>
             <div class="isOpen_text col-12">
               Trenutno: <span v-if="restaurant.is_open === true">odprto</span> <span
@@ -68,9 +67,9 @@ export default {
 
 <style scoped>
   .whole_card {
-    width: 307px;
     height: 299px;
     border-radius: 4px;
+    max-width: 350px !important;
   }
 
   .upper_card {
@@ -155,5 +154,12 @@ export default {
     line-height: 19px;
     text-decoration-line: underline;
     color: #212517;
+  }
+
+  @media (min-width: 576px) {
+    .mx-auto-mobile {
+      margin-left: 0px !important;
+      margin-right: 0px !important;
+    }
   }
 </style>

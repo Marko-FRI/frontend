@@ -140,13 +140,15 @@ export default {
 
   methods: {
     getNumOfOrders (idMenu) {
+      let quantity = 0
+
       this.pickedMenus.forEach(pickedMenu => {
         if (pickedMenu.id_menu === idMenu) {
-          return pickedMenu.quantity
+          quantity = pickedMenu.quantity
         }
       })
 
-      return 0
+      return quantity
     },
 
     onChangePickedOrders (newNumOfOrders, oldNumOfOrders, index) {
