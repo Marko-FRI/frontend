@@ -450,8 +450,10 @@ export default {
         this.loading = true
 
         const reply = await api.delete('/deleteReservation', {
-          id_reservation: idReservation,
-          reservationOffset: this.currentActiveReservationOffset
+          params: {
+            id_reservation: idReservation,
+            reservationOffset: this.currentActiveReservationOffset
+          }
         })
 
         this.activeReservations = reply.data.activeReservations

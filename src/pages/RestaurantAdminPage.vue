@@ -189,9 +189,11 @@ export default {
         this.loading = true
 
         const reply = await api.delete('/deleteAdminReservation', {
-          id_reservation: idReservation,
-          id_restaurant: this.userStore.data.id_restaurant,
-          reservationOffset: this.currentActiveReservationOffset
+          params: {
+            id_reservation: idReservation,
+            id_restaurant: this.userStore.data.id_restaurant,
+            reservationOffset: this.currentActiveReservationOffset
+          }
         })
 
         this.activeReservations = reply.data.activeReservations
