@@ -204,7 +204,7 @@ export default {
         this.quotations = reply.data.reviews
         this.loading = false
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.loading = false
       }
     }

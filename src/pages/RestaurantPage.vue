@@ -446,7 +446,8 @@ export default {
           rating: 0,
           time_ago: ''
         }
-      ]
+      ],
+      reply: Object
     }
   },
 
@@ -470,7 +471,7 @@ export default {
         this.numComments = reply.data.numReviews
         this.comments = reply.data.reviews
         this.headerImage = reply.data.restaurant_header_image
-        console.log(reply)
+        // console.log(reply)
         if (this.userStore.token !== null) {
           this.userRating = (reply.data.restaurant_data.userReview === null) ? 0 : reply.data.restaurant_data.userReview.rating
           document.getElementById('userComment').value = (reply.data.restaurant_data.userReview === null) ? '' : reply.data.restaurant_data.userReview.comment
@@ -478,7 +479,7 @@ export default {
         }
         this.loading = false
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.loading = false
       }
     },
@@ -497,7 +498,7 @@ export default {
         // console.log(reply)
         this.loading = false
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.loading = false
       }
     },
@@ -510,11 +511,12 @@ export default {
           id_restaurant: this.$route.params.id_restaurant,
           isFavourited: this.isFavourited
         })
-        console.log(reply)
+        // console.log(reply)
+        this.reply = reply
         this.loading = false
         this.isFavourited = !this.isFavourited
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.loading = false
       }
     },
@@ -539,7 +541,7 @@ export default {
         // console.log(reply)
         this.loading = false
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.commentErrorMessage = error.response.data.message
         this.loading = false
       }
@@ -559,7 +561,7 @@ export default {
         // console.log(reply)
         this.loading = false
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.loading = false
       }
     }

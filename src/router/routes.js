@@ -9,6 +9,14 @@ const routes = [
   },
 
   {
+    path: '/restaurants',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/RestaurantsPage.vue') }
+    ]
+  },
+
+  {
     path: '/aboutUs',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -53,13 +61,6 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/RestaurantPage.vue') }
-    ]
-  },
-  {
-    path: '/restaurants',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/IndexPage.vue') }
     ]
   },
 
