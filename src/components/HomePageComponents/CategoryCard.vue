@@ -15,7 +15,7 @@ export default {
 }
 </script>
 
-  <style scoped>
+<style scoped>
   .categories_card{
     padding: 1%;
 
@@ -29,5 +29,4 @@ export default {
   .categories_card__content img {
     width: 100%;
   }  
-  
-  </style>
+</style>
