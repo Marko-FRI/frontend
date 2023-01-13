@@ -1,7 +1,7 @@
 <template>
   <div class="categories_card col-sm-2 col-6">
     <div class="categories_card__content">
-      <img src="../HomePageComponents/category.PNG">
+      <img src="/src/components/HomePageComponents/category.PNG">
       {{ category.name }}
     </div>
   </div>
@@ -28,6 +28,5 @@ export default {
   }
   .categories_card__content img {
     width: 100%;
-  }
-  
+  }  
   </style>
