@@ -29,4 +29,5 @@ export default {
   .categories_card__content img {
     width: 100%;
   }
+  
   </style>
