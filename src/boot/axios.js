@@ -9,7 +9,8 @@ import { useUserStore } from 'src/stores/UserStore'
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  // baseURL: 'http://localhost:8000/api',
+  baseURL: 'https://bmr-backend-server.azurewebsites.net/api',
   withCredentials: true,
   headers: { Accept: 'application/json' }
 })
